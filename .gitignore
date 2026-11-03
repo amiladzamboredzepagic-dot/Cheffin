@@ -1,0 +1,21 @@
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Credentials & Environment Variables
+.env
+*.env
+
+# Python Backend
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+ENV/
+
+# React / Node Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.cache/
