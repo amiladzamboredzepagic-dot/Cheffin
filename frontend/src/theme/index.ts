@@ -4,7 +4,7 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#1b4332',
-      light: '#2d6a4f',
+      light: '#356B4B',
       dark: '#081c15',
       contrastText: '#ffffff',
     },
@@ -18,16 +18,64 @@ export const theme = createTheme({
       default: '#F8F5EE',
       paper: '#FFFFFF',
     },
+    divider: '#DEDCCE',
     text: {
       primary: '#1d2a44',
-      secondary: '#52607d',
+      secondary: '#787A6B',
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    button: {
-      textTransform: 'none',
+    fontFamily:
+      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 600,
+    fontWeightBold: 700,
+    h1: {
+      fontSize: '2.5rem', // 40px
+      fontWeight: 700,
+      lineHeight: 1.2,
+    },
+    h2: {
+      fontSize: '2rem', // 32px
+      fontWeight: 700,
+      lineHeight: 1.25,
+    },
+    h3: {
+      fontSize: '1.5rem', // 24px
       fontWeight: 600,
+      lineHeight: 1.3,
+    },
+    h4: {
+      fontSize: '1.25rem', // 20px
+      fontWeight: 600,
+      lineHeight: 1.35,
+    },
+    subtitle1: {
+      fontSize: '1rem', // 16px
+      fontWeight: 600,
+      lineHeight: 1.4,
+    },
+    body1: {
+      fontSize: '0.875rem', // 14px
+      fontWeight: 400,
+      lineHeight: 1.5,
+    },
+    body2: {
+      fontSize: '0.8125rem', // 13p
+      fontWeight: 400,
+      lineHeight: '16px',
+    },
+    button: {
+      fontSize: '0.8125rem', // 13px
+      fontWeight: 600,
+      lineHeight: '16px',
+      textTransform: 'none',
+    },
+    caption: {
+      fontSize: '0.75rem', // 12px
+      fontWeight: 400,
+      lineHeight: 1.4,
     },
   },
   shape: {
