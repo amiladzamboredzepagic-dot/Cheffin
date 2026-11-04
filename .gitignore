@@ -1,6 +1,14 @@
 # IDE and OS files
 .idea/
 .vscode/
+!/.vscode/
+/.vscode/*
+!/.vscode/settings.json
+!/.vscode/extensions.json
+!frontend/.vscode/
+frontend/.vscode/*
+!frontend/.vscode/settings.json
+!frontend/.vscode/extensions.json
 .DS_Store
 Thumbs.db
 
