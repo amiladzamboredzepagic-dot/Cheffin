@@ -1,7 +1,7 @@
 import { Flex } from '../../../components/ui/Flex'
-import { ExploreRecipeLink } from '../../recipes/components/ExploreRecipesLink'
-import CheffinLogo from './CheffinLogo'
-import Header from './Header'
+import CheffinLogo from '../../../components/brand/CheffinLogo'
+import Header from '../../layout/components/Header'
+import { ExploreRecipeLink } from './ExploreRecipesLink'
 import { NavItemsContainer, NavLink } from './Navbar.styles'
 
 const NAV_ITEMS = [
