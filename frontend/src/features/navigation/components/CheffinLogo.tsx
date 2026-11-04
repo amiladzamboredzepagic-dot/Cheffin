@@ -10,5 +10,5 @@ const LogoImage = styled('img')(({ theme }) => ({
 }))
 
 export default function CheffinLogo() {
-  return <LogoImage src="/logo.svg" alt="Cheffin Logo" />
+  return <LogoImage src="/cheffin/logo.svg" alt="Cheffin Logo" />
 }
