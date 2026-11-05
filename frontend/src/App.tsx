@@ -1,5 +1,6 @@
 import { Flex } from './components/ui/Flex'
 import { Footer } from './features/layout/components/Footer'
+import { LoginForm } from './features/login/LoginForm'
 import { Navbar } from './features/navigation/components/Navbar'
 
 export default function App() {
@@ -10,7 +11,7 @@ export default function App() {
       sx={{ minHeight: '100vh' }}
     >
       <Navbar />
-      {/* Page content goes here when ready */}
+      <LoginForm />
       <Footer />
     </Flex>
   )
