@@ -1,10 +1,13 @@
-from fastapi import APIRouter, Response, Request, HTTPException, status
+from fastapi import APIRouter, Response, Request, HTTPException, status, Depends
+from motor.motor_asyncio import AsyncIOMotorDatabase
+
+from .database import get_database
 from .security import create_access_token, create_refresh_token, decode_token, verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/login")
-async def login(credentials: dict, response: Response, db=None):
+async def login(credentials: dict, response: Response, db: AsyncIOMotorDatabase = Depends(get_database)):
     user = await db["users"].find_one({"email": credentials["email"]})
     if not user or not verify_password(credentials["password"], user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
