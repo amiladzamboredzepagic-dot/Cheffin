@@ -8,6 +8,7 @@ ENV_PATH = BASE_DIR / ".env"
 class Settings(BaseSettings):
     mongo_uri: str = Field(default="mongodb://localhost:27017")
     database_name: str = Field(default="cheffin")
+    jwt_secret: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=ENV_PATH,
