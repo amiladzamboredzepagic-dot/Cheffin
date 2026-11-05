@@ -5,7 +5,6 @@ import jwt
 from pwdlib import PasswordHash
 from app.config import settings
 
-# Ensure SECRET_KEY is set and meets minimum key length requirements
 SECRET_KEY: str = settings.jwt_secret or ""
 if len(SECRET_KEY.encode("utf-8")) < 32:
     raise RuntimeError("JWT_SECRET must be configured with at least 32 bytes")
