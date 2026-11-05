@@ -1,4 +1,19 @@
-import { createTheme } from '@mui/material/styles'
+import { alpha, createTheme } from '@mui/material/styles'
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    highlight: string
+  }
+  interface PaletteOptions {
+    highlight?: string
+  }
+  interface TypeBackground {
+    input?: string
+  }
+  interface TypeText {
+    label?: string
+  }
+}
 
 export const theme = createTheme({
   palette: {
@@ -14,14 +29,17 @@ export const theme = createTheme({
       dark: '#38b000',
       contrastText: '#1b4332',
     },
+    highlight: '#AC674B',
     background: {
       default: '#F8F5EE',
       paper: '#FFFFFF',
+      input: '#FFFDF8',
     },
     divider: '#DEDCCE',
     text: {
       primary: '#1d2a44',
       secondary: '#787A6B',
+      label: '#293E30',
     },
   },
   typography: {
@@ -62,7 +80,7 @@ export const theme = createTheme({
       lineHeight: 1.5,
     },
     body2: {
-      fontSize: '0.8125rem', // 13p
+      fontSize: '0.8125rem', // 13px
       fontWeight: 400,
       lineHeight: '16px',
     },
@@ -95,6 +113,86 @@ export const theme = createTheme({
           backgroundColor: '#FFFFFF',
           borderRadius: 16,
           boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.04)',
+        },
+      },
+    },
+    // --- Input Design System Overrides ---
+    MuiInputLabel: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          position: 'relative',
+          transform: 'none',
+          fontSize: '12px',
+          fontWeight: 500,
+          lineHeight: '15px',
+          color: theme.palette.text.label || '#293E30',
+          marginBottom: '9px',
+          '&.Mui-focused': {
+            color: theme.palette.text.label || '#293E30',
+          },
+        }),
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          height: '50px',
+          backgroundColor: theme.palette.background.input || '#FFFDF8',
+          borderRadius: '10px',
+          paddingLeft: '15px',
+          paddingRight: '15px',
+          gap: '10px',
+          fontSize: '13px',
+          fontWeight: 400,
+          lineHeight: '16px',
+          color: theme.palette.text.secondary, // #787A6B
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.divider,
+            borderWidth: '1px',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.divider,
+          },
+          '&.Mui-focused': {
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.divider,
+            borderWidth: '1px',
+          },
+        }),
+        input: ({ theme }) => ({
+          padding: 0,
+          height: '100%',
+          boxSizing: 'border-box',
+          '&::placeholder': {
+            color: theme.palette.text.secondary,
+            opacity: 1,
+          },
+        }),
+        adornedStart: ({ theme }) => ({
+          marginRight: 0,
+          color: theme.palette.text.secondary,
+          '& svg': {
+            width: '17px',
+            height: '17px',
+          },
+        }),
+        adornedEnd: ({ theme }) => ({
+          marginLeft: 0,
+          color: theme.palette.text.secondary,
+          '& svg': {
+            width: '17px',
+            height: '17px',
+          },
+        }),
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+          maxWidth: '496px',
         },
       },
     },
