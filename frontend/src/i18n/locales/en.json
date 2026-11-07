@@ -8,6 +8,7 @@
     "exploreRecipes": "Explore recipes"
   },
   "common": {
+    "loading": "Loading",
     "motto": "Curated for home chefs, cherished by the whole table.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
