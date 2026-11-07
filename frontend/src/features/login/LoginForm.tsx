@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
@@ -8,6 +8,7 @@ import { Flex } from '../../components/ui/Flex'
 import { FormTextField } from '../../components/ui/FormTextField'
 import { SegmentedToggle } from '../../components/ui/SegmentedToggle'
 import { SubmitButton } from '../../components/ui/SubmitButton'
+import { StatusAlert } from '../../components/ui/StatusAlert'
 import { useAuth } from '../../context/useAuth'
 import { useTranslation } from 'react-i18next'
 
@@ -55,7 +56,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         width: '100%',
       }}
     >
-      {error && <Alert severity="error">{t(error)}</Alert>}
+      {error && <StatusAlert severity="error">{t(error)}</StatusAlert>}
       <SegmentedToggle
         value={authMode}
         options={authModes}
