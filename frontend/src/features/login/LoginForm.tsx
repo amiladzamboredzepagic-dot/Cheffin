@@ -9,31 +9,30 @@ import { FormTextField } from '../../components/ui/FormTextField'
 import { SegmentedToggle } from '../../components/ui/SegmentedToggle'
 import { SubmitButton } from '../../components/ui/SubmitButton'
 import { useAuth } from '../../context/useAuth'
-
-const AUTH_MODES = [
-  { value: 'login', label: 'Log in' },
-  { value: 'signup', label: 'Create an account' },
-] as const
+import { useTranslation } from 'react-i18next'
 
 interface LoginFormProps {
   onSubmit?: (values: { email: string; password: string }) => void
 }
 
 export function LoginForm({ onSubmit }: LoginFormProps) {
+  const { t } = useTranslation()
   const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [authMode, setAuthMode] = useState<(typeof AUTH_MODES)[number]['value']>(
-    'login',
-  )
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
+  const authModes = [
+    { value: 'login', label: t('auth.login') },
+    { value: 'signup', label: t('auth.createAccount') },
+  ] as const
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
     if (authMode === 'signup') {
-      setError('Account creation is not available yet.')
+      setError('auth.signupUnavailable')
       return
     }
 
@@ -41,9 +40,8 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
       await login(email, password)
       onSubmit?.({ email, password })
     } catch (loginError) {
-      setError(
-        loginError instanceof Error ? loginError.message : 'Login failed',
-      )
+      console.error('Login request failed:', loginError)
+      setError('auth.loginFailed')
     }
   }
 
@@ -57,22 +55,22 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         width: '100%',
       }}
     >
-      {error && <Alert severity="error">{error}</Alert>}
+      {error && <Alert severity="error">{t(error)}</Alert>}
       <SegmentedToggle
         value={authMode}
-        options={AUTH_MODES}
+        options={authModes}
         onChange={(mode) => {
           setAuthMode(mode)
           setError(null)
         }}
-        ariaLabel="Authentication mode"
+        ariaLabel={t('auth.modeLabel')}
       />
       <FormTextField
         id="email"
         name="email"
         type="email"
-        label="Email"
-        placeholder="Enter your email"
+        label={t('auth.email')}
+        placeholder={t('auth.emailPlaceholder')}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         startAdornment={<EmailOutlinedIcon />}
@@ -82,14 +80,16 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         id="password"
         name="password"
         type={showPassword ? 'text' : 'password'}
-        label="Password"
-        placeholder="Enter your password"
+        label={t('auth.password')}
+        placeholder={t('auth.passwordPlaceholder')}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         startAdornment={<LockOutlinedIcon />}
         endAdornment={
           <IconButton
-            aria-label="toggle password visibility"
+            aria-label={
+              showPassword ? t('auth.hidePassword') : t('auth.showPassword')
+            }
             onClick={() => setShowPassword((prev) => !prev)}
             edge="end"
             disableRipple
@@ -103,7 +103,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         }
       />
       <SubmitButton>
-        {authMode === 'login' ? 'Log in' : 'Create an account'}
+        {authMode === 'login' ? t('auth.login') : t('auth.createAccount')}
       </SubmitButton>
     </Flex>
   )

@@ -6,6 +6,7 @@ import { ApolloProvider } from '@apollo/client/react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './theme'
 import { AuthProvider } from './context/AuthContext'
+import './i18n'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

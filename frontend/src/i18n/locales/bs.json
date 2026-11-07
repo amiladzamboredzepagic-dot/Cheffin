@@ -1,0 +1,29 @@
+{
+  "navigation": {
+    "discover": "Istraži",
+    "pantry": "Namirnice",
+    "mealPlanner": "Planer obroka",
+    "myLibrary": "Moji recepti",
+    "community": "Zajednica",
+    "exploreRecipes": "Istraži recepte"
+  },
+  "common": {
+    "motto": "Pažljivo odabrano za kućne kuhare, za cijelu trpezu.",
+    "privacyPolicy": "Politika privatnosti",
+    "termsOfService": "Uslovi korištenja",
+    "contactUs": "Kontaktirajte nas"
+  },
+  "auth": {
+    "modeLabel": "Način prijave",
+    "login": "Prijavi se",
+    "createAccount": "Kreiraj račun",
+    "email": "E-mail adresa",
+    "emailPlaceholder": "Unesite e-mail adresu",
+    "password": "Šifra",
+    "passwordPlaceholder": "Unesite šifru",
+    "showPassword": "Prikaži šifru",
+    "hidePassword": "Sakrij šifru",
+    "loginFailed": "Prijava nije uspjela. Provjerite podatke i pokušajte ponovo.",
+    "signupUnavailable": "Kreiranje računa još nije dostupno."
+  }
+}

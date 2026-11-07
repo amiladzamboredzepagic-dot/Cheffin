@@ -1,0 +1,29 @@
+{
+  "navigation": {
+    "discover": "Entdecken",
+    "pantry": "Vorrat",
+    "mealPlanner": "Essensplaner",
+    "myLibrary": "Meine Bibliothek",
+    "community": "Community",
+    "exploreRecipes": "Rezepte entdecken"
+  },
+  "common": {
+    "motto": "Für Hobbyköche ausgewählt und am ganzen Tisch geschätzt.",
+    "privacyPolicy": "Datenschutzerklärung",
+    "termsOfService": "Nutzungsbedingungen",
+    "contactUs": "Kontakt"
+  },
+  "auth": {
+    "modeLabel": "Anmeldemethode",
+    "login": "Anmelden",
+    "createAccount": "Konto erstellen",
+    "email": "E-Mail",
+    "emailPlaceholder": "E-Mail-Adresse eingeben",
+    "password": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort ausblenden",
+    "loginFailed": "Anmeldung fehlgeschlagen. Bitte Zugangsdaten prüfen und erneut versuchen.",
+    "signupUnavailable": "Die Kontoerstellung ist noch nicht verfügbar."
+  }
+}

@@ -1,23 +1,24 @@
 import { Flex } from '../../../components/ui/Flex'
 import { FooterContainer, BrandMotto, FooterLink } from './Footer.styles'
+import { useTranslation } from 'react-i18next'
 
 const FOOTER_LINKS = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms of Service', href: '/terms' },
-  { label: 'Contact Us', href: '/contact' },
+  { labelKey: 'common.privacyPolicy', href: '/privacy' },
+  { labelKey: 'common.termsOfService', href: '/terms' },
+  { labelKey: 'common.contactUs', href: '/contact' },
 ]
 
 export function Footer() {
+  const { t } = useTranslation()
+
   return (
     <FooterContainer component="footer" justify="space-between">
-      <BrandMotto>
-        Curated for home chefs, cherished by the whole table.
-      </BrandMotto>
+      <BrandMotto>{t('common.motto')}</BrandMotto>
 
       <Flex gap={2.5}>
         {FOOTER_LINKS.map((link) => (
-          <FooterLink key={link.label} href={link.href}>
-            {link.label}
+          <FooterLink key={link.labelKey} href={link.href}>
+            {t(link.labelKey)}
           </FooterLink>
         ))}
       </Flex>

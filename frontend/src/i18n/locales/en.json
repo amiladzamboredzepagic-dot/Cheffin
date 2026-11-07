@@ -1,0 +1,29 @@
+{
+  "navigation": {
+    "discover": "Discover",
+    "pantry": "Pantry",
+    "mealPlanner": "Meal planner",
+    "myLibrary": "My library",
+    "community": "Community",
+    "exploreRecipes": "Explore recipes"
+  },
+  "common": {
+    "motto": "Curated for home chefs, cherished by the whole table.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "contactUs": "Contact Us"
+  },
+  "auth": {
+    "modeLabel": "Authentication mode",
+    "login": "Log in",
+    "createAccount": "Create an account",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "loginFailed": "Login failed. Please check your credentials and try again.",
+    "signupUnavailable": "Account creation is not available yet."
+  }
+}
