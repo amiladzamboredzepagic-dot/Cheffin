@@ -13,17 +13,7 @@ def require_role(info: strawberry.Info, role: str) -> dict:
     return user
 
 @strawberry.type
-class UserProfile:
-    id: str
-    role: str
-
-@strawberry.type
 class Query:
-    @strawberry.field
-    def me(self, info: strawberry.Info) -> UserProfile:
-        user = require_auth(info)
-        return UserProfile(id=user["sub"], role=user["role"])
-
     @strawberry.field
     def admin_data(self, info: strawberry.Info) -> str:
         require_role(info, "admin")

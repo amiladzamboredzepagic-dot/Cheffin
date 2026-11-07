@@ -8,7 +8,7 @@ from app.security import hash_password
 
 
 async def main() -> None:
-    email = input("Admin email: ").strip().lower()
+    email = input("Admin email: ").strip().lower().lower()
     password = getpass("Admin password: ")
     password_confirmation = getpass("Confirm admin password: ")
 
