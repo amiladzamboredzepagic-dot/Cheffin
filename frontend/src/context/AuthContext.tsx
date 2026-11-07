@@ -1,8 +1,4 @@
-import {
-  useState,
-  useEffect,
-  type ReactNode,
-} from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { setAccessTokenGetter } from '../apolloClient'
 import { API_ENDPOINTS } from '../constants/apiEndpoints'
 import { AuthContext, type AuthResponse } from './auth-context'
@@ -27,6 +23,7 @@ async function readAuthResponse(response: Response): Promise<AuthResponse> {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [loginLoading, setLoginLoading] = useState(false)
 
   useEffect(() => {
     setAccessTokenGetter(() => accessToken)
@@ -55,20 +52,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = async (email: string, password: string) => {
-    const response = await fetch(API_ENDPOINTS.auth.login, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ email, password }),
-    })
+    setLoginLoading(true)
+    try {
+      const response = await fetch(API_ENDPOINTS.auth.login, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      })
 
-    if (!response.ok) {
-      throw new Error('Invalid credentials')
+      if (!response.ok) {
+        throw new Error('Invalid credentials')
+      }
+
+      const data = await readAuthResponse(response)
+      setAccessToken(data.access_token)
+      return data
+    } finally {
+      setLoginLoading(false)
     }
-
-    const data = await readAuthResponse(response)
-    setAccessToken(data.access_token)
-    return data
   }
 
   const logout = async () => {
@@ -83,7 +85,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ accessToken, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ accessToken, login, loginLoading, logout, loading }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   )

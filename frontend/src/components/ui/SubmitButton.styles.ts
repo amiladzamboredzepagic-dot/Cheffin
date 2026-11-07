@@ -20,4 +20,10 @@ export const SubmitButtonRoot = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.light,
     borderColor: theme.palette.primary.light,
   },
+  '&.Mui-disabled': {
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.light,
+    borderColor: theme.palette.primary.light,
+    opacity: 0.65,
+  },
 }))

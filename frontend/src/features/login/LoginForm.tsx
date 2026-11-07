@@ -17,7 +17,7 @@ interface LoginFormProps {
 
 export function LoginForm({ onSubmit }: LoginFormProps) {
   const { t } = useTranslation()
-  const { login } = useAuth()
+  const { login, loginLoading } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -102,7 +102,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
           </IconButton>
         }
       />
-      <SubmitButton>
+      <SubmitButton loading={loginLoading}>
         {authMode === 'login' ? t('auth.login') : t('auth.createAccount')}
       </SubmitButton>
     </Flex>

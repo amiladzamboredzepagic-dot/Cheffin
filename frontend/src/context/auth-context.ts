@@ -7,6 +7,7 @@ export interface AuthResponse {
 export interface AuthContextValue {
   accessToken: string | null
   login: (email: string, password: string) => Promise<AuthResponse>
+  loginLoading: boolean
   logout: () => Promise<void>
   loading: boolean
 }
