@@ -11,6 +11,7 @@ import { SubmitButton } from '../../components/ui/SubmitButton'
 import { StatusAlert } from '../../components/ui/StatusAlert'
 import { useAuth } from '../../context/useAuth'
 import { useTranslation } from 'react-i18next'
+import { AUTH_MODE, type AuthMode, submitLoginForm } from './loginForm.utils'
 
 interface LoginFormProps {
   onSubmit?: (values: { email: string; password: string }) => void
@@ -18,37 +19,39 @@ interface LoginFormProps {
 
 export function LoginForm({ onSubmit }: LoginFormProps) {
   const { t } = useTranslation()
-  const { login, loginLoading } = useAuth()
+  const { login, register, loginLoading, registerLoading } = useAuth()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
+  const [success, setSuccess] = useState<string | null>(null)
+  const [authMode, setAuthMode] = useState<AuthMode>(AUTH_MODE.LOGIN)
+
   const authModes = [
-    { value: 'login', label: t('auth.login') },
-    { value: 'signup', label: t('auth.createAccount') },
+    { value: AUTH_MODE.LOGIN, label: t('auth.login') },
+    { value: AUTH_MODE.SIGNUP, label: t('auth.createAccount') },
   ] as const
 
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError(null)
-    if (authMode === 'signup') {
-      setError('auth.signupUnavailable')
-      return
-    }
-
-    try {
-      await login(email, password)
-      onSubmit?.({ email, password })
-    } catch (loginError) {
-      console.error('Login request failed:', loginError)
-      setError('auth.loginFailed')
-    }
+    return submitLoginForm({
+      form: e.currentTarget,
+      email,
+      password,
+      authMode,
+      login,
+      register,
+      onSubmit,
+      setError,
+      setSuccess,
+    })
   }
 
   return (
     <Flex
       component="form"
+      noValidate
       onSubmit={handleSubmit}
       direction="column"
       gap="20px"
@@ -57,12 +60,14 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
       }}
     >
       {error && <StatusAlert severity="error">{t(error)}</StatusAlert>}
+      {success && <StatusAlert severity="success">{t(success)}</StatusAlert>}
       <SegmentedToggle
         value={authMode}
         options={authModes}
         onChange={(mode) => {
           setAuthMode(mode)
           setError(null)
+          setSuccess(null)
         }}
         ariaLabel={t('auth.modeLabel')}
       />
@@ -70,10 +75,14 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         id="email"
         name="email"
         type="email"
+        required
         label={t('auth.email')}
         placeholder={t('auth.emailPlaceholder')}
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value)
+          setSuccess(null)
+        }}
         startAdornment={<EmailOutlinedIcon />}
       />
 
@@ -81,10 +90,20 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         id="password"
         name="password"
         type={showPassword ? 'text' : 'password'}
+        required
+        minLength={authMode === AUTH_MODE.SIGNUP ? 8 : undefined}
+        helperText={
+          authMode === AUTH_MODE.SIGNUP
+            ? t('auth.passwordRequirement')
+            : undefined
+        }
         label={t('auth.password')}
         placeholder={t('auth.passwordPlaceholder')}
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => {
+          setPassword(e.target.value)
+          setSuccess(null)
+        }}
         startAdornment={<LockOutlinedIcon />}
         endAdornment={
           <IconButton
@@ -103,8 +122,10 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
           </IconButton>
         }
       />
-      <SubmitButton loading={loginLoading}>
-        {authMode === 'login' ? t('auth.login') : t('auth.createAccount')}
+      <SubmitButton loading={loginLoading || registerLoading}>
+        {authMode === AUTH_MODE.LOGIN
+          ? t('auth.login')
+          : t('auth.createAccount')}
       </SubmitButton>
     </Flex>
   )

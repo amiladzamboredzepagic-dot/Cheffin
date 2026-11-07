@@ -24,7 +24,14 @@
     "passwordPlaceholder": "Enter your password",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
+    "missingCredentials": "Please enter your email and password.",
     "loginFailed": "Login failed. Please check your credentials and try again.",
-    "signupUnavailable": "Account creation is not available yet."
+    "signupFailed": "Account creation failed. Please try again.",
+    "signupSuccess": "Your account has been created successfully.",
+    "emailExists": "An account with this email already exists.",
+    "passwordTooShort": "Password must be at least 8 characters long.",
+    "passwordNeedsUppercase": "Password must include at least one uppercase letter.",
+    "passwordNeedsSpecial": "Password must include at least one special symbol.",
+    "passwordRequirement": "Use at least 8 characters, one uppercase letter, and one special symbol."
   }
 }

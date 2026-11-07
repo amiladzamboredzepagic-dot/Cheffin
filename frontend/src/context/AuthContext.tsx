@@ -1,7 +1,11 @@
 import { useState, useEffect, type ReactNode } from 'react'
 import { setAccessTokenGetter } from '../apolloClient'
 import { API_ENDPOINTS } from '../constants/apiEndpoints'
-import { AuthContext, type AuthResponse } from './auth-context'
+import {
+  AuthContext,
+  AuthRequestError,
+  type AuthResponse,
+} from './auth-context'
 
 function isAuthResponse(data: unknown): data is AuthResponse {
   return (
@@ -24,6 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [loginLoading, setLoginLoading] = useState(false)
+  const [registerLoading, setRegisterLoading] = useState(false)
 
   useEffect(() => {
     setAccessTokenGetter(() => accessToken)
@@ -51,25 +56,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     refreshAccessToken()
   }, [])
 
+  const authenticate = async (
+    endpoint: string,
+    email: string,
+    password: string,
+  ): Promise<AuthResponse> => {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, password }),
+    })
+
+    if (!response.ok) {
+      throw new AuthRequestError(response.status)
+    }
+
+    const data = await readAuthResponse(response)
+    setAccessToken(data.access_token)
+    return data
+  }
+
   const login = async (email: string, password: string) => {
     setLoginLoading(true)
     try {
-      const response = await fetch(API_ENDPOINTS.auth.login, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Invalid credentials')
-      }
-
-      const data = await readAuthResponse(response)
-      setAccessToken(data.access_token)
-      return data
+      return await authenticate(API_ENDPOINTS.auth.login, email, password)
     } finally {
       setLoginLoading(false)
+    }
+  }
+
+  const register = async (email: string, password: string) => {
+    setRegisterLoading(true)
+    try {
+      return await authenticate(API_ENDPOINTS.auth.register, email, password)
+    } finally {
+      setRegisterLoading(false)
     }
   }
 
@@ -86,7 +108,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ accessToken, login, loginLoading, logout, loading }}
+      value={{
+        accessToken,
+        login,
+        register,
+        loginLoading,
+        registerLoading,
+        logout,
+        loading,
+      }}
     >
       {!loading && children}
     </AuthContext.Provider>

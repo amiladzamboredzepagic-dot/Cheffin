@@ -4,6 +4,7 @@ import { InputAdornment, TextField, type TextFieldProps } from '@mui/material'
 export interface FormTextFieldProps extends Omit<TextFieldProps, 'slotProps'> {
   startAdornment?: ReactNode
   endAdornment?: ReactNode
+  minLength?: number
 }
 
 const adornmentSx = {
@@ -16,6 +17,7 @@ const adornmentSx = {
 export function FormTextField({
   startAdornment,
   endAdornment,
+  minLength,
   ...textFieldProps
 }: FormTextFieldProps) {
   return (
@@ -23,6 +25,7 @@ export function FormTextField({
       {...textFieldProps}
       fullWidth
       slotProps={{
+        htmlInput: minLength ? { minLength } : undefined,
         inputLabel: { shrink: true },
         input: {
           notched: false,

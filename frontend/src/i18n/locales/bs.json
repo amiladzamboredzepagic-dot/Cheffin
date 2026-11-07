@@ -17,14 +17,21 @@
   "auth": {
     "modeLabel": "Način prijave",
     "login": "Prijavi se",
-    "createAccount": "Kreiraj račun",
+    "createAccount": "Kreiraj profil",
     "email": "E-mail adresa",
     "emailPlaceholder": "Unesite e-mail adresu",
     "password": "Šifra",
     "passwordPlaceholder": "Unesite šifru",
     "showPassword": "Prikaži šifru",
     "hidePassword": "Sakrij šifru",
+    "missingCredentials": "Unesite e-mail adresu i šifru.",
     "loginFailed": "Prijava nije uspjela. Provjerite podatke i pokušajte ponovo.",
-    "signupUnavailable": "Kreiranje računa još nije dostupno."
+    "signupFailed": "Kreiranje profila nije uspjelo. Pokušajte ponovo.",
+    "signupSuccess": "Vaš profil je uspješno kreiran.",
+    "emailExists": "Profil s ovom e-mail adresom već postoji.",
+    "passwordTooShort": "Šifra mora imati najmanje 8 znakova.",
+    "passwordNeedsUppercase": "Šifra mora sadržavati najmanje jedno veliko slovo.",
+    "passwordNeedsSpecial": "Šifra mora sadržavati najmanje jedan poseban znak.",
+    "passwordRequirement": "Unesite najmanje 8 znakova, jedno veliko slovo i jedan poseban znak."
   }
 }
