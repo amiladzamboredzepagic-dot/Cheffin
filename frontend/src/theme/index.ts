@@ -9,6 +9,7 @@ declare module '@mui/material/styles' {
   }
   interface TypeBackground {
     input?: string
+    secondary: string
   }
   interface TypeText {
     label?: string
@@ -34,6 +35,7 @@ export const theme = createTheme({
       default: '#F8F5EE',
       paper: '#FFFFFF',
       input: '#FFFDF8',
+      secondary: '#F1EADC',
     },
     divider: '#DEDCCE',
     text: {
