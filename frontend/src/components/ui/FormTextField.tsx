@@ -6,6 +6,13 @@ export interface FormTextFieldProps extends Omit<TextFieldProps, 'slotProps'> {
   endAdornment?: ReactNode
 }
 
+const adornmentSx = {
+  color: 'text.secondary',
+  '& .MuiIconButton-root, & svg': {
+    color: 'inherit',
+  },
+}
+
 export function FormTextField({
   startAdornment,
   endAdornment,
@@ -20,10 +27,14 @@ export function FormTextField({
         input: {
           notched: false,
           startAdornment: startAdornment ? (
-            <InputAdornment position="start">{startAdornment}</InputAdornment>
+            <InputAdornment position="start" sx={adornmentSx}>
+              {startAdornment}
+            </InputAdornment>
           ) : undefined,
           endAdornment: endAdornment ? (
-            <InputAdornment position="end">{endAdornment}</InputAdornment>
+            <InputAdornment position="end" sx={adornmentSx}>
+              {endAdornment}
+            </InputAdornment>
           ) : undefined,
         },
       }}
