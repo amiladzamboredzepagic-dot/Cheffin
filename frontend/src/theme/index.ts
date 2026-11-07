@@ -1,4 +1,4 @@
-import { alpha, createTheme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles'
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -9,6 +9,7 @@ declare module '@mui/material/styles' {
   }
   interface TypeBackground {
     input?: string
+    inputActive?: string
     secondary: string
   }
   interface TypeText {
@@ -35,6 +36,7 @@ export const theme = createTheme({
       default: '#F8F5EE',
       paper: '#FFFFFF',
       input: '#FFFDF8',
+      inputActive: '#E8ECEA',
       secondary: '#F1EADC',
     },
     divider: '#DEDCCE',
@@ -156,7 +158,15 @@ export const theme = createTheme({
             borderColor: theme.palette.divider,
           },
           '&.Mui-focused': {
-            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            backgroundColor: theme.palette.background.inputActive,
+          },
+          '& input:-webkit-autofill': {
+            WebkitBoxShadow: `0 0 0 100px ${theme.palette.background.input} inset !important`,
+            WebkitTextFillColor: theme.palette.text.secondary,
+            caretColor: theme.palette.text.secondary,
+          },
+          '& input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
+            WebkitBoxShadow: `0 0 0 100px ${theme.palette.background.inputActive} inset !important`,
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderColor: theme.palette.divider,
@@ -167,6 +177,7 @@ export const theme = createTheme({
           padding: 0,
           height: '100%',
           boxSizing: 'border-box',
+          color: theme.palette.text.secondary,
           '&::placeholder': {
             color: theme.palette.text.secondary,
             opacity: 1,
