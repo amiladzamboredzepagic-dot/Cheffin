@@ -58,6 +58,31 @@
     "ingredientGroupThree": "Limun",
     "matchMessage": "Dobre stvari vas već čekaju u frižideru."
   },
+  "weeklyPlan": {
+    "eyebrow": "Napravite mjesta za dobru hranu",
+    "headingFirst": "Vaša sedmica,",
+    "headingSecond": "puna dobrih obroka.",
+    "description": "Neka svaki dan donese nešto čemu ćete se radovati.",
+    "action": "Napravite mali plan",
+    "previewTitle": "Malo planiranja. Lakša sedmica.",
+    "previewLabel": "Primjer sedmičnog plana obroka",
+    "selectedDay": "Danas",
+    "addMeal": "Dodajte obrok",
+    "days": {
+      "mon": "Pon",
+      "tue": "Uto",
+      "wed": "Sri",
+      "thu": "Čet",
+      "fri": "Pet",
+      "sat": "Sub",
+      "sun": "Ned"
+    },
+    "meals": {
+      "breakfast": "Doručak",
+      "lunch": "Ručak",
+      "dinner": "Večera"
+    }
+  },
   "common": {
     "language": "Jezik",
     "close": "Zatvori",

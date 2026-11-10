@@ -58,6 +58,31 @@
     "ingredientGroupThree": "Zitrone",
     "matchMessage": "Gutes wartet schon in deinem Kühlschrank."
   },
+  "weeklyPlan": {
+    "eyebrow": "Mach Platz für gutes Essen",
+    "headingFirst": "Deine Woche,",
+    "headingSecond": "gut versorgt.",
+    "description": "Freu dich jeden Tag auf etwas Leckeres.",
+    "action": "Plane ein bisschen voraus",
+    "previewTitle": "Ein wenig Planung. Eine leichtere Woche.",
+    "previewLabel": "Beispiel für einen Wochenplan",
+    "selectedDay": "Heute",
+    "addMeal": "Mahlzeit ergänzen",
+    "days": {
+      "mon": "Mo",
+      "tue": "Di",
+      "wed": "Mi",
+      "thu": "Do",
+      "fri": "Fr",
+      "sat": "Sa",
+      "sun": "So"
+    },
+    "meals": {
+      "breakfast": "Frühstück",
+      "lunch": "Mittag",
+      "dinner": "Abendessen"
+    }
+  },
   "common": {
     "language": "Sprache",
     "close": "Schließen",

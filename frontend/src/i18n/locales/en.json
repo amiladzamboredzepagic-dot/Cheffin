@@ -58,6 +58,31 @@
     "ingredientGroupThree": "Lemon",
     "matchMessage": "Good things are already in your fridge."
   },
+  "weeklyPlan": {
+    "eyebrow": "Make room for good food",
+    "headingFirst": "Your week,",
+    "headingSecond": "well fed.",
+    "description": "Give every day something to look forward to.",
+    "action": "Make a little plan",
+    "previewTitle": "A little planning. A lighter week.",
+    "previewLabel": "Example weekly meal plan",
+    "selectedDay": "Today",
+    "addMeal": "Add meal",
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "meals": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner"
+    }
+  },
   "common": {
     "language": "Language",
     "close": "Close",
