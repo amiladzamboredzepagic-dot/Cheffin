@@ -11,6 +11,7 @@ declare module '@mui/material/styles' {
     input?: string
     inputActive?: string
     secondary: string
+    accent: string
   }
   interface TypeText {
     label?: string
@@ -53,6 +54,7 @@ export const theme = createTheme({
       input: '#FFFDF8',
       inputActive: '#E8ECEA',
       secondary: '#F1EADC',
+      accent: '#F2E0D4',
     },
     divider: '#DEDCCE',
     text: {

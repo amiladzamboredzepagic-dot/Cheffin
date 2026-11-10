@@ -45,6 +45,19 @@
       "tag": "Brzo i jednostavno"
     }
   },
+  "pantryIdeas": {
+    "eyebrow": "Manje bacanja. Više mogućnosti.",
+    "headingFirst": "Pun frižider.",
+    "headingSecond": "Svježa ideja.",
+    "description": "Fotografišite svoje namirnice i pronađite ukusno jelo koje možete pripremiti od onoga što već imate.",
+    "action": "Otkrijte šta možete skuhati",
+    "imageAlt": "Avokado, špinat, leblebije, kvinoja i limun na kuhinjskoj radnoj površini",
+    "previewLabel": "U vašoj kuhinji",
+    "ingredientGroupOne": "Avokado · Špinat",
+    "ingredientGroupTwo": "Leblebije · Kvinoja",
+    "ingredientGroupThree": "Limun",
+    "matchMessage": "Dobre stvari vas već čekaju u frižideru."
+  },
   "common": {
     "language": "Jezik",
     "close": "Zatvori",

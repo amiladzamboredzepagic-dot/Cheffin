@@ -45,6 +45,19 @@
       "tag": "Schnell und einfach"
     }
   },
+  "pantryIdeas": {
+    "eyebrow": "Weniger verschwenden. Mehr entdecken.",
+    "headingFirst": "Ein voller Kühlschrank.",
+    "headingSecond": "Eine frische Idee.",
+    "description": "Fotografiere deine Zutaten und entdecke ein leckeres Gericht aus dem, was du bereits zu Hause hast.",
+    "action": "Finde heraus, was du kochen kannst",
+    "imageAlt": "Avocado, Spinat, Kichererbsen, Quinoa und Zitrone auf einer Küchenarbeitsplatte",
+    "previewLabel": "In deiner Küche",
+    "ingredientGroupOne": "Avocado · Spinat",
+    "ingredientGroupTwo": "Kichererbsen · Quinoa",
+    "ingredientGroupThree": "Zitrone",
+    "matchMessage": "Gutes wartet schon in deinem Kühlschrank."
+  },
   "common": {
     "language": "Sprache",
     "close": "Schließen",

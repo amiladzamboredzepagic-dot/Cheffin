@@ -45,6 +45,19 @@
       "tag": "Quick & easy"
     }
   },
+  "pantryIdeas": {
+    "eyebrow": "Less waste. More possibility.",
+    "headingFirst": "A full fridge.",
+    "headingSecond": "A fresh idea.",
+    "description": "Snap a photo of your ingredients and find something delicious to make with what you already have.",
+    "action": "Find out what you can cook",
+    "imageAlt": "Avocado, spinach, chickpeas, quinoa, and lemon arranged on a kitchen counter",
+    "previewLabel": "In your kitchen",
+    "ingredientGroupOne": "Avocado · Spinach",
+    "ingredientGroupTwo": "Chickpeas · Quinoa",
+    "ingredientGroupThree": "Lemon",
+    "matchMessage": "Good things are already in your fridge."
+  },
   "common": {
     "language": "Language",
     "close": "Close",

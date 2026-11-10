@@ -1,5 +1,6 @@
 import { Benefits } from './Benefits'
 import { Hero } from './Hero'
+import { PantryIdeas } from './PantryIdeas'
 import { RecipeInspiration } from './RecipeInspiration'
 
 interface LandingPageProps {
@@ -12,6 +13,7 @@ export function LandingPage({ onCreateAccount }: LandingPageProps) {
       <Hero onCreateAccount={onCreateAccount} />
       <Benefits />
       <RecipeInspiration />
+      <PantryIdeas />
     </>
   )
 }
