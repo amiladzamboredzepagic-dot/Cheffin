@@ -12,7 +12,9 @@ function isAuthResponse(data: unknown): data is AuthResponse {
     typeof data === 'object' &&
     data !== null &&
     'access_token' in data &&
-    typeof data.access_token === 'string'
+    typeof data.access_token === 'string' &&
+    (!('first_name' in data) || typeof data.first_name === 'string') &&
+    (!('last_name' in data) || typeof data.last_name === 'string')
   )
 }
 
@@ -26,6 +28,8 @@ async function readAuthResponse(response: Response): Promise<AuthResponse> {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null)
+  const [firstName, setFirstName] = useState<string | null>(null)
+  const [lastName, setLastName] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [loginLoading, setLoginLoading] = useState(false)
   const [registerLoading, setRegisterLoading] = useState(false)
@@ -45,6 +49,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (response.ok) {
           const data = await readAuthResponse(response)
           setAccessToken(data.access_token)
+          setFirstName(data.first_name || null)
+          setLastName(data.last_name || null)
         }
       } catch (error) {
         console.error('Failed to restore auth session:', error)
@@ -60,12 +66,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     endpoint: string,
     email: string,
     password: string,
+    firstName?: string,
+    lastName?: string,
   ): Promise<AuthResponse> => {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email,
+        password,
+        ...(firstName !== undefined && lastName !== undefined
+          ? { first_name: firstName, last_name: lastName }
+          : {}),
+      }),
     })
 
     if (!response.ok) {
@@ -74,6 +88,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const data = await readAuthResponse(response)
     setAccessToken(data.access_token)
+    setFirstName(data.first_name || null)
+    setLastName(data.last_name || null)
     return data
   }
 
@@ -86,30 +102,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const register = async (email: string, password: string) => {
+  const register = async (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+  ) => {
     setRegisterLoading(true)
     try {
-      return await authenticate(API_ENDPOINTS.auth.register, email, password)
+      return await authenticate(
+        API_ENDPOINTS.auth.register,
+        email,
+        password,
+        firstName,
+        lastName,
+      )
     } finally {
       setRegisterLoading(false)
     }
   }
 
   const logout = async () => {
-    try {
-      await fetch(API_ENDPOINTS.auth.logout, {
-        method: 'POST',
-        credentials: 'include',
-      })
-    } finally {
-      setAccessToken(null)
+    const response = await fetch(API_ENDPOINTS.auth.logout, {
+      method: 'POST',
+      credentials: 'include',
+    })
+
+    if (!response.ok) {
+      throw new AuthRequestError(response.status)
     }
+
+    setAccessToken(null)
+    setFirstName(null)
+    setLastName(null)
   }
 
   return (
     <AuthContext.Provider
       value={{
         accessToken,
+        firstName,
+        lastName,
         login,
         register,
         loginLoading,
