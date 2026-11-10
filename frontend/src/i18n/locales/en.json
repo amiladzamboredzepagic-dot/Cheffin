@@ -7,6 +7,17 @@
     "community": "Community",
     "exploreRecipes": "Explore recipes"
   },
+  "hero": {
+    "eyebrow": "Made for you.",
+    "headingFirst": "Good food.",
+    "headingSecond": "Fresh inspiration.",
+    "description": "Discover recipes you’ll love, save your favorites, and make a feel-good plan for the week. Your everyday kitchen companion, all in one place.",
+    "note": "A place for your recipes.",
+    "imageAlt": "A colorful grain bowl with fresh vegetables, avocado, and chickpeas",
+    "recipeLabel": "On the menu today",
+    "recipeTitle": "Green goddess quinoa bowl",
+    "recipeTime": "{{minutes}} min"
+  },
   "common": {
     "language": "Language",
     "close": "Close",

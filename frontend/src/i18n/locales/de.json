@@ -7,6 +7,17 @@
     "community": "Community",
     "exploreRecipes": "Rezepte entdecken"
   },
+  "hero": {
+    "eyebrow": "Für dich gemacht.",
+    "headingFirst": "Gutes Essen.",
+    "headingSecond": "Frische Inspiration.",
+    "description": "Entdecke Rezepte, die dir schmecken, speichere deine Favoriten und plane deine Woche mit einem guten Gefühl. Dein täglicher Küchenbegleiter – alles an einem Ort.",
+    "note": "Ein Ort für deine Rezepte.",
+    "imageAlt": "Eine bunte Getreide-Bowl mit frischem Gemüse, Avocado und Kichererbsen",
+    "recipeLabel": "Heute auf dem Speiseplan",
+    "recipeTitle": "Quinoa-Bowl mit Green-Goddess-Dressing",
+    "recipeTime": "{{minutes}} Min."
+  },
   "common": {
     "language": "Sprache",
     "close": "Schließen",

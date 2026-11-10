@@ -7,6 +7,17 @@
     "community": "Zajednica",
     "exploreRecipes": "Istraži recepte"
   },
+  "hero": {
+    "eyebrow": "Kreirano za vas.",
+    "headingFirst": "Dobra hrana.",
+    "headingSecond": "Nova inspiracija.",
+    "description": "Otkrijte recepte koje ćete voljeti, sačuvajte omiljene i isplanirajte sedmicu uz dobar osjećaj. Vaš svakodnevni kuhinjski saputnik, sve na jednom mjestu.",
+    "note": "Mjesto za vaše recepte.",
+    "imageAlt": "Šarena zdjela sa žitaricama, svježim povrćem, avokadom i leblebijama",
+    "recipeLabel": "Danas na meniju",
+    "recipeTitle": "Kvinoja zdjela sa zelenim prelivom",
+    "recipeTime": "{{minutes}} min"
+  },
   "common": {
     "language": "Jezik",
     "close": "Zatvori",
