@@ -130,7 +130,9 @@ export const DayHeader = styled(Flex, {
   minHeight: 28,
   padding: '4px 5px',
   borderRadius: 4,
-  color: selected ? theme.palette.primary.contrastText : theme.palette.text.label,
+  color: selected
+    ? theme.palette.primary.contrastText
+    : theme.palette.text.label,
   backgroundColor: selected
     ? theme.palette.primary.light
     : theme.palette.background.secondary,

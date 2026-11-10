@@ -94,8 +94,7 @@ export function WeeklyPlan() {
                       : (dayIndex + mealIndex) % 3 !== 0
                   const recipe =
                     INSPIRATION_RECIPES[
-                      (meal.recipeIndex + dayIndex) %
-                        INSPIRATION_RECIPES.length
+                      (meal.recipeIndex + dayIndex) % INSPIRATION_RECIPES.length
                     ]
 
                   return (
