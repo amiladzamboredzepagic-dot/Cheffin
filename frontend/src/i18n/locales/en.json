@@ -24,6 +24,27 @@
     "keepTogether": "Keep every recipe together",
     "planWeek": "Plan a well-fed week"
   },
+  "recipeInspiration": {
+    "eyebrow": "A taste of what’s cooking",
+    "title": "Fresh inspiration, no sign-in needed.",
+    "exploreAll": "Explore all recipes",
+    "metadata": "{{minutes}} min · {{calories}} kcal",
+    "quinoa": {
+      "title": "Green goddess quinoa bowl",
+      "imageAlt": "A colorful quinoa bowl with roasted chickpeas, avocado, and fresh vegetables",
+      "tag": "Plant-based"
+    },
+    "salmon": {
+      "title": "Lemon & herb salmon",
+      "imageAlt": "A roasted salmon fillet served with fresh vegetables",
+      "tag": "High protein"
+    },
+    "toast": {
+      "title": "Avocado & egg toast",
+      "imageAlt": "Sourdough toast topped with avocado, egg, and fresh greens",
+      "tag": "Quick & easy"
+    }
+  },
   "common": {
     "language": "Language",
     "close": "Close",

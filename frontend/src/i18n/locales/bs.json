@@ -24,6 +24,27 @@
     "keepTogether": "Svi recepti na jednom mjestu",
     "planWeek": "Isplanirajte sedmicu uz dobre obroke"
   },
+  "recipeInspiration": {
+    "eyebrow": "Ukus onoga što se sprema",
+    "title": "Svježa inspiracija, bez prijave.",
+    "exploreAll": "Istražite sve recepte",
+    "metadata": "{{minutes}} min · {{calories}} kcal",
+    "quinoa": {
+      "title": "Kvinoja zdjela sa zelenim prelivom",
+      "imageAlt": "Šarena zdjela s kvinojom, pečenim leblebijama, avokadom i svježim povrćem",
+      "tag": "Biljna ishrana"
+    },
+    "salmon": {
+      "title": "Losos s limunom i začinskim biljem",
+      "imageAlt": "Pečeni file lososa poslužen sa svježim povrćem",
+      "tag": "Bogato proteinima"
+    },
+    "toast": {
+      "title": "Tost s avokadom i jajetom",
+      "imageAlt": "Tostirani hljeb s avokadom, jajetom i svježim začinskim biljem",
+      "tag": "Brzo i jednostavno"
+    }
+  },
   "common": {
     "language": "Jezik",
     "close": "Zatvori",

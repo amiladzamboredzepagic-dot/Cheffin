@@ -1,9 +1,40 @@
 import { Box, IconButton, Typography, styled } from '@mui/material'
 import { Flex } from './ui/Flex'
 
-export const CardRoot = styled(Flex)({
+export const CardRoot = styled(Flex)(({ theme }) => ({
   width: '100%',
-})
+  '&.recipe-card-inspiration .recipe-card-media': {
+    aspectRatio: '416 / 222',
+    borderRadius: '14px',
+  },
+  '&.recipe-card-inspiration .recipe-card-title': {
+    boxSizing: 'content-box',
+    margin: '14px 0 8px',
+    paddingBottom: '3px',
+    fontSize: '23px',
+    fontWeight: 400,
+    lineHeight: 1.35,
+    letterSpacing: 'normal',
+  },
+  '&.recipe-card-inspiration .recipe-information': {
+    gap: 0,
+  },
+  '&.recipe-card-inspiration .recipe-card-details': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '8px',
+    width: '100%',
+  },
+  '&.recipe-card-inspiration .recipe-card-context': {
+    width: 'auto',
+    flexShrink: 0,
+    color: theme.palette.primary.light,
+    fontSize: '12px',
+    fontWeight: 600,
+    lineHeight: 1.6,
+  },
+}))
 
 export const Media = styled(Box)(({ theme }) => ({
   position: 'relative',

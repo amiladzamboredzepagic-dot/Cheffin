@@ -24,6 +24,27 @@
     "keepTogether": "Alle Rezepte an einem Ort",
     "planWeek": "Plane eine genussvolle Woche"
   },
+  "recipeInspiration": {
+    "eyebrow": "Ein Vorgeschmack auf das, was kommt",
+    "title": "Frische Inspiration – ganz ohne Anmeldung.",
+    "exploreAll": "Alle Rezepte entdecken",
+    "metadata": "{{minutes}} Min. · {{calories}} kcal",
+    "quinoa": {
+      "title": "Quinoa-Bowl mit Green-Goddess-Dressing",
+      "imageAlt": "Eine bunte Quinoa-Bowl mit gerösteten Kichererbsen, Avocado und frischem Gemüse",
+      "tag": "Pflanzlich"
+    },
+    "salmon": {
+      "title": "Lachs mit Zitrone und Kräutern",
+      "imageAlt": "Gebratenes Lachsfilet mit frischem Gemüse",
+      "tag": "Proteinreich"
+    },
+    "toast": {
+      "title": "Avocado-Ei-Toast",
+      "imageAlt": "Sauerteigtoast mit Avocado, Ei und frischem Grün",
+      "tag": "Schnell und einfach"
+    }
+  },
   "common": {
     "language": "Sprache",
     "close": "Schließen",
