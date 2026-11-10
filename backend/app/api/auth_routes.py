@@ -25,6 +25,8 @@ class LoginCredentials(BaseModel):
 class RegistrationCredentials(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
+    first_name: str = Field(min_length=1, max_length=80)
+    last_name: str = Field(min_length=1, max_length=80)
     email: str = Field(
         min_length=3,
         max_length=320,
@@ -36,6 +38,14 @@ class RegistrationCredentials(BaseModel):
     @classmethod
     def normalize_email(cls, value: object) -> object:
         return value.strip().lower() if isinstance(value, str) else value
+
+    @field_validator("first_name", "last_name")
+    @classmethod
+    def normalize_name(cls, value: str) -> str:
+        normalized = value.strip()
+        if not normalized:
+            raise ValueError("Name must not be blank")
+        return normalized
 
     @field_validator("password")
     @classmethod
@@ -55,7 +65,14 @@ def create_auth_response(
     request: Request,
     response: Response,
 ) -> dict[str, str]:
-    token_payload = {"sub": str(user["_id"]), "role": user.get("role", "user")}
+    first_name = user.get("first_name", "")
+    last_name = user.get("last_name", "")
+    token_payload = {
+        "sub": str(user["_id"]),
+        "role": user.get("role", "user"),
+        "first_name": first_name,
+        "last_name": last_name,
+    }
     access_token = create_access_token(token_payload)
     refresh_token = create_refresh_token(token_payload)
 
@@ -68,7 +85,12 @@ def create_auth_response(
         path="/auth/refresh",
         max_age=7 * 86400,
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "first_name": first_name,
+        "last_name": last_name,
+    }
 
 
 @router.post("/login")
@@ -98,6 +120,8 @@ async def register(
 ):
     email = credentials.email
     user = {
+        "first_name": credentials.first_name,
+        "last_name": credentials.last_name,
         "email": email,
         "password": hash_password(credentials.password),
         "role": "chef",
@@ -126,9 +150,18 @@ async def refresh_token(request: Request):
         raise HTTPException(status_code=401, detail="Invalid refresh token")
 
     new_access_token = create_access_token(
-        {"sub": payload["sub"], "role": payload.get("role", "user")}
+        {
+            "sub": payload["sub"],
+            "role": payload.get("role", "user"),
+            "first_name": payload.get("first_name", ""),
+            "last_name": payload.get("last_name", ""),
+        }
     )
-    return {"access_token": new_access_token}
+    return {
+        "access_token": new_access_token,
+        "first_name": payload.get("first_name", ""),
+        "last_name": payload.get("last_name", ""),
+    }
 
 
 @router.post("/logout")
