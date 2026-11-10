@@ -8,6 +8,7 @@
     "exploreRecipes": "Istraži recepte"
   },
   "common": {
+    "close": "Zatvori",
     "loading": "Učitavanje",
     "motto": "Pažljivo odabrano za kućne kuhare, za cijelu trpezu.",
     "privacyPolicy": "Politika privatnosti",
@@ -18,6 +19,10 @@
     "modeLabel": "Način prijave",
     "login": "Prijavi se",
     "createAccount": "Kreiraj profil",
+    "loginEyebrow": "DOBRO DOŠLI NAZAD",
+    "createAccountEyebrow": "PRIDRUŽITE SE",
+    "loginDescription": "Prijavite se kako biste sačuvali recepte i planirali obroke.",
+    "createAccountDescription": "Kreirajte profil za čuvanje recepata i planiranje obroka.",
     "email": "E-mail adresa",
     "emailPlaceholder": "Unesite e-mail adresu",
     "password": "Šifra",

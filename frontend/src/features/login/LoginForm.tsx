@@ -59,7 +59,9 @@ export function LoginForm({
       noValidate
       onSubmit={handleSubmit}
       direction="column"
-      gap="20px"
+      align="stretch"
+      justify="flex-start"
+      gap={3}
       sx={{
         width: '100%',
       }}
@@ -76,57 +78,58 @@ export function LoginForm({
         }}
         ariaLabel={t('auth.modeLabel')}
       />
-      <FormTextField
-        id="email"
-        name="email"
-        type="email"
-        required
-        label={t('auth.email')}
-        placeholder={t('auth.emailPlaceholder')}
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value)
-          setSuccess(null)
-        }}
-        startAdornment={<EmailOutlinedIcon />}
-      />
-
-      <FormTextField
-        id="password"
-        name="password"
-        type={showPassword ? 'text' : 'password'}
-        required
-        minLength={authMode === AUTH_MODE.SIGNUP ? 8 : undefined}
-        helperText={
-          authMode === AUTH_MODE.SIGNUP
-            ? t('auth.passwordRequirement')
-            : undefined
-        }
-        label={t('auth.password')}
-        placeholder={t('auth.passwordPlaceholder')}
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value)
-          setSuccess(null)
-        }}
-        startAdornment={<LockOutlinedIcon />}
-        endAdornment={
-          <IconButton
-            aria-label={
-              showPassword ? t('auth.hidePassword') : t('auth.showPassword')
-            }
-            onClick={() => setShowPassword((prev) => !prev)}
-            edge="end"
-            disableRipple
-          >
-            {showPassword ? (
-              <VisibilityOffOutlinedIcon />
-            ) : (
-              <VisibilityOutlinedIcon />
-            )}
-          </IconButton>
-        }
-      />
+      <Flex direction="column" align="stretch" gap={2} sx={{ width: '100%' }}>
+        <FormTextField
+          id="email"
+          name="email"
+          type="email"
+          required
+          label={t('auth.email')}
+          placeholder={t('auth.emailPlaceholder')}
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            setSuccess(null)
+          }}
+          startAdornment={<EmailOutlinedIcon />}
+        />
+        <FormTextField
+          id="password"
+          name="password"
+          type={showPassword ? 'text' : 'password'}
+          required
+          minLength={authMode === AUTH_MODE.SIGNUP ? 8 : undefined}
+          helperText={
+            authMode === AUTH_MODE.SIGNUP
+              ? t('auth.passwordRequirement')
+              : undefined
+          }
+          label={t('auth.password')}
+          placeholder={t('auth.passwordPlaceholder')}
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value)
+            setSuccess(null)
+          }}
+          startAdornment={<LockOutlinedIcon />}
+          endAdornment={
+            <IconButton
+              aria-label={
+                showPassword ? t('auth.hidePassword') : t('auth.showPassword')
+              }
+              onClick={() => setShowPassword((prev) => !prev)}
+              edge="end"
+              disableRipple
+            >
+              {showPassword ? (
+                <VisibilityOffOutlinedIcon />
+              ) : (
+                <VisibilityOutlinedIcon />
+              )}
+            </IconButton>
+          }
+        />
+      </Flex>
       <SubmitButton loading={loginLoading || registerLoading}>
         {authMode === AUTH_MODE.LOGIN
           ? t('auth.login')

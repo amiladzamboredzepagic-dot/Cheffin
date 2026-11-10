@@ -8,6 +8,7 @@
     "exploreRecipes": "Rezepte entdecken"
   },
   "common": {
+    "close": "Schließen",
     "loading": "Wird geladen",
     "motto": "Für Hobbyköche ausgewählt und am ganzen Tisch geschätzt.",
     "privacyPolicy": "Datenschutzerklärung",
@@ -18,6 +19,10 @@
     "modeLabel": "Anmeldemethode",
     "login": "Anmelden",
     "createAccount": "Konto erstellen",
+    "loginEyebrow": "WILLKOMMEN ZURÜCK",
+    "createAccountEyebrow": "SEI DABEI",
+    "loginDescription": "Melde dich an, um Rezepte zu speichern und Mahlzeiten zu planen.",
+    "createAccountDescription": "Erstelle ein Konto, um Rezepte zu speichern und Mahlzeiten zu planen.",
     "email": "E-Mail",
     "emailPlaceholder": "E-Mail-Adresse eingeben",
     "password": "Passwort",

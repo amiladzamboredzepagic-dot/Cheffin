@@ -8,6 +8,7 @@
     "exploreRecipes": "Explore recipes"
   },
   "common": {
+    "close": "Close",
     "loading": "Loading",
     "motto": "Curated for home chefs, cherished by the whole table.",
     "privacyPolicy": "Privacy Policy",
@@ -18,6 +19,10 @@
     "modeLabel": "Authentication mode",
     "login": "Login",
     "createAccount": "Create an account",
+    "loginEyebrow": "WELCOME BACK",
+    "createAccountEyebrow": "JOIN THE TABLE",
+    "loginDescription": "Login to save recipes and plan your next meal.",
+    "createAccountDescription": "Create an account to save recipes and plan meals.",
     "email": "Email",
     "emailPlaceholder": "Enter your email",
     "password": "Password",
