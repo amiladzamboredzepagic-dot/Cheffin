@@ -3,7 +3,7 @@ import type { ButtonProps } from '@mui/material'
 import { ArrowRight } from 'lucide-react'
 import { Flex } from './Flex'
 import { Loading } from './Loading'
-import { SubmitButtonRoot } from './SubmitButton.styles'
+import { ActionButton } from './ActionButton'
 
 export interface SubmitButtonProps extends Omit<
   ButtonProps,
@@ -22,21 +22,31 @@ export function SubmitButton({
   ...props
 }: SubmitButtonProps) {
   return (
-    <SubmitButtonRoot
+    <ActionButton
       {...props}
       disabled={loading || props.disabled}
-      sx={sx}
+      sx={[
+        {
+          boxSizing: 'border-box',
+          width: '100%',
+          maxWidth: '496px',
+          height: '46px',
+          px: '19px',
+          alignSelf: 'center',
+        },
+        ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+      ]}
       type="submit"
-      variant="contained"
-    >
-      <Flex gap="9px" justify="center">
-        {loading ? (
-          <Loading />
-        ) : showArrow ? (
-          <ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
-        ) : null}
-        {children}
-      </Flex>
-    </SubmitButtonRoot>
+      text={
+        <Flex gap="9px" justify="center">
+          {loading ? (
+            <Loading />
+          ) : showArrow ? (
+            <ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
+          ) : null}
+          {children}
+        </Flex>
+      }
+    />
   )
 }
