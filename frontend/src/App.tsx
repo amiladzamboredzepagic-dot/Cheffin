@@ -30,7 +30,10 @@ export default function App() {
         onLogin={() => selectAuthMode(AUTH_MODE.LOGIN)}
         onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)}
       />
-      <LandingPage onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)} />
+      <LandingPage
+        onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)}
+        onLogin={() => selectAuthMode(AUTH_MODE.LOGIN)}
+      />
       <Footer />
       <GenericModal
         open={authModalOpen}

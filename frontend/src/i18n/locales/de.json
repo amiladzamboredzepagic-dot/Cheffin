@@ -92,6 +92,13 @@
     "profileName": "Maya Green",
     "profileDetail": "Pflanzlich · Kochen für jeden Tag"
   },
+  "createAccountSection": {
+    "eyebrow": "Ein Platz am Tisch",
+    "heading": "Fühl dich wie zu Hause.",
+    "description": "Deine Rezepte, deine Pläne und dein kleiner Küchenbegleiter für jeden Tag.",
+    "logInPrompt": "Du hast schon ein Konto?",
+    "logIn": "Anmelden"
+  },
   "common": {
     "language": "Sprache",
     "close": "Schließen",

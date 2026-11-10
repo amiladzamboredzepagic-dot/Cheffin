@@ -10,7 +10,7 @@
   "hero": {
     "eyebrow": "Kreirano za vas.",
     "headingFirst": "Dobra hrana.",
-    "headingSecond": "Nova inspiracija.",
+    "headingSecond": "Friška inspiracija.",
     "description": "Otkrijte recepte koje ćete voljeti, sačuvajte omiljene i isplanirajte sedmicu uz dobar osjećaj. Vaš svakodnevni kuhinjski saputnik, sve na jednom mjestu.",
     "note": "Mjesto za vaše recepte.",
     "imageAlt": "Šarena zdjela sa žitaricama, svježim povrćem, avokadom i leblebijama",
@@ -91,6 +91,13 @@
     "portraitAlt": "Maya Green, kućna kuharica koja se smiješi u svojoj kuhinji",
     "profileName": "Maya Green",
     "profileDetail": "Biljna ishrana · Svakodnevno kuhanje"
+  },
+  "createAccountSection": {
+    "eyebrow": "Mjesto za vašim stolom",
+    "heading": "Osjećajte se kao kod kuće.",
+    "description": "Vaši recepti, vaši planovi i vaš mali svakodnevni kuhinjski saputnik.",
+    "logInPrompt": "Već imate profil?",
+    "logIn": "Prijavite se"
   },
   "common": {
     "language": "Jezik",

@@ -92,6 +92,13 @@
     "profileName": "Maya Green",
     "profileDetail": "Plant-based · Everyday cooking"
   },
+  "createAccountSection": {
+    "eyebrow": "A seat at the table",
+    "heading": "Make yourself at home.",
+    "description": "Your recipes, your plans, your little everyday kitchen companion.",
+    "logInPrompt": "Already have an account?",
+    "logIn": "Log in"
+  },
   "common": {
     "language": "Language",
     "close": "Close",
