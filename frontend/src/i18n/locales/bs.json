@@ -18,6 +18,12 @@
     "recipeTitle": "Kvinoja zdjela sa zelenim prelivom",
     "recipeTime": "{{minutes}} min"
   },
+  "benefits": {
+    "sectionLabel": "Svakodnevne prednosti",
+    "findFavorite": "Pronađite svog novog favorita",
+    "keepTogether": "Svi recepti na jednom mjestu",
+    "planWeek": "Isplanirajte sedmicu uz dobre obroke"
+  },
   "common": {
     "language": "Jezik",
     "close": "Zatvori",

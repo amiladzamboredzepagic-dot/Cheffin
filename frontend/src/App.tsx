@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { Flex } from './components/ui/Flex'
 import { GenericModal } from './components/ui/GenericModal'
 import { Footer } from './features/layout/components/Footer'
+import { LandingPage } from './features/landing/LandingPage'
 import { LoginForm } from './features/login/LoginForm'
 import { AUTH_MODE, type AuthMode } from './features/login/loginForm.utils'
-import { Hero } from './features/landing/Hero'
 import { Navbar } from './features/navigation/components/Navbar'
 
 export default function App() {
@@ -30,7 +30,9 @@ export default function App() {
         onLogin={() => selectAuthMode(AUTH_MODE.LOGIN)}
         onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)}
       />
-      <Hero onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)} />
+      <LandingPage
+        onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)}
+      />
       <Footer />
       <GenericModal
         open={authModalOpen}

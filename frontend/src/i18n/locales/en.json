@@ -18,6 +18,12 @@
     "recipeTitle": "Green goddess quinoa bowl",
     "recipeTime": "{{minutes}} min"
   },
+  "benefits": {
+    "sectionLabel": "Everyday benefits",
+    "findFavorite": "Find your next favorite",
+    "keepTogether": "Keep every recipe together",
+    "planWeek": "Plan a well-fed week"
+  },
   "common": {
     "language": "Language",
     "close": "Close",

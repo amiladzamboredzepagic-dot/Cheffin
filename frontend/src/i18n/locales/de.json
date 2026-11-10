@@ -18,6 +18,12 @@
     "recipeTitle": "Quinoa-Bowl mit Green-Goddess-Dressing",
     "recipeTime": "{{minutes}} Min."
   },
+  "benefits": {
+    "sectionLabel": "Vorteile für jeden Tag",
+    "findFavorite": "Finde dein neues Lieblingsrezept",
+    "keepTogether": "Alle Rezepte an einem Ort",
+    "planWeek": "Plane eine genussvolle Woche"
+  },
   "common": {
     "language": "Sprache",
     "close": "Schließen",
