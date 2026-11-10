@@ -83,6 +83,15 @@
       "dinner": "Večera"
     }
   },
+  "communityInvitation": {
+    "eyebrow": "Iz pravih kuhinja",
+    "heading": "Dobra hrana je još bolja kad se dijeli.",
+    "description": "Upoznajte kućne kuhare poput Maye, otkrijte njihove omiljene recepte i pronađite inspiraciju u kuhinjama poput svoje.",
+    "action": "Upoznajte zajednicu",
+    "portraitAlt": "Maya Green, kućna kuharica koja se smiješi u svojoj kuhinji",
+    "profileName": "Maya Green",
+    "profileDetail": "Biljna ishrana · Svakodnevno kuhanje"
+  },
   "common": {
     "language": "Jezik",
     "close": "Zatvori",

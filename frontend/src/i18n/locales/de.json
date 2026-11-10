@@ -83,6 +83,15 @@
       "dinner": "Abendessen"
     }
   },
+  "communityInvitation": {
+    "eyebrow": "Frisch aus echten Küchen",
+    "heading": "Gutes Essen teilt man am besten.",
+    "description": "Lerne Hobbyköchinnen wie Maya kennen, entdecke ihre Lieblingsrezepte und lass dich von Küchen wie deiner inspirieren.",
+    "action": "Lerne die Community kennen",
+    "portraitAlt": "Maya Green, eine Hobbyköchin, lächelt in ihrer Küche",
+    "profileName": "Maya Green",
+    "profileDetail": "Pflanzlich · Kochen für jeden Tag"
+  },
   "common": {
     "language": "Sprache",
     "close": "Schließen",

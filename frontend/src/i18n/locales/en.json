@@ -83,6 +83,15 @@
       "dinner": "Dinner"
     }
   },
+  "communityInvitation": {
+    "eyebrow": "Fresh from real kitchens",
+    "heading": "Good food is better shared.",
+    "description": "Meet home cooks like Maya, discover their favorite recipes, and find inspiration from kitchens just like yours.",
+    "action": "Meet the community",
+    "portraitAlt": "Maya Green, a home cook smiling in her kitchen",
+    "profileName": "Maya Green",
+    "profileDetail": "Plant-based · Everyday cooking"
+  },
   "common": {
     "language": "Language",
     "close": "Close",

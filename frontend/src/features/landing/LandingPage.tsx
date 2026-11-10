@@ -1,4 +1,5 @@
 import { Benefits } from './Benefits'
+import { CommunityInvitation } from './CommunityInvitation'
 import { Hero } from './Hero'
 import { PantryIdeas } from './PantryIdeas'
 import { RecipeInspiration } from './RecipeInspiration'
@@ -16,6 +17,7 @@ export function LandingPage({ onCreateAccount }: LandingPageProps) {
       <RecipeInspiration />
       <PantryIdeas />
       <WeeklyPlan />
+      <CommunityInvitation />
     </>
   )
 }
