@@ -9,11 +9,18 @@ export type AuthMode = (typeof AUTH_MODE)[keyof typeof AUTH_MODE]
 
 interface LoginFormSubmissionOptions {
   form: HTMLFormElement
+  firstName: string
+  lastName: string
   email: string
   password: string
   authMode: AuthMode
   login: (email: string, password: string) => Promise<unknown>
-  register: (email: string, password: string) => Promise<unknown>
+  register: (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+  ) => Promise<unknown>
   onSubmit?: (values: { email: string; password: string }) => void
   setError: (error: string | null) => void
   setSuccess: (success: string | null) => void
@@ -21,6 +28,8 @@ interface LoginFormSubmissionOptions {
 
 export async function submitLoginForm({
   form,
+  firstName,
+  lastName,
   email,
   password,
   authMode,
@@ -35,6 +44,14 @@ export async function submitLoginForm({
 
   if (!email.trim() || !password) {
     setError('auth.missingCredentials')
+    return
+  }
+
+  if (
+    authMode === AUTH_MODE.SIGNUP &&
+    (!firstName.trim() || !lastName.trim())
+  ) {
+    setError('auth.missingNames')
     return
   }
 
@@ -59,7 +76,7 @@ export async function submitLoginForm({
 
   try {
     if (authMode === AUTH_MODE.SIGNUP) {
-      await register(email, password)
+      await register(email, password, firstName.trim(), lastName.trim())
       setSuccess('auth.signupSuccess')
     } else {
       await login(email, password)

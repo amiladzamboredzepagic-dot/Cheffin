@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { IconButton } from '@mui/material'
+import { AccountCircle } from '@mui/icons-material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
@@ -27,6 +28,8 @@ export function LoginForm({
   const { t } = useTranslation()
   const { login, register, loginLoading, registerLoading } = useAuth()
 
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -43,6 +46,8 @@ export function LoginForm({
       form: e.currentTarget,
       email,
       password,
+      firstName,
+      lastName,
       authMode,
       login,
       register,
@@ -78,6 +83,37 @@ export function LoginForm({
         }}
         ariaLabel={t('auth.modeLabel')}
       />
+
+      {authMode === AUTH_MODE.SIGNUP && (
+        <Flex direction="row" align="flex-start" gap={2} sx={{ width: '100%' }}>
+          <FormTextField
+            id="first-name"
+            name="first_name"
+            type="text"
+            required
+            label={t('auth.firstName')}
+            placeholder={t('auth.firstNamePlaceholder')}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            startAdornment={<AccountCircle />}
+            autoComplete="given-name"
+            sx={{ flex: 1, minWidth: 0 }}
+          />
+          <FormTextField
+            id="last-name"
+            name="last_name"
+            type="text"
+            required
+            label={t('auth.lastName')}
+            placeholder={t('auth.lastNamePlaceholder')}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            startAdornment={<AccountCircle />}
+            autoComplete="family-name"
+            sx={{ flex: 1, minWidth: 0 }}
+          />
+        </Flex>
+      )}
       <Flex direction="column" align="stretch" gap={2} sx={{ width: '100%' }}>
         <FormTextField
           id="email"
