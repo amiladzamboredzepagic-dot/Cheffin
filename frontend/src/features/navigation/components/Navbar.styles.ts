@@ -1,10 +1,8 @@
-import { Box, styled } from '@mui/material'
+import { styled } from '@mui/material'
+import { Flex } from '../../../components/ui/Flex'
 import { TextLinkBase } from '../../../components/ui/TextLink.styles'
 
-export const NavItemsContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(4),
+export const NavItemsContainer = styled(Flex)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     display: 'none',
   },

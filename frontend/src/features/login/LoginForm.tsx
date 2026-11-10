@@ -14,10 +14,16 @@ import { useTranslation } from 'react-i18next'
 import { AUTH_MODE, type AuthMode, submitLoginForm } from './loginForm.utils'
 
 interface LoginFormProps {
+  authMode: AuthMode
+  onAuthModeChange: (mode: AuthMode) => void
   onSubmit?: (values: { email: string; password: string }) => void
 }
 
-export function LoginForm({ onSubmit }: LoginFormProps) {
+export function LoginForm({
+  authMode,
+  onAuthModeChange,
+  onSubmit,
+}: LoginFormProps) {
   const { t } = useTranslation()
   const { login, register, loginLoading, registerLoading } = useAuth()
 
@@ -26,8 +32,6 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [authMode, setAuthMode] = useState<AuthMode>(AUTH_MODE.LOGIN)
-
   const authModes = [
     { value: AUTH_MODE.LOGIN, label: t('auth.login') },
     { value: AUTH_MODE.SIGNUP, label: t('auth.createAccount') },
@@ -50,6 +54,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
 
   return (
     <Flex
+      id="login-form"
       component="form"
       noValidate
       onSubmit={handleSubmit}
@@ -65,7 +70,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         value={authMode}
         options={authModes}
         onChange={(mode) => {
-          setAuthMode(mode)
+          onAuthModeChange(mode)
           setError(null)
           setSuccess(null)
         }}

@@ -16,7 +16,7 @@
   },
   "auth": {
     "modeLabel": "Authentication mode",
-    "login": "Log in",
+    "login": "Login",
     "createAccount": "Create an account",
     "email": "Email",
     "emailPlaceholder": "Enter your email",
