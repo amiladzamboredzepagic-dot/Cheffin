@@ -9,7 +9,6 @@ export const FooterContainer = styled(Flex)(({ theme }) => ({
   paddingInline: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
   borderTop: `1px solid ${theme.palette.divider}`,
-
   [theme.breakpoints.up('md')]: {
     paddingInline: theme.spacing(8),
   },
