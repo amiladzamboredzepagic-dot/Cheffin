@@ -1,9 +1,10 @@
 import { useTheme } from '@mui/material'
-import { Flex } from '../../../components/ui/Flex'
+import { useTranslation } from 'react-i18next'
 import { ActionButton } from '../../../components/ui/ActionButton'
+import { Flex } from '../../../components/ui/Flex'
 import CheffinLogo from '../../../components/brand/CheffinLogo'
 import Header from '../../layout/components/Header'
-import { useTranslation } from 'react-i18next'
+import { LanguageToggle } from './LanguageToggle'
 
 interface NavbarProps {
   onLogin: () => void
@@ -20,6 +21,7 @@ export function Navbar({ onLogin, onCreateAccount }: NavbarProps) {
         <CheffinLogo />
       </Flex>
       <Flex gap={1}>
+        <LanguageToggle />
         <ActionButton
           text={t('auth.login')}
           backgroundColor="transparent"
