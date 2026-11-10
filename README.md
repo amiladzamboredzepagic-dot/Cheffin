@@ -8,6 +8,22 @@ Cheffin is a mobile-first, AI-driven visual platform designed for effortless rec
 - Backend: FastAPI and Strawberry GraphQL
 - Database: MongoDB
 
+## Backend layout
+
+Backend code is grouped by responsibility under `backend/app`:
+
+```text
+app/
+  api/       HTTP routes
+  core/      configuration and security
+  db/        database client and access
+  graphql/   GraphQL schema and request context
+  main.py    FastAPI application setup
+```
+
+Admin account tooling lives in `backend/scripts`. The application entrypoint
+remains `app.main:app`.
+
 ## Getting started
 
 You will need Node.js with npm, Python 3.9 or later, and access to the

@@ -3,7 +3,7 @@ from typing import Any, Literal
 
 import jwt
 from pwdlib import PasswordHash
-from app.config import settings
+from app.core.config import settings
 
 SECRET_KEY: str = settings.jwt_secret or ""
 if len(SECRET_KEY.encode("utf-8")) < 32:

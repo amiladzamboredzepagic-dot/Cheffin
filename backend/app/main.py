@@ -4,10 +4,10 @@ from collections.abc import AsyncIterator
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from strawberry.fastapi import GraphQLRouter
-from app.database import database
-from app.schema import schema
-from app.graphql_context import GraphQLContext
-from app.auth_routes import router as auth_router
+from app.api.auth_routes import router as auth_router
+from app.db.database import database
+from app.graphql.context import GraphQLContext
+from app.graphql.schema import schema
 
 
 @asynccontextmanager

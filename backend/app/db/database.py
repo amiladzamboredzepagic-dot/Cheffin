@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.config import settings
+from app.core.config import settings
 
 mongo_uri: str = settings.mongo_uri_str
 db_name: str = settings.database_name_str

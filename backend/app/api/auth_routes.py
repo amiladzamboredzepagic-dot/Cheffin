@@ -4,14 +4,14 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pymongo.errors import DuplicateKeyError
 from pymongo.collation import Collation
 
-from .database import get_database
-from .security import (
+from app.core.security import (
     create_access_token,
     create_refresh_token,
     decode_refresh_token,
     hash_password,
     verify_password,
 )
+from app.db.database import get_database
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 EMAIL_COLLATION = Collation(locale="en", strength=2)

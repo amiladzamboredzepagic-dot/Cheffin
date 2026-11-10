@@ -1,7 +1,7 @@
 from typing import Any
 from fastapi import Request
 from strawberry.fastapi import BaseContext
-from app.security import decode_access_token
+from app.core.security import decode_access_token
 
 
 def _authenticate(request: Request | None) -> dict[str, Any] | None:

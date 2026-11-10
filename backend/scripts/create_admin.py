@@ -3,8 +3,8 @@ from getpass import getpass
 
 from pymongo.errors import DuplicateKeyError
 
-from app.database import client, database
-from app.security import hash_password
+from app.core.security import hash_password
+from app.db.database import client, database
 
 
 async def main() -> None:
