@@ -1,11 +1,9 @@
-import { Menu, Tooltip } from '@mui/material'
+import { Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { AppMenu, AppMenuItem } from '../../../components/ui/AppMenu'
 import { LanguageFlag, type LanguageCode } from './LanguageFlag'
-import {
-  LanguageMenuItem,
-  LanguageToggleButton,
-} from './LanguageToggle.styles'
+import { LanguageToggleButton } from './LanguageToggle.styles'
 
 const LANGUAGES: Array<{
   code: LanguageCode
@@ -38,28 +36,16 @@ export function LanguageToggle() {
           <LanguageFlag language={selectedLanguage.code} />
         </LanguageToggleButton>
       </Tooltip>
-      <Menu
+      <AppMenu
         id="language-menu"
         anchorEl={menuAnchor}
         open={Boolean(menuAnchor)}
         onClose={() => setMenuAnchor(null)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        slotProps={{
-          paper: {
-            sx: {
-              mt: 1,
-              borderRadius: 1,
-            },
-          },
-          list: {
-            'aria-label': t('common.language'),
-            sx: { py: 0.5 },
-          },
-        }}
+        ariaLabel={t('common.language')}
+        minWidth={48}
       >
         {LANGUAGES.map((option) => (
-          <LanguageMenuItem
+          <AppMenuItem
             key={option.code}
             role="menuitemradio"
             aria-label={option.name}
@@ -71,9 +57,9 @@ export function LanguageToggle() {
             }}
           >
             <LanguageFlag language={option.code} />
-          </LanguageMenuItem>
+          </AppMenuItem>
         ))}
-      </Menu>
+      </AppMenu>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { IconButton, MenuItem, styled } from '@mui/material'
+import { IconButton, styled } from '@mui/material'
 
 export const LanguageToggleButton = styled(IconButton)(({ theme }) => ({
   width: theme.spacing(5),
@@ -10,10 +10,4 @@ export const LanguageToggleButton = styled(IconButton)(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.palette.background.secondary,
   },
-}))
-
-export const LanguageMenuItem = styled(MenuItem)(({ theme }) => ({
-  minWidth: theme.spacing(3),
-  justifyContent: 'center',
-  fontSize: theme.typography.pxToRem(22),
 }))
