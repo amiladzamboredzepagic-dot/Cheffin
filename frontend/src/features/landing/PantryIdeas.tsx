@@ -1,14 +1,12 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useTranslation } from 'react-i18next'
+import { SectionIntroduction } from '../../components/ui/SectionIntroduction'
 import {
   DetectedIngredients,
   IngredientChip,
   IngredientPreview,
   MatchText,
   PantryCopy,
-  PantryDescription,
-  PantryEyebrow,
-  PantryHeading,
   PantryLayout,
   PantryLink,
   PantryMatch,
@@ -47,13 +45,19 @@ export function PantryIdeas() {
         </IngredientPreview>
 
         <PantryCopy direction="column" gap={0}>
-          <PantryEyebrow>{t('pantryIdeas.eyebrow')}</PantryEyebrow>
-          <PantryHeading id="pantry-ideas-title">
-            {t('pantryIdeas.headingFirst')}
-            <br />
-            {t('pantryIdeas.headingSecond')}
-          </PantryHeading>
-          <PantryDescription>{t('pantryIdeas.description')}</PantryDescription>
+          <SectionIntroduction
+            variant="split"
+            eyebrow={t('pantryIdeas.eyebrow')}
+            title={
+              <>
+                {t('pantryIdeas.headingFirst')}
+                <br />
+                {t('pantryIdeas.headingSecond')}
+              </>
+            }
+            titleId="pantry-ideas-title"
+            description={t('pantryIdeas.description')}
+          />
           <PantryLink href="/explore">
             {t('pantryIdeas.action')}
             <ArrowForwardIcon fontSize="inherit" aria-hidden="true" />

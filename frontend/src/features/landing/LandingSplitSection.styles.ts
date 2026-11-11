@@ -1,4 +1,4 @@
-import { Typography, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import { Flex } from '../../components/ui/Flex'
 
 export const SplitSection = styled('section')(({ theme }) => ({
@@ -22,38 +22,6 @@ export const SplitSectionCopy = styled(Flex)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     maxWidth: 640,
   },
-}))
-
-export const SplitSectionEyebrow = styled(Typography)(({ theme }) => ({
-  color: theme.palette.highlight,
-  fontSize: 10,
-  fontWeight: 600,
-  letterSpacing: '1.8px',
-  lineHeight: 1.65,
-  textTransform: 'uppercase',
-}))
-
-export const SplitSectionHeading = styled('h2')(({ theme }) => ({
-  margin: `${theme.spacing(1.5)} 0 0`,
-  color: theme.palette.text.label,
-  fontFamily: '"Lora", Georgia, serif',
-  fontSize: 36,
-  fontWeight: 500,
-  lineHeight: 1.2,
-  [theme.breakpoints.down('md')]: {
-    fontSize: 32,
-  },
-  [theme.breakpoints.down('sm')]: {
-    fontSize: 29,
-  },
-}))
-
-export const SplitSectionDescription = styled(Typography)(({ theme }) => ({
-  maxWidth: 500,
-  marginTop: theme.spacing(2.5),
-  color: theme.palette.text.secondary,
-  fontSize: 15,
-  lineHeight: 1.65,
 }))
 
 export const SplitSectionLink = styled('a')(({ theme }) => ({

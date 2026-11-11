@@ -1,6 +1,7 @@
 import AddIcon from '@mui/icons-material/Add'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useTranslation } from 'react-i18next'
+import { SectionIntroduction } from '../../components/ui/SectionIntroduction'
 import { Flex } from '../../components/ui/Flex'
 import { INSPIRATION_RECIPES } from '../recipes/recipes.data'
 import {
@@ -19,9 +20,6 @@ import {
   PlannerPreview,
   PlannerTitle,
   WeeklyPlanCopy,
-  WeeklyPlanDescription,
-  WeeklyPlanEyebrow,
-  WeeklyPlanHeading,
   WeeklyPlanLayout,
   WeeklyPlanLink,
   WeeklyPlanSection,
@@ -50,15 +48,19 @@ export function WeeklyPlan() {
     <WeeklyPlanSection aria-labelledby="weekly-plan-heading">
       <WeeklyPlanLayout>
         <WeeklyPlanCopy direction="column" gap={0}>
-          <WeeklyPlanEyebrow>{t('weeklyPlan.eyebrow')}</WeeklyPlanEyebrow>
-          <WeeklyPlanHeading id="weekly-plan-heading">
-            {t('weeklyPlan.headingFirst')}
-            <br />
-            {t('weeklyPlan.headingSecond')}
-          </WeeklyPlanHeading>
-          <WeeklyPlanDescription>
-            {t('weeklyPlan.description')}
-          </WeeklyPlanDescription>
+          <SectionIntroduction
+            variant="split"
+            eyebrow={t('weeklyPlan.eyebrow')}
+            title={
+              <>
+                {t('weeklyPlan.headingFirst')}
+                <br />
+                {t('weeklyPlan.headingSecond')}
+              </>
+            }
+            titleId="weekly-plan-heading"
+            description={t('weeklyPlan.description')}
+          />
           <WeeklyPlanLink href="/meal-planner">
             {t('weeklyPlan.action')}
             <ArrowForwardIcon fontSize="inherit" aria-hidden="true" />

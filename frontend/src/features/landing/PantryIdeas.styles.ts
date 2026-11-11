@@ -3,9 +3,6 @@ import { Flex } from '../../components/ui/Flex'
 export {
   SplitSection as PantrySection,
   SplitSectionCopy as PantryCopy,
-  SplitSectionDescription as PantryDescription,
-  SplitSectionEyebrow as PantryEyebrow,
-  SplitSectionHeading as PantryHeading,
   SplitSectionLink as PantryLink,
 } from './LandingSplitSection.styles'
 

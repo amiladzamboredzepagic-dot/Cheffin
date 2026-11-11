@@ -3,9 +3,6 @@ import { Flex } from '../../components/ui/Flex'
 export {
   SplitSection as WeeklyPlanSection,
   SplitSectionCopy as WeeklyPlanCopy,
-  SplitSectionDescription as WeeklyPlanDescription,
-  SplitSectionEyebrow as WeeklyPlanEyebrow,
-  SplitSectionHeading as WeeklyPlanHeading,
   SplitSectionLink as WeeklyPlanLink,
 } from './LandingSplitSection.styles'
 
