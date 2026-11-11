@@ -1,3 +1,4 @@
+import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactNode } from 'react'
@@ -54,6 +55,7 @@ export function CustomSelectMenu({
       startAdornment={startAdornment}
       slotProps={{
         select: {
+          IconComponent: ChevronDown,
           renderValue: (selectedValue: unknown) => {
             const selectedOption = options.find(
               (option) => option.id === selectedValue,
