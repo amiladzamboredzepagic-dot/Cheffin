@@ -2,11 +2,17 @@ import { AccountCircle } from '@mui/icons-material'
 import { Avatar as MuiAvatar, useTheme } from '@mui/material'
 
 interface UserAvatarProps {
-  initials: string
+  firstName?: string | null
+  lastName?: string | null
 }
 
-export function UserAvatar({ initials }: UserAvatarProps) {
+export function UserAvatar({ firstName, lastName }: UserAvatarProps) {
   const theme = useTheme()
+  const initials = [firstName, lastName]
+    .map((name) => name?.trim().charAt(0))
+    .filter(Boolean)
+    .join('')
+    .toLocaleUpperCase()
 
   return (
     <MuiAvatar

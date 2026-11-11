@@ -4,13 +4,15 @@ import { useTranslation } from 'react-i18next'
 import { UserAvatar } from '../../../components/ui/UserAvatar'
 
 interface NavbarAccountButtonProps {
-  initials: string
+  firstName: string | null
+  lastName: string | null
   expanded: boolean
   onClick: MouseEventHandler<HTMLButtonElement>
 }
 
 export function NavbarAccountButton({
-  initials,
+  firstName,
+  lastName,
   expanded,
   onClick,
 }: NavbarAccountButtonProps) {
@@ -29,7 +31,7 @@ export function NavbarAccountButton({
         flexShrink: 0,
       }}
     >
-      <UserAvatar initials={initials} />
+      <UserAvatar firstName={firstName} lastName={lastName} />
     </IconButton>
   )
 }
