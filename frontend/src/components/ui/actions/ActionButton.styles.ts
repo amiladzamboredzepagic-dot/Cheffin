@@ -21,7 +21,9 @@ export const ActionButtonRoot = styled(Button, {
     border = 'none',
     hoverShadow = true,
   }) => ({
+    boxSizing: 'border-box',
     minWidth: 0,
+    height: 46,
     border,
     boxShadow: 'none',
     borderRadius: theme.spacing(1.25),

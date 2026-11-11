@@ -1,4 +1,4 @@
-import { Flex } from '../../../components/ui/Flex'
+import { Flex } from '../../../components/ui/layout/Flex'
 import CheffinLogo from '../../../components/brand/CheffinLogo'
 import Header from '../../layout/components/Header'
 import { LanguageToggle } from './LanguageToggle'

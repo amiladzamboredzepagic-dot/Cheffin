@@ -1,8 +1,8 @@
 import AddIcon from '@mui/icons-material/Add'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useTranslation } from 'react-i18next'
-import { SectionIntroduction } from '../../components/ui/SectionIntroduction'
-import { Flex } from '../../components/ui/Flex'
+import { SectionIntroduction } from '../../components/ui/layout/SectionIntroduction'
+import { Flex } from '../../components/ui/layout/Flex'
 import { INSPIRATION_RECIPES } from '../recipes/recipes.data'
 import {
   AddMeal,

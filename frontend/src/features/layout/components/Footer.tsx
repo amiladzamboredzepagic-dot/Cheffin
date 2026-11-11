@@ -1,4 +1,4 @@
-import { Flex } from '../../../components/ui/Flex'
+import { Flex } from '../../../components/ui/layout/Flex'
 import { FooterContainer, BrandMotto, FooterLink } from './Footer.styles'
 import { useTranslation } from 'react-i18next'
 

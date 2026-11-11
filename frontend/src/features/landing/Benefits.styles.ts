@@ -1,5 +1,5 @@
 import { Typography, styled } from '@mui/material'
-import { Flex } from '../../components/ui/Flex'
+import { Flex } from '../../components/ui/layout/Flex'
 
 export const BenefitsSection = styled(Flex)(({ theme }) => ({
   boxSizing: 'border-box',

@@ -17,6 +17,7 @@ declare module '@mui/material/styles' {
   }
   interface TypeText {
     label?: string
+    placeholder?: string
   }
 }
 
@@ -65,6 +66,7 @@ export const theme = createTheme({
       primary: '#1d2a44',
       secondary: '#787A6B',
       label: '#293E30',
+      placeholder: '#666D5A',
     },
   },
   typography: {
@@ -125,6 +127,40 @@ export const theme = createTheme({
     borderRadius: 12,
   },
   components: {
+    MuiSelect: {
+      defaultProps: {
+        MenuProps: {
+          slotProps: {
+            paper: {
+              sx: (theme) => ({
+                mt: 1,
+                boxSizing: 'border-box',
+                width: 560,
+                height: 268,
+                maxWidth: 'calc(100vw - 32px)',
+                maxHeight: 'calc(100vh - 32px)',
+                overflow: 'hidden',
+                p: 0,
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: '10px',
+                backgroundColor: theme.palette.background.input,
+                boxShadow: '0px 10px 28px rgba(41, 62, 48, 0.14)',
+              }),
+            },
+            list: {
+              sx: {
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                overflowY: 'auto',
+                p: 0,
+              },
+            },
+          },
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: {
         body: {

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode, ElementType } from 'react'
 import type { ButtonProps } from '@mui/material'
 import { ActionButtonRoot } from './ActionButton.styles'
 
@@ -11,6 +11,8 @@ export interface ActionButtonProps extends Omit<
   textColor?: string
   border?: string
   hoverShadow?: boolean
+  component?: ElementType
+  to?: string
 }
 
 export function ActionButton({

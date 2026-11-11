@@ -2,9 +2,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Box, styled } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { RecipeCard } from '../../components/RecipeCard'
-import { Flex } from '../../components/ui/Flex'
-import { InteractiveLink } from '../../components/ui/InteractiveLink'
-import { SectionIntroduction } from '../../components/ui/SectionIntroduction'
+import { Flex } from '../../components/ui/layout/Flex'
+import { InteractiveLink } from '../../components/ui/links/InteractiveLink'
+import { SectionIntroduction } from '../../components/ui/layout/SectionIntroduction'
 import { INSPIRATION_RECIPES } from '../recipes/recipes.data'
 
 const Section = styled('section')(({ theme }) => ({

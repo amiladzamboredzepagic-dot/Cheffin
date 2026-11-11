@@ -1,4 +1,4 @@
-import { Flex } from './Flex'
+import { Flex } from '../layout/Flex'
 import { SegmentedToggleOption } from './SegmentedToggle.styles'
 
 export interface SegmentedToggleItem<Value extends string> {

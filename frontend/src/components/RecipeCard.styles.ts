@@ -1,5 +1,5 @@
 import { Box, IconButton, Typography, styled } from '@mui/material'
-import { Flex } from './ui/Flex'
+import { Flex } from './ui/layout/Flex'
 
 export const CardRoot = styled(Flex)(({ theme }) => ({
   width: '100%',

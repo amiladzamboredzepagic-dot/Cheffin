@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import type { ButtonProps } from '@mui/material'
 import { ArrowRight } from 'lucide-react'
-import { Flex } from './Flex'
-import { Loading } from './Loading'
+import { Flex } from '../layout/Flex'
+import { Loading } from '../feedback/Loading'
 import { ActionButton } from './ActionButton'
 
 export interface SubmitButtonProps extends Omit<
@@ -30,7 +30,6 @@ export function SubmitButton({
           boxSizing: 'border-box',
           width: '100%',
           maxWidth: '496px',
-          height: '46px',
           px: '19px',
           alignSelf: 'center',
         },

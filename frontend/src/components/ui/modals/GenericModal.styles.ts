@@ -1,5 +1,5 @@
 import { Box, IconButton, styled } from '@mui/material'
-import { Flex } from './Flex'
+import { Flex } from '../layout/Flex'
 
 export const ModalPanel = styled(Flex)(({ theme }) => ({
   position: 'absolute',

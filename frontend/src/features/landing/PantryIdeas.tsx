@@ -1,6 +1,6 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useTranslation } from 'react-i18next'
-import { SectionIntroduction } from '../../components/ui/SectionIntroduction'
+import { SectionIntroduction } from '../../components/ui/layout/SectionIntroduction'
 import {
   DetectedIngredients,
   IngredientChip,

@@ -1,6 +1,6 @@
 import { styled, Typography } from '@mui/material'
-import { Flex } from '../../../components/ui/Flex'
-import { TextLinkBase } from '../../../components/ui/TextLink.styles'
+import { Flex } from '../../../components/ui/layout/Flex'
+import { TextLinkBase } from '../../../components/ui/links/TextLink.styles'
 
 export const FooterContainer = styled(Flex)(({ theme }) => ({
   width: '100%',

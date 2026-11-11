@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { ActionButton } from '../../components/ui/ActionButton'
-import { Flex } from '../../components/ui/Flex'
+import { ActionButton } from '../../components/ui/actions/ActionButton'
+import { Flex } from '../../components/ui/layout/Flex'
 import {
   CaptionLabel,
   Description,

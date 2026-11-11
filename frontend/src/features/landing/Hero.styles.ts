@@ -1,5 +1,5 @@
 import { Box, Button, Typography, styled } from '@mui/material'
-import { Flex } from '../../components/ui/Flex'
+import { Flex } from '../../components/ui/layout/Flex'
 
 export const HeroSection = styled('section')(({ theme }) => ({
   boxSizing: 'border-box',

@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import { Flex } from '../../../components/ui/Flex'
+import { Flex } from '../../../components/ui/layout/Flex'
 
 export const HeaderContainer = styled(Flex)(({ theme }) => ({
   width: '100%',

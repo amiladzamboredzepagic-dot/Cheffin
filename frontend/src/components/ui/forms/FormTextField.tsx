@@ -18,8 +18,9 @@ export function FormTextField({
   startAdornment,
   endAdornment,
   minLength,
+  slotProps,
   ...textFieldProps
-}: FormTextFieldProps) {
+}: FormTextFieldProps & { slotProps?: any }) {
   return (
     <TextField
       {...textFieldProps}
@@ -40,6 +41,7 @@ export function FormTextField({
             </InputAdornment>
           ) : undefined,
         },
+        ...slotProps,
       }}
     />
   )

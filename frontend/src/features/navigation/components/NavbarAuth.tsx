@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FeedbackSnackbar } from '../../../components/ui/FeedbackSnackbar'
+import { FeedbackSnackbar } from '../../../components/ui/feedback/FeedbackSnackbar'
 import { useAuth } from '../../../context/useAuth'
 import { NavbarAuthenticatedActions } from './NavbarAuthenticatedActions'
 import { NavbarGuestActions } from './NavbarGuestActions'

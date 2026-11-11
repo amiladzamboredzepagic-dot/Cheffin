@@ -1,5 +1,5 @@
 import { Box, Typography, styled } from '@mui/material'
-import { Flex } from '../../components/ui/Flex'
+import { Flex } from '../../components/ui/layout/Flex'
 export {
   SplitSection as WeeklyPlanSection,
   SplitSectionCopy as WeeklyPlanCopy,

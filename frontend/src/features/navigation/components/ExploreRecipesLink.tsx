@@ -1,5 +1,5 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { InteractiveLink } from '../../../components/ui/InteractiveLink'
+import { InteractiveLink } from '../../../components/ui/links/InteractiveLink'
 import { useTranslation } from 'react-i18next'
 
 export function ExploreRecipeLink() {

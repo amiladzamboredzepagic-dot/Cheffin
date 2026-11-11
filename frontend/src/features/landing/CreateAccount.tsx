@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { ActionButton } from '../../components/ui/ActionButton'
+import { ActionButton } from '../../components/ui/actions/ActionButton'
 import {
   CreateAccountDescription,
   CreateAccountEyebrow,

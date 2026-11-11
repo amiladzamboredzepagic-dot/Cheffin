@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { Flex } from '../../components/ui/Flex'
+import { Flex } from '../../components/ui/layout/Flex'
 
 export const SplitSection = styled('section')(({ theme }) => ({
   boxSizing: 'border-box',

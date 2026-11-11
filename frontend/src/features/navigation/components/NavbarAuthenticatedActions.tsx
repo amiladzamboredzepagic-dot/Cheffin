@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flex } from '../../../components/ui/Flex'
+import { Flex } from '../../../components/ui/layout/Flex'
 import { NavbarAccountButton } from './NavbarAccountButton'
 import { NavbarAccountMenu } from './NavbarAccountMenu'
 import { NavbarAddRecipe } from './NavbarAddRecipe'

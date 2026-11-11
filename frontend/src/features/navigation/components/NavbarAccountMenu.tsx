@@ -1,6 +1,6 @@
 import { Logout } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
-import { AppMenu, AppMenuItem } from '../../../components/ui/AppMenu'
+import { AppMenu, AppMenuItem } from '../../../components/ui/menus/AppMenu'
 
 interface NavbarAccountMenuProps {
   anchorEl: HTMLButtonElement | null
