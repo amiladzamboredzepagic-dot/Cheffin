@@ -49,7 +49,7 @@ export function GenericModal({
         direction="column"
         align="stretch"
         justify="space-between"
-        gap={3.125}
+        gap={{ xs: 2, sm: 3 }}
       >
         <ModalCloseButton aria-label={closeLabel} onClick={onClose}>
           <X size={20} aria-hidden="true" />
@@ -57,9 +57,7 @@ export function GenericModal({
         <ModalHeader direction="column" align="flex-start">
           {eyebrow && <ModalEyebrow>{eyebrow}</ModalEyebrow>}
           <ModalTitle id={titleId}>{title}</ModalTitle>
-          {description && (
-            <ModalDescription>{description}</ModalDescription>
-          )}
+          {description && <ModalDescription>{description}</ModalDescription>}
         </ModalHeader>
         <ModalContent id={contentId}>{content}</ModalContent>
       </ModalPanel>

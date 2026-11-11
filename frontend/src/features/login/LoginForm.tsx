@@ -85,7 +85,12 @@ export function LoginForm({
       />
 
       {authMode === AUTH_MODE.SIGNUP && (
-        <Flex direction="row" align="flex-start" gap={2} sx={{ width: '100%' }}>
+        <Flex
+          direction={{ xs: 'column', sm: 'row' }}
+          align="flex-start"
+          gap={2}
+          sx={{ width: '100%' }}
+        >
           <FormTextField
             id="first-name"
             name="first_name"

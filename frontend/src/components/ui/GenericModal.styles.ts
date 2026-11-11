@@ -18,7 +18,10 @@ export const ModalPanel = styled(Flex)(({ theme }) => ({
   outline: 'none',
   transform: 'translate(-50%, -50%)',
   [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(7, 3, 3),
+    width: 'calc(100% - 24px)',
+    height: 'min(743px, calc(100dvh - 24px))',
+    padding: theme.spacing(7, 2.5, 2.5),
+    borderRadius: theme.spacing(2),
   },
 }))
 
