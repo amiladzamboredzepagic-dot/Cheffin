@@ -1,22 +1,32 @@
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Flex } from './components/ui/Flex'
-import { GenericModal } from './components/ui/GenericModal'
+import { useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Flex } from './components/ui/layout/Flex'
+import { useAuth } from './context/useAuth'
 import { Footer } from './features/layout/components/Footer'
-import { LandingPage } from './features/landing/LandingPage'
-import { LoginForm } from './features/login/LoginForm'
+import { AuthModal } from './features/login/AuthModal'
 import { AUTH_MODE, type AuthMode } from './features/login/loginForm.utils'
+import { AppRoutes } from './features/routing/AppRoutes'
 import { Navbar } from './features/navigation/components/Navbar'
 
 export default function App() {
-  const { t } = useTranslation()
+  const { accessToken } = useAuth()
+  const navigate = useNavigate()
   const [authMode, setAuthMode] = useState<AuthMode>(AUTH_MODE.LOGIN)
   const [authModalOpen, setAuthModalOpen] = useState(false)
 
-  const selectAuthMode = (mode: AuthMode) => {
+  const openAuthModal = (mode: AuthMode) => {
     setAuthMode(mode)
     setAuthModalOpen(true)
   }
+
+  const openLogin = () => openAuthModal(AUTH_MODE.LOGIN)
+  const openSignup = () => openAuthModal(AUTH_MODE.SIGNUP)
+
+  const requestLogin = useCallback(() => {
+    setAuthMode(AUTH_MODE.LOGIN)
+    setAuthModalOpen(true)
+    navigate('/', { replace: true })
+  }, [navigate])
 
   return (
     <Flex
@@ -26,41 +36,20 @@ export default function App() {
         width: '100%',
       }}
     >
-      <Navbar
-        onLogin={() => selectAuthMode(AUTH_MODE.LOGIN)}
-        onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)}
-      />
-      <LandingPage
-        onCreateAccount={() => selectAuthMode(AUTH_MODE.SIGNUP)}
-        onLogin={() => selectAuthMode(AUTH_MODE.LOGIN)}
+      <Navbar onLogin={openLogin} onCreateAccount={openSignup} />
+      <AppRoutes
+        isAuthenticated={Boolean(accessToken)}
+        onAuthenticationRequired={requestLogin}
+        onCreateAccount={openSignup}
+        onLogin={openLogin}
       />
       <Footer />
-      <GenericModal
+      <AuthModal
         open={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
-        eyebrow={
-          authMode === AUTH_MODE.LOGIN
-            ? t('auth.loginEyebrow')
-            : t('auth.createAccountEyebrow')
-        }
-        title={
-          authMode === AUTH_MODE.LOGIN
-            ? t('auth.login')
-            : t('auth.createAccount')
-        }
-        description={
-          authMode === AUTH_MODE.LOGIN
-            ? t('auth.loginDescription')
-            : t('auth.createAccountDescription')
-        }
-        closeLabel={t('common.close')}
-        content={
-          <LoginForm
-            authMode={authMode}
-            onAuthModeChange={setAuthMode}
-            onSubmit={() => setAuthModalOpen(false)}
-          />
-        }
+        authMode={authMode}
+        onAuthModeChange={setAuthMode}
+        onSubmit={() => setAuthModalOpen(false)}
       />
     </Flex>
   )

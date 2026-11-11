@@ -207,6 +207,12 @@ export const theme = createTheme({
           fontWeight: 400,
           lineHeight: '16px',
           color: theme.palette.text.secondary, // #787A6B
+          '&.MuiInputBase-multiline': {
+            height: 'auto',
+            alignItems: 'flex-start',
+            paddingTop: theme.spacing(1.5),
+            paddingBottom: theme.spacing(1.5),
+          },
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: theme.palette.divider,
             borderWidth: '1px',
@@ -235,6 +241,9 @@ export const theme = createTheme({
           height: '100%',
           boxSizing: 'border-box',
           color: theme.palette.text.secondary,
+          '&.MuiInputBase-inputMultiline': {
+            height: 'auto',
+          },
           '&::placeholder': {
             color: theme.palette.text.secondary,
             opacity: 1,

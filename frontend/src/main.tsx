@@ -6,6 +6,7 @@ import { ApolloProvider } from '@apollo/client/react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './theme'
 import { AuthProvider } from './context/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
 import './i18n'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </ThemeProvider>
       </AuthProvider>
     </ApolloProvider>
