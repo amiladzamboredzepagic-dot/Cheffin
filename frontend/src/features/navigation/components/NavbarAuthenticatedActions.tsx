@@ -34,6 +34,7 @@ export function NavbarAuthenticatedActions({
           flexShrink: 0,
         }}
       >
+        <NavbarAddRecipe />
         <NavbarAccountButton
           firstName={firstName}
           lastName={lastName}
