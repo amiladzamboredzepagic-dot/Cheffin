@@ -1,7 +1,6 @@
-import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { ActionButton } from '../../components/ui/actions/ActionButton'
 import { Flex } from '../../components/ui/layout/Flex'
+import { CreateAccountButton } from './CreateAccountButton'
 import {
   CaptionLabel,
   Description,
@@ -38,10 +37,8 @@ export function Hero({ onCreateAccount }: HeroProps) {
           </Heading>
           <Description>{t('hero.description')}</Description>
           <HeroActions direction="row" wrap="wrap">
-            <ActionButton
-              text={t('auth.createAccount')}
+            <CreateAccountButton
               onClick={onCreateAccount}
-              endIcon={<ArrowRight size={17} aria-hidden="true" />}
               sx={{
                 width: { xs: 'auto', sm: 238 },
                 height: { xs: 46, sm: 48 },

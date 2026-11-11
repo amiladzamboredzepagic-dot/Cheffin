@@ -24,17 +24,3 @@ export const SplitSectionCopy = styled(Flex)(({ theme }) => ({
   },
 }))
 
-export const SplitSectionLink = styled('a')(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: theme.spacing(0.75),
-  marginTop: theme.spacing(3),
-  color: theme.palette.primary.light,
-  fontSize: 13,
-  fontWeight: 600,
-  lineHeight: 1.65,
-  textDecoration: 'none',
-  '&:hover': {
-    color: theme.palette.primary.main,
-  },
-}))

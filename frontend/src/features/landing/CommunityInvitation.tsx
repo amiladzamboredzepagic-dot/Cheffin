@@ -1,11 +1,10 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useTranslation } from 'react-i18next'
+import { SectionActionLink } from './SectionActionLink'
 import {
   CommunityCopy,
   CommunityDescription,
   CommunityEyebrow,
   CommunityHeading,
-  CommunityLink,
   CommunityName,
   CommunityPanel,
   CommunityPortrait,
@@ -30,10 +29,11 @@ export function CommunityInvitation() {
           <CommunityDescription>
             {t('communityInvitation.description')}
           </CommunityDescription>
-          <CommunityLink href="/community">
-            {t('communityInvitation.action')}
-            <ArrowForwardIcon fontSize="inherit" aria-hidden="true" />
-          </CommunityLink>
+          <SectionActionLink
+            text="communityInvitation.action"
+            href="/community"
+            marginTop="auto"
+          />
         </CommunityCopy>
 
         <CommunityProfile direction="column" align="center" gap={0}>

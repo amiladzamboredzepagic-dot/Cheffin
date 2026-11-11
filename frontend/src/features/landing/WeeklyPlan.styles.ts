@@ -3,7 +3,6 @@ import { Flex } from '../../components/ui/layout/Flex'
 export {
   SplitSection as WeeklyPlanSection,
   SplitSectionCopy as WeeklyPlanCopy,
-  SplitSectionLink as WeeklyPlanLink,
 } from './LandingSplitSection.styles'
 
 export const WeeklyPlanLayout = styled(Box)(({ theme }) => ({

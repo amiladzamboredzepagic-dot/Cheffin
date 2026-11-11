@@ -1,6 +1,5 @@
-import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { ActionButton } from '../../components/ui/actions/ActionButton'
+import { CreateAccountButton } from './CreateAccountButton'
 import {
   CreateAccountDescription,
   CreateAccountEyebrow,
@@ -34,10 +33,8 @@ export function CreateAccount({
         <CreateAccountDescription>
           {t('createAccountSection.description')}
         </CreateAccountDescription>
-        <ActionButton
-          text={t('auth.createAccount')}
+        <CreateAccountButton
           onClick={onCreateAccount}
-          endIcon={<ArrowRight size={17} aria-hidden="true" />}
           sx={{
             width: { xs: 'auto', sm: 270 },
             minHeight: 48,

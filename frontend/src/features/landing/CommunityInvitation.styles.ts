@@ -77,21 +77,6 @@ export const CommunityDescription = styled(Typography)(({ theme }) => ({
   lineHeight: 1.65,
 }))
 
-export const CommunityLink = styled('a')(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: theme.spacing(0.75),
-  marginTop: 'auto',
-  color: theme.palette.primary.light,
-  fontSize: 13,
-  fontWeight: 600,
-  lineHeight: 1.65,
-  textDecoration: 'none',
-  '&:hover': {
-    color: theme.palette.primary.main,
-  },
-}))
-
 export const CommunityProfile = styled(Flex)(({ theme }) => ({
   minWidth: 0,
   paddingTop: 0,

@@ -3,7 +3,6 @@ import { Flex } from '../../components/ui/layout/Flex'
 export {
   SplitSection as PantrySection,
   SplitSectionCopy as PantryCopy,
-  SplitSectionLink as PantryLink,
 } from './LandingSplitSection.styles'
 
 export const PantryLayout = styled(Box)(({ theme }) => ({

@@ -1,8 +1,8 @@
 import AddIcon from '@mui/icons-material/Add'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useTranslation } from 'react-i18next'
 import { SectionIntroduction } from '../../components/ui/layout/SectionIntroduction'
 import { Flex } from '../../components/ui/layout/Flex'
+import { SectionActionLink } from './SectionActionLink'
 import { INSPIRATION_RECIPES } from '../recipes/recipes.data'
 import {
   AddMeal,
@@ -21,7 +21,6 @@ import {
   PlannerTitle,
   WeeklyPlanCopy,
   WeeklyPlanLayout,
-  WeeklyPlanLink,
   WeeklyPlanSection,
 } from './WeeklyPlan.styles'
 
@@ -61,10 +60,10 @@ export function WeeklyPlan() {
             titleId="weekly-plan-heading"
             description={t('weeklyPlan.description')}
           />
-          <WeeklyPlanLink href="/meal-planner">
-            {t('weeklyPlan.action')}
-            <ArrowForwardIcon fontSize="inherit" aria-hidden="true" />
-          </WeeklyPlanLink>
+          <SectionActionLink
+            text="weeklyPlan.action"
+            href="/meal-planner"
+          />
         </WeeklyPlanCopy>
 
         <PlannerPreview direction="column" align="stretch">
