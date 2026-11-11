@@ -100,6 +100,57 @@
     "logInPrompt": "Already have an account?",
     "logIn": "Log in"
   },
+  "recipeCreate": {
+    "back": "Back to recipes",
+    "eyebrow": "A recipe to keep",
+    "title": "Bring a recipe into your kitchen.",
+    "description": "Import a favorite from the web or add one by hand.",
+    "entryMethod": "Recipe entry method",
+    "importTab": "Import from link",
+    "manualTab": "Write my own",
+    "urlLabel": "Recipe website URL",
+    "urlPlaceholder": "Paste a recipe link",
+    "importAction": "Import recipe",
+    "importGuidance": "We’ll gather the details so you can review them before saving.",
+    "organizeTitle": "Organize your recipe",
+    "collectionLabel": "Add to collection",
+    "findCollection": "Find a collection...",
+    "createNewCollection": "Create new collection",
+    "collections": {
+      "plantPowered": "Plant-powered",
+      "weeknightFavorites": "Weeknight favorites",
+      "weekendCooking": "Weekend cooking"
+    },
+    "tagsLabel": "Tags",
+    "newTagLabel": "New recipe tag",
+    "newTagPlaceholder": "Add a tag",
+    "addTag": "Add tag",
+    "removeTag": "Remove {{tag}} tag",
+    "tags": {
+      "vegetarian": "Vegetarian",
+      "quick": "Quick",
+      "glutenFree": "Gluten-free",
+      "highProtein": "High protein"
+    },
+    "saveAction": "Save to my recipes",
+    "privacy": "Your recipes are private to you.",
+    "manualAlternativeTitle": "Something from you own kitchen?",
+    "manualAlternativeAction": "Write your recipe & upload a photo →",
+    "manualTitleLabel": "Recipe name",
+    "manualTitlePlaceholder": "Give your recipe a name",
+    "manualNotesLabel": "Ingredients and method",
+    "manualNotesPlaceholder": "Write down the ingredients and how to make it",
+    "previewStatus": "Recipe preview",
+    "previewLabel": "READY TO REVIEW",
+    "previewImageAlt": "Roasted carrot and lentil salad with fresh greens and feta",
+    "previewTitle": "Roasted carrot & lentil salad",
+    "previewSource": "From loveandlemons.com",
+    "previewMetadata": "30 min · 4 servings · Easy",
+    "reviewHeading": "Take a moment to review",
+    "reviewGuidance": "Recipe details can vary by source. Check them before saving.",
+    "reviewAction": "Edit details",
+    "unavailable": "Recipe importing and saving are not connected yet."
+  },
   "common": {
     "language": "Language",
     "close": "Close",
@@ -107,7 +158,9 @@
     "motto": "Curated for home chefs, cherished by the whole table.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "search": "Search",
+    "createNew": "Create new"
   },
   "auth": {
     "modeLabel": "Authentication mode",
