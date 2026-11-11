@@ -57,10 +57,7 @@ export function PantryIdeas() {
             titleId="pantry-ideas-title"
             description={t('pantryIdeas.description')}
           />
-          <SectionActionLink
-            text="pantryIdeas.action"
-            href="/explore"
-          />
+          <SectionActionLink text="pantryIdeas.action" href="/explore" />
         </PantryCopy>
       </PantryLayout>
     </PantrySection>

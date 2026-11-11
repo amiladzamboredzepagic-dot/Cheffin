@@ -8,10 +8,7 @@ interface CreateAccountButtonProps {
   sx?: SxProps<Theme>
 }
 
-export function CreateAccountButton({
-  onClick,
-  sx,
-}: CreateAccountButtonProps) {
+export function CreateAccountButton({ onClick, sx }: CreateAccountButtonProps) {
   const { t } = useTranslation()
 
   return (

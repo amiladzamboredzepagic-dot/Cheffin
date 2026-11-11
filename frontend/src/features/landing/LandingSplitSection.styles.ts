@@ -23,4 +23,3 @@ export const SplitSectionCopy = styled(Flex)(({ theme }) => ({
     maxWidth: 640,
   },
 }))
-

@@ -60,10 +60,7 @@ export function WeeklyPlan() {
             titleId="weekly-plan-heading"
             description={t('weeklyPlan.description')}
           />
-          <SectionActionLink
-            text="weeklyPlan.action"
-            href="/meal-planner"
-          />
+          <SectionActionLink text="weeklyPlan.action" href="/meal-planner" />
         </WeeklyPlanCopy>
 
         <PlannerPreview direction="column" align="stretch">

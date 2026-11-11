@@ -22,8 +22,7 @@ export function SectionActionLink({
       icon={<ArrowForwardIcon fontSize="inherit" aria-hidden="true" />}
       sx={(theme) => ({
         gap: theme.spacing(0.75),
-        marginTop:
-          marginTop === 'auto' ? marginTop : theme.spacing(marginTop),
+        marginTop: marginTop === 'auto' ? marginTop : theme.spacing(marginTop),
         color: theme.palette.primary.light,
         fontSize: theme.typography.body2.fontSize,
         fontWeight: theme.typography.fontWeightMedium,
