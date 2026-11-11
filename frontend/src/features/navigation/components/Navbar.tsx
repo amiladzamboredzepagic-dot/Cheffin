@@ -17,10 +17,7 @@ export function Navbar({ onLogin, onCreateAccount }: NavbarProps) {
       </Flex>
       <Flex gap={1}>
         <LanguageToggle />
-        <NavbarAuth
-          onLogin={onLogin}
-          onCreateAccount={onCreateAccount}
-        />
+        <NavbarAuth onLogin={onLogin} onCreateAccount={onCreateAccount} />
       </Flex>
     </Header>
   )
