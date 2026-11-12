@@ -13,6 +13,7 @@ from app.graphql.schema import schema
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     await database["users"].create_index("email", unique=True)
+    await database["recipes"].create_index([("owner_id", 1), ("created_at", -1)])
     yield
 
 

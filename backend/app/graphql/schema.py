@@ -1,16 +1,6 @@
 import strawberry
-
-def require_auth(info: strawberry.Info) -> dict:
-    user = info.context.user
-    if not user:
-        raise Exception("401: Unauthorized")
-    return user
-
-def require_role(info: strawberry.Info, role: str) -> dict:
-    user = require_auth(info)
-    if user.get("role") != role:
-        raise Exception("403: Forbidden")
-    return user
+from app.graphql.auth import require_auth, require_role
+from app.recipes.schema import Mutation as RecipeMutation
 
 @strawberry.type
 class Query:
@@ -19,4 +9,10 @@ class Query:
         require_role(info, "admin")
         return "Confidential Admin System Metrics"
 
-schema = strawberry.Schema(query=Query)
+
+@strawberry.type
+class Mutation(RecipeMutation):
+    pass
+
+
+schema = strawberry.Schema(query=Query, mutation=Mutation)
