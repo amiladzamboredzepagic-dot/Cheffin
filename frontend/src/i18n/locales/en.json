@@ -130,6 +130,7 @@
     "photoFormats": "JPG or PNG · Up to 10 MB",
     "choosePhoto": "Choose a dish photo",
     "photoTooLarge": "Choose an image smaller than 10 MB.",
+    "photoInvalidType": "Choose a JPG or PNG image.",
     "chooseFile": "Choose file",
     "useCamera": "Use camera",
     "detailsTitle": "The little details",
@@ -171,6 +172,9 @@
       "highProtein": "High protein"
     },
     "saveAction": "Save to my recipes",
+    "saving": "Saving recipe...",
+    "saveSuccess": "Your recipe has been saved.",
+    "saveFailed": "Could not save your recipe. Please try again.",
     "manualAlternativeTitle": "Something from you own kitchen?",
     "manualAlternativeAction": "Write your recipe & upload a photo →",
     "manualTitleLabel": "Recipe name",

@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ManualRecipePanel, ManualSectionTitle } from '../WriteYourOwnRecipe.styles'
 import { RecipeCollectionField } from '../RecipeEntryFields'
 
-export function RecipeCollectionSection() {
+function RecipeCollectionSectionView() {
   const { t } = useTranslation()
 
   return (
@@ -14,3 +15,5 @@ export function RecipeCollectionSection() {
     </ManualRecipePanel>
   )
 }
+
+export const RecipeCollectionSection = memo(RecipeCollectionSectionView)

@@ -1,4 +1,5 @@
 import {
+  memo,
   useEffect,
   useRef,
   useState,
@@ -21,10 +22,14 @@ import {
 
 const MAX_PHOTO_SIZE_BYTES = 10 * 1024 * 1024
 
-export function PhotoSection() {
+interface PhotoSectionProps {
+  photo: File | null
+  onPhotoChange: (photo: File) => void
+}
+
+function PhotoSectionView({ photo, onPhotoChange }: PhotoSectionProps) {
   const { t } = useTranslation()
 
-  const [photo, setPhoto] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [error, setError] = useState('')
 
@@ -56,8 +61,16 @@ export function PhotoSection() {
       return
     }
 
+    if (!['image/jpeg', 'image/png'].includes(selectedPhoto.type)) {
+      setError(t('recipeCreate.photoInvalidType'))
+      if (input) {
+        input.value = ''
+      }
+      return
+    }
+
     setError('')
-    setPhoto(selectedPhoto)
+    onPhotoChange(selectedPhoto)
     setPreviewUrl(URL.createObjectURL(selectedPhoto))
   }
 
@@ -113,7 +126,7 @@ export function PhotoSection() {
       <ManualHiddenFileInput
         ref={cameraInputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png"
         capture="environment"
         aria-label={t('recipeCreate.useCamera')}
         onChange={handlePhotoChange}
@@ -147,3 +160,5 @@ export function PhotoSection() {
     </ManualRecipePanel>
   )
 }
+
+export const PhotoSection = memo(PhotoSectionView)

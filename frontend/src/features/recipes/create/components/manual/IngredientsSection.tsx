@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, type Dispatch, type SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Minus } from 'lucide-react'
 import { Flex } from '../../../../../components/ui/layout/Flex'
@@ -15,9 +15,16 @@ import {
   ManualTextInput,
 } from '../WriteYourOwnRecipe.styles'
 
-export function IngredientsSection() {
+interface IngredientsSectionProps {
+  ingredients: string[]
+  setIngredients: Dispatch<SetStateAction<string[]>>
+}
+
+function IngredientsSectionView({
+  ingredients,
+  setIngredients,
+}: IngredientsSectionProps) {
   const { t } = useTranslation()
-  const [ingredients, setIngredients] = useState([''])
 
   const updateIngredient = (index: number, value: string) => {
     setIngredients((current) =>
@@ -85,3 +92,5 @@ export function IngredientsSection() {
     </ManualRecipePanel>
   )
 }
+
+export const IngredientsSection = memo(IngredientsSectionView)

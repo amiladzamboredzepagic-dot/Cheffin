@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Check } from 'lucide-react'
 import { FormTextField } from '../../../../../components/ui/forms/FormTextField'
+import type { RecipeMealType } from './recipeDraft'
 import {
   ManualDetailsGrid,
   ManualFieldLabel,
@@ -12,13 +13,31 @@ import {
   ManualSectionTitle,
 } from '../WriteYourOwnRecipe.styles'
 
-const MEAL_TYPES = ['breakfast', 'lunch', 'dinner', 'snack'] as const
+const MEAL_TYPES: RecipeMealType[] = [
+  'breakfast',
+  'lunch',
+  'dinner',
+  'snack',
+]
 
-export function RecipeDetailsSection() {
+interface RecipeDetailsSectionProps {
+  prepTime: string
+  servings: string
+  mealType: RecipeMealType
+  onPrepTimeChange: (value: string) => void
+  onServingsChange: (value: string) => void
+  onMealTypeChange: (value: RecipeMealType) => void
+}
+
+function RecipeDetailsSectionView({
+  prepTime,
+  servings,
+  mealType,
+  onPrepTimeChange,
+  onServingsChange,
+  onMealTypeChange,
+}: RecipeDetailsSectionProps) {
   const { t } = useTranslation()
-  const [prepTime, setPrepTime] = useState('')
-  const [servings, setServings] = useState('')
-  const [mealType, setMealType] = useState<(typeof MEAL_TYPES)[number]>('lunch')
 
   return (
     <ManualRecipePanel direction="column" align="stretch" gap={1.75}>
@@ -30,7 +49,7 @@ export function RecipeDetailsSection() {
           placeholder="20"
           type="number"
           value={prepTime}
-          onChange={(event) => setPrepTime(event.target.value)}
+          onChange={(event) => onPrepTimeChange(event.target.value)}
           required
           slotProps={{ htmlInput: { min: 1, step: 1 } }}
         />
@@ -39,7 +58,7 @@ export function RecipeDetailsSection() {
           placeholder="2"
           type="number"
           value={servings}
-          onChange={(event) => setServings(event.target.value)}
+          onChange={(event) => onServingsChange(event.target.value)}
           required
           slotProps={{ htmlInput: { min: 1, step: 1 } }}
         />
@@ -57,7 +76,7 @@ export function RecipeDetailsSection() {
             type="button"
             selected={mealType === type}
             aria-pressed={mealType === type}
-            onClick={() => setMealType(type)}
+            onClick={() => onMealTypeChange(type)}
           >
             {mealType === type && <Check size={11} aria-hidden="true" />}
             {t(`recipeCreate.mealTypes.${type}`)}
@@ -67,3 +86,5 @@ export function RecipeDetailsSection() {
     </ManualRecipePanel>
   )
 }
+
+export const RecipeDetailsSection = memo(RecipeDetailsSectionView)

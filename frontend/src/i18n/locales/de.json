@@ -130,6 +130,7 @@
     "photoFormats": "JPG oder PNG · Bis zu 10 MB",
     "choosePhoto": "Gerichtsfoto auswählen",
     "photoTooLarge": "Wähle ein Bild unter 10 MB aus.",
+    "photoInvalidType": "Wähle ein JPG- oder PNG-Bild aus.",
     "chooseFile": "Datei auswählen",
     "useCamera": "Kamera verwenden",
     "detailsTitle": "Die kleinen Details",
@@ -171,6 +172,9 @@
       "highProtein": "Proteinreich"
     },
     "saveAction": "In meinen Rezepten speichern",
+    "saving": "Rezept wird gespeichert...",
+    "saveSuccess": "Dein Rezept wurde gespeichert.",
+    "saveFailed": "Dein Rezept konnte nicht gespeichert werden. Bitte versuche es erneut.",
     "manualAlternativeTitle": "Möchtest du es lieber selbst schreiben?",
     "manualAlternativeAction": "Rezept von Grund auf hinzufügen",
     "manualTitleLabel": "Rezeptname",

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormTextField } from '../../../../../components/ui/forms/FormTextField'
 import {
@@ -8,10 +8,20 @@ import {
   ManualSectionTitle,
 } from '../WriteYourOwnRecipe.styles'
 
-export function RecipeBasicsSection() {
+interface RecipeBasicsSectionProps {
+  title: string
+  description: string
+  onTitleChange: (value: string) => void
+  onDescriptionChange: (value: string) => void
+}
+
+function RecipeBasicsSectionView({
+  title,
+  description,
+  onTitleChange,
+  onDescriptionChange,
+}: RecipeBasicsSectionProps) {
   const { t } = useTranslation()
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
 
   return (
     <ManualRecipePanel direction="column" align="stretch" gap={1.75}>
@@ -24,17 +34,19 @@ export function RecipeBasicsSection() {
         label={t('recipeCreate.manualTitleLabel')}
         placeholder={t('recipeCreate.manualTitlePlaceholder')}
         value={title}
-        onChange={(event) => setTitle(event.target.value)}
+        onChange={(event) => onTitleChange(event.target.value)}
         required
       />
       <FormTextField
         label={t('recipeCreate.shortDescriptionLabel')}
         placeholder={t('recipeCreate.shortDescriptionPlaceholder')}
         value={description}
-        onChange={(event) => setDescription(event.target.value)}
+        onChange={(event) => onDescriptionChange(event.target.value)}
         multiline
         minRows={2}
       />
     </ManualRecipePanel>
   )
 }
+
+export const RecipeBasicsSection = memo(RecipeBasicsSectionView)

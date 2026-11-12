@@ -130,6 +130,7 @@
     "photoFormats": "JPG ili PNG · Do 10 MB",
     "choosePhoto": "Odaberite fotografiju jela",
     "photoTooLarge": "Odaberite sliku manju od 10 MB.",
+    "photoInvalidType": "Odaberite JPG ili PNG sliku.",
     "chooseFile": "Odaberite datoteku",
     "useCamera": "Koristite kameru",
     "detailsTitle": "Mali detalji",
@@ -171,6 +172,9 @@
       "highProtein": "Bogato proteinima"
     },
     "saveAction": "Sačuvaj među moje recepte",
+    "saving": "Čuvanje recepta...",
+    "saveSuccess": "Vaš recept je sačuvan.",
+    "saveFailed": "Recept nije moguće sačuvati. Pokušajte ponovo.",
     "manualAlternativeTitle": "Radije biste sami unijeli recept?",
     "manualAlternativeAction": "Unesite recept od početka",
     "manualTitleLabel": "Naziv recepta",

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, type Dispatch, type SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Flex } from '../../../../../components/ui/layout/Flex'
 import { AddListItemButton } from './AddListItemButton'
@@ -13,9 +13,13 @@ import {
   ManualTextButton,
 } from '../WriteYourOwnRecipe.styles'
 
-export function MethodSection() {
+interface MethodSectionProps {
+  steps: string[]
+  setSteps: Dispatch<SetStateAction<string[]>>
+}
+
+function MethodSectionView({ steps, setSteps }: MethodSectionProps) {
   const { t } = useTranslation()
-  const [steps, setSteps] = useState([''])
 
   const updateStep = (index: number, value: string) => {
     setSteps((current) =>
@@ -71,3 +75,5 @@ export function MethodSection() {
     </ManualRecipePanel>
   )
 }
+
+export const MethodSection = memo(MethodSectionView)
