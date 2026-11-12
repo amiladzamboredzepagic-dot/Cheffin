@@ -18,6 +18,7 @@ app/
   core/      configuration and security
   db/        database client and access
   graphql/   GraphQL schema and request context
+  recipes/   Recipe validation and GraphQL mutations
   main.py    FastAPI application setup
 ```
 
@@ -69,12 +70,18 @@ npm run dev
 Open the local URL printed by Vite (`http://localhost:5173`). The
 frontend currently connects to the backend at `http://localhost:8000/graphql`.
 
-## Current API
+## Recipe creation API
 
-The backend has a basic mock-up `recipes` query and `addRecipe` mutation. Recipes
-currently have an ID, title, description, image URL, and calorie count. The
-frontend is still a starter screen; connecting it to the recipe API is future
-work.
+Authenticated users can create private recipes through the `createRecipe`
+GraphQL mutation. It stores the title, optional description, non-empty
+ingredients, optional preparation steps, positive integer preparation time and
+servings, meal type, and an optional JPG/PNG image up to 10 MB in MongoDB.
+Recipes are associated with the authenticated user and are private by default.
+Collection creation and assignment are not implemented yet.
+
+The manual recipe form uses this API when its Save button is submitted. The
+mutation requires a bearer access token, as provided by the existing sign-in
+flow.
 
 ## Frontend commands
 
