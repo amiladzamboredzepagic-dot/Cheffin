@@ -1,12 +1,8 @@
 import { Box, ButtonBase, Typography, styled } from '@mui/material'
 import { Flex } from '../../../components/ui/layout/Flex'
 
-export const CreateRecipePage = styled('main')(({ theme }) => ({
+export const CreateRecipePage = styled(Flex)(({ theme }) => ({
   boxSizing: 'border-box',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'stretch',
-  gap: theme.spacing(4),
   width: '100%',
   minHeight: 866,
   padding: theme.spacing(5, 8, 6),
@@ -40,6 +36,7 @@ export const RecipeEntry = styled(Flex)(({ theme }) => ({
 export const EntryTabs = styled(Flex)(({ theme }) => ({
   boxSizing: 'border-box',
   width: '100%',
+  maxWidth: 560,
   padding: 4,
   borderRadius: 10,
   backgroundColor: theme.palette.background.secondary,
@@ -89,14 +86,6 @@ export const RecipeTag = styled(Flex, {
   fontWeight: 500,
   lineHeight: '15px',
   whiteSpace: 'nowrap',
-}))
-
-export const PrivacyNote = styled(Flex)(({ theme }) => ({
-  justifyContent: 'center',
-  color: theme.palette.text.secondary,
-  fontSize: 11,
-  lineHeight: '13px',
-  textAlign: 'center',
 }))
 
 export const RecipePreview = styled(Flex)(({ theme }) => ({

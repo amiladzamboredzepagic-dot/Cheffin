@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { RecipeEntry } from '../RecipeCreatePage.styles'
 import { LinkMode } from './LinkMode'
-import { PencilMode } from './PencilMode'
 import { RecipeEntryTabs } from './RecipeEntryTabs'
 import { ENTRY_MODE, type EntryMode } from './recipeEntryMode'
+import { WriteYourOwnRecipe } from './WriteYourOwnRecipe'
 
 const INITIAL_TAGS = ['vegetarian', 'quick']
 
@@ -19,8 +19,6 @@ export function RecipeEntrySection({
   onShowUnavailable,
 }: RecipeEntrySectionProps) {
   const [recipeUrl, setRecipeUrl] = useState('')
-  const [recipeTitle, setRecipeTitle] = useState('')
-  const [recipeNotes, setRecipeNotes] = useState('')
   const [tags, setTags] = useState(INITIAL_TAGS)
 
   const addTag = (tag: string) => {
@@ -54,13 +52,7 @@ export function RecipeEntrySection({
           onRequestPencilMode={() => onEntryModeChange(ENTRY_MODE.MANUAL)}
         />
       ) : (
-        <PencilMode
-          recipeTitle={recipeTitle}
-          recipeNotes={recipeNotes}
-          onRecipeTitleChange={setRecipeTitle}
-          onRecipeNotesChange={setRecipeNotes}
-          onSubmit={onShowUnavailable}
-        />
+        <WriteYourOwnRecipe />
       )}
     </RecipeEntry>
   )
