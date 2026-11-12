@@ -4,18 +4,18 @@ import type { KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Flex } from '../../../../components/ui/layout/Flex'
 import {
-  ManualAlternativeAction,
-  ManualAlternativeRoot,
-  ManualAlternativeTitle,
-} from './ManualEntryAlternative.styles'
+  RecipeWritingPromptAction,
+  RecipeWritingPromptRoot,
+  RecipeWritingPromptTitle,
+} from './WriteYourOwnRecipePrompt.styles'
 
-interface ManualEntryAlternativeProps {
+interface WriteYourOwnRecipePromptProps {
   onClick: () => void
 }
 
-export function ManualEntryAlternative({
+export function WriteYourOwnRecipePrompt({
   onClick,
-}: ManualEntryAlternativeProps) {
+}: WriteYourOwnRecipePromptProps) {
   const theme = useTheme()
   const { t } = useTranslation()
 
@@ -27,7 +27,7 @@ export function ManualEntryAlternative({
   }
 
   return (
-    <ManualAlternativeRoot
+    <RecipeWritingPromptRoot
       direction="row"
       align="center"
       gap={1.875}
@@ -43,13 +43,13 @@ export function ManualEntryAlternative({
         aria-hidden="true"
       />
       <Flex direction="column" align="flex-start" gap={0.875}>
-        <ManualAlternativeTitle>
+        <RecipeWritingPromptTitle>
           {t('recipeCreate.manualAlternativeTitle')}
-        </ManualAlternativeTitle>
-        <ManualAlternativeAction>
+        </RecipeWritingPromptTitle>
+        <RecipeWritingPromptAction>
           {t('recipeCreate.manualAlternativeAction')}
-        </ManualAlternativeAction>
+        </RecipeWritingPromptAction>
       </Flex>
-    </ManualAlternativeRoot>
+    </RecipeWritingPromptRoot>
   )
 }

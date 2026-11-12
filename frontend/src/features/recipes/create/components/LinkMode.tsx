@@ -8,7 +8,7 @@ import { FormDivider } from '../../../../components/ui/forms/FormDivider'
 import { FormTextField } from '../../../../components/ui/forms/FormTextField'
 import { FormSectionTitle, RecipeEntryForm } from '../RecipeEntryForm.styles'
 import { ImportGuidance } from '../RecipeCreatePage.styles'
-import { ManualEntryAlternative } from './ManualEntryAlternative'
+import { WriteYourOwnRecipePrompt } from './WriteYourOwnRecipePrompt'
 import { RecipeCollectionField } from './RecipeEntryFields'
 import { RecipeTagsEditor } from './RecipeTagsEditor'
 
@@ -118,7 +118,7 @@ export function LinkMode({
       </Flex>
 
       {getActionButton(saveButtonConfig)}
-      <ManualEntryAlternative onClick={onRequestPencilMode} />
+      <WriteYourOwnRecipePrompt onClick={onRequestPencilMode} />
     </RecipeEntryForm>
   )
 }
