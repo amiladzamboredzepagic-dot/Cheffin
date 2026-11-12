@@ -159,11 +159,6 @@
     "collectionLabel": "Add to collection",
     "findCollection": "Find a collection...",
     "createNewCollection": "Create new collection",
-    "collections": {
-      "plantPowered": "Plant-powered",
-      "weeknightFavorites": "Weeknight favorites",
-      "weekendCooking": "Weekend cooking"
-    },
     "tagsLabel": "Tags",
     "newTagLabel": "New recipe tag",
     "newTagPlaceholder": "Add a tag",

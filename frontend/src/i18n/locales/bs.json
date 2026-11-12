@@ -157,11 +157,8 @@
     "importGuidance": "Prikupit ćemo detalje kako biste ih mogli pregledati prije čuvanja.",
     "organizeTitle": "Organizujte recept",
     "collectionLabel": "Dodajte u kolekciju",
-    "collections": {
-      "plantPowered": "Na biljnoj bazi",
-      "weeknightFavorites": "Omiljeni za radnu sedmicu",
-      "weekendCooking": "Vikend kuhanje"
-    },
+    "findCollection": "Pronađite kolekciju...",
+    "createNewCollection": "Kreirajte novu kolekciju",
     "tagsLabel": "Oznake",
     "newTagLabel": "Nova oznaka recepta",
     "newTagPlaceholder": "Dodajte oznaku",

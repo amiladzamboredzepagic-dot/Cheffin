@@ -157,11 +157,8 @@
     "importGuidance": "Wir sammeln die Details, damit du sie vor dem Speichern prüfen kannst.",
     "organizeTitle": "Rezept organisieren",
     "collectionLabel": "Zu Sammlung hinzufügen",
-    "collections": {
-      "plantPowered": "Pflanzenbasiert",
-      "weeknightFavorites": "Lieblinge für jeden Tag",
-      "weekendCooking": "Wochenendküche"
-    },
+    "findCollection": "Sammlung finden...",
+    "createNewCollection": "Neue Sammlung erstellen",
     "tagsLabel": "Stichwörter",
     "newTagLabel": "Neues Rezept-Stichwort",
     "newTagPlaceholder": "Stichwort hinzufügen",
