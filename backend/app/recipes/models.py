@@ -83,3 +83,13 @@ class RecipeCreateData(BaseModel):
         ):
             raise ValueError("Photo content does not match PNG format")
         return photo
+
+
+class CollectionCreateData(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    name: str = Field(min_length=1, max_length=80)
+
+    @property
+    def normalized_name(self) -> str:
+        return self.name.casefold()
