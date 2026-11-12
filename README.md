@@ -77,7 +77,9 @@ GraphQL mutation. It stores the title, optional description, non-empty
 ingredients, optional preparation steps, positive integer preparation time and
 servings, meal type, and an optional JPG/PNG image up to 10 MB in MongoDB.
 Recipes are associated with the authenticated user and are private by default.
-Collection creation and assignment are not implemented yet.
+Users can create collections, list their own collections, and assign a recipe
+only to one of their own collections. Collection names are unique per user,
+case-insensitively.
 
 The manual recipe form uses this API when its Save button is submitted. The
 mutation requires a bearer access token, as provided by the existing sign-in
