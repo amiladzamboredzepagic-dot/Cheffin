@@ -25,6 +25,7 @@ interface CustomSelectMenuProps {
   showCreateOption?: boolean
   onCreateClick?: () => void
   startAdornment?: ReactNode
+  disabled?: boolean
 }
 
 export function CustomSelectMenu({
@@ -37,9 +38,11 @@ export function CustomSelectMenu({
   showCreateOption = false,
   onCreateClick,
   startAdornment,
+  disabled = false,
 }: CustomSelectMenuProps) {
   const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
+  const [open, setOpen] = useState(false)
 
   const filteredOptions = options.filter((option) => {
     const displayText = option.translationKey ? t(option.label) : option.label
@@ -51,11 +54,18 @@ export function CustomSelectMenu({
       select
       label={label}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      disabled={disabled}
+      onChange={(e) => {
+        onChange(e.target.value)
+        setOpen(false)
+      }}
       startAdornment={startAdornment}
       slotProps={{
         select: {
           IconComponent: ChevronDown,
+          open,
+          onOpen: () => setOpen(true),
+          onClose: () => setOpen(false),
           renderValue: (selectedValue: unknown) => {
             const selectedOption = options.find(
               (option) => option.id === selectedValue,
@@ -103,7 +113,10 @@ export function CustomSelectMenu({
       {showCreateOption && (
         <SelectMenuCreateAction
           label={t('common.createNew')}
-          onClick={onCreateClick}
+          onCreate={() => {
+            setOpen(false)
+            onCreateClick?.()
+          }}
         />
       )}
     </FormTextField>

@@ -20,6 +20,7 @@ export interface CreateRecipeInput {
   mealType: RecipeMealType
   photoBase64: string | null
   photoContentType: string | null
+  collectionId: string | null
 }
 
 interface CreateRecipeResponse {

@@ -3,7 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { ManualRecipePanel, ManualSectionTitle } from '../WriteYourOwnRecipe.styles'
 import { RecipeCollectionField } from '../RecipeEntryFields'
 
-function RecipeCollectionSectionView() {
+interface RecipeCollectionSectionProps {
+  value: string
+  onChange: (collectionId: string) => void
+}
+
+function RecipeCollectionSectionView({
+  value,
+  onChange,
+}: RecipeCollectionSectionProps) {
   const { t } = useTranslation()
 
   return (
@@ -11,7 +19,7 @@ function RecipeCollectionSectionView() {
       <ManualSectionTitle>
         {t('recipeCreate.organizeTitle')}
       </ManualSectionTitle>
-      <RecipeCollectionField />
+      <RecipeCollectionField value={value} onChange={onChange} />
     </ManualRecipePanel>
   )
 }

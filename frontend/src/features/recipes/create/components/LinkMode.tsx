@@ -15,6 +15,8 @@ import { RecipeTagsEditor } from './RecipeTagsEditor'
 interface LinkModeProps {
   recipeUrl: string
   tags: string[]
+  selectedCollectionId: string
+  onCollectionChange: (collectionId: string) => void
   onRecipeUrlChange: (value: string) => void
   onRemoveTag: (tag: string) => void
   onAddTag: (tag: string) => boolean
@@ -58,6 +60,8 @@ function getActionButton(config: ActionButtonConfig) {
 export function LinkMode({
   recipeUrl,
   tags,
+  selectedCollectionId,
+  onCollectionChange,
   onRecipeUrlChange,
   onRemoveTag,
   onAddTag,
@@ -109,7 +113,10 @@ export function LinkMode({
 
       <Flex direction="column" align="stretch" gap={2.5}>
         <FormSectionTitle>{t('recipeCreate.organizeTitle')}</FormSectionTitle>
-        <RecipeCollectionField />
+        <RecipeCollectionField
+          value={selectedCollectionId}
+          onChange={onCollectionChange}
+        />
         <RecipeTagsEditor
           tags={tags}
           onRemoveTag={onRemoveTag}

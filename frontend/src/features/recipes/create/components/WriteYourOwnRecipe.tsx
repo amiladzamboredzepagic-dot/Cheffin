@@ -18,7 +18,15 @@ import type { RecipeMealType } from './manual/recipeDraft'
 import { useCreateRecipeMutation } from '../hooks/useCreateRecipeMutation'
 import { encodePhoto } from '../utils/encodePhoto'
 
-export function WriteYourOwnRecipe() {
+interface WriteYourOwnRecipeProps {
+  selectedCollectionId: string
+  onCollectionChange: (collectionId: string) => void
+}
+
+export function WriteYourOwnRecipe({
+  selectedCollectionId,
+  onCollectionChange,
+}: WriteYourOwnRecipeProps) {
   const { t } = useTranslation()
   const { createRecipe, loading } = useCreateRecipeMutation()
 
@@ -30,7 +38,21 @@ export function WriteYourOwnRecipe() {
   const [servings, setServings] = useState<string>('')
   const [mealType, setMealType] = useState<RecipeMealType>('lunch')
   const [photo, setPhoto] = useState<File | null>(null)
+  const [photoResetKey, setPhotoResetKey] = useState(0)
   const [feedback, setFeedback] = useState<'success' | 'error' | null>(null)
+
+  const resetForm = () => {
+    setTitle('')
+    setDescription('')
+    setIngredients([''])
+    setSteps([''])
+    setPrepTime('')
+    setServings('')
+    setMealType('lunch')
+    setPhoto(null)
+    setPhotoResetKey((current) => current + 1)
+    onCollectionChange('')
+  }
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -46,7 +68,9 @@ export function WriteYourOwnRecipe() {
         mealType,
         photoBase64: photo ? await encodePhoto(photo) : null,
         photoContentType: photo?.type ?? null,
+        collectionId: selectedCollectionId || null,
       })
+      resetForm()
       setFeedback('success')
     } catch (error) {
       console.error('Failed to save recipe:', error)
@@ -79,7 +103,11 @@ export function WriteYourOwnRecipe() {
           </ManualRecipeColumn>
 
           <ManualRecipeColumn direction="column" align="stretch" gap={2.5}>
-            <PhotoSection photo={photo} onPhotoChange={setPhoto} />
+            <PhotoSection
+              key={photoResetKey}
+              photo={photo}
+              onPhotoChange={setPhoto}
+            />
             <RecipeDetailsSection
               prepTime={prepTime}
               servings={servings}
@@ -88,7 +116,10 @@ export function WriteYourOwnRecipe() {
               onServingsChange={setServings}
               onMealTypeChange={setMealType}
             />
-            <RecipeCollectionSection />
+            <RecipeCollectionSection
+              value={selectedCollectionId}
+              onChange={onCollectionChange}
+            />
           </ManualRecipeColumn>
         </ManualRecipeGrid>
 

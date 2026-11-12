@@ -20,6 +20,7 @@ export function RecipeEntrySection({
 }: RecipeEntrySectionProps) {
   const [recipeUrl, setRecipeUrl] = useState('')
   const [tags, setTags] = useState(INITIAL_TAGS)
+  const [selectedCollectionId, setSelectedCollectionId] = useState('')
 
   const addTag = (tag: string) => {
     if (tags.includes(tag)) {
@@ -41,6 +42,8 @@ export function RecipeEntrySection({
         <LinkMode
           recipeUrl={recipeUrl}
           tags={tags}
+          selectedCollectionId={selectedCollectionId}
+          onCollectionChange={setSelectedCollectionId}
           onRecipeUrlChange={setRecipeUrl}
           onRemoveTag={(tag) =>
             setTags((currentTags) =>
@@ -52,7 +55,10 @@ export function RecipeEntrySection({
           onRequestPencilMode={() => onEntryModeChange(ENTRY_MODE.MANUAL)}
         />
       ) : (
-        <WriteYourOwnRecipe />
+        <WriteYourOwnRecipe
+          selectedCollectionId={selectedCollectionId}
+          onCollectionChange={setSelectedCollectionId}
+        />
       )}
     </RecipeEntry>
   )

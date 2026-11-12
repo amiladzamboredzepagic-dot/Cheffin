@@ -5,12 +5,12 @@ import { Flex } from '../layout/Flex'
 
 interface SelectMenuCreateActionProps {
   label: string
-  onClick?: () => void
+  onCreate?: () => void
 }
 
 export function SelectMenuCreateAction({
   label,
-  onClick,
+  onCreate,
 }: SelectMenuCreateActionProps) {
   return (
     <>
@@ -45,7 +45,7 @@ export function SelectMenuCreateAction({
         }}
         onClick={(event: MouseEvent<HTMLDivElement>) => {
           event.stopPropagation()
-          onClick?.()
+          onCreate?.()
         }}
       >
         <Plus size={18} strokeWidth={1.7} />
