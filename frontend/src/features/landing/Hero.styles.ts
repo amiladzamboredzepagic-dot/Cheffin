@@ -1,5 +1,6 @@
 import { Box, Button, Typography, styled } from '@mui/material'
 import { Flex } from '../../components/ui/layout/Flex'
+import { Description as BaseDescription } from '../../components/ui/typography/Description'
 
 export const HeroSection = styled('section')(({ theme }) => ({
   boxSizing: 'border-box',
@@ -72,13 +73,11 @@ export const Heading = styled('h1')(({ theme }) => ({
   },
 }))
 
-export const Description = styled(Typography)(({ theme }) => ({
+export const Description = styled(BaseDescription)(({ theme }) => ({
   maxWidth: 525,
   marginTop: 28,
-  color: theme.palette.text.secondary,
   fontSize: 17,
   fontWeight: 400,
-  lineHeight: 1.6,
   [theme.breakpoints.down('md')]: {
     marginTop: theme.spacing(2.5),
     fontSize: 15,
