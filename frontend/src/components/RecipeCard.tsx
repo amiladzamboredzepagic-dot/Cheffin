@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BookmarkCheck, Bookmark, ImageOff, Play } from 'lucide-react'
 import {
   CardRoot,
@@ -33,6 +34,7 @@ export interface RecipeCardProps {
   tagKey?: string
   videoDuration?: string
   saved?: boolean
+  onSavedChange?: (saved: boolean) => void
   variant?: 'default' | 'inspiration'
   showSaveButton?: boolean
 }
@@ -47,10 +49,14 @@ export function RecipeCard({
   rating,
   videoDuration,
   saved = false,
+  onSavedChange,
   variant = 'default',
   showSaveButton = true,
 }: RecipeCardProps) {
-  const [isSaved, setIsSaved] = useState(saved)
+  const { t } = useTranslation()
+  const [localSaved, setLocalSaved] = useState(saved)
+
+  const isSaved = onSavedChange ? saved : localSaved
 
   return (
     <CardRoot
@@ -70,11 +76,15 @@ export function RecipeCard({
         )}
         {showSaveButton && (
           <SaveButton
-            aria-label={
-              isSaved ? `Remove ${title} from saved recipes` : `Save ${title}`
-            }
+            aria-label={t(
+              isSaved ? 'recipeCard.removeSaved' : 'recipeCard.save',
+              { title },
+            )}
             aria-pressed={isSaved}
-            onClick={() => setIsSaved((current) => !current)}
+            onClick={() => {
+              if (onSavedChange) onSavedChange(!isSaved)
+              else setLocalSaved((current) => !current)
+            }}
             size="small"
           >
             {isSaved ? (

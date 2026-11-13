@@ -1,8 +1,9 @@
 import type { RecipeCollection } from '../../recipes/create/hooks/useMyCollectionsQuery'
+import { useTranslation } from 'react-i18next'
+import { SearchField } from '../../../components/ui/forms/SearchField'
 import { Content } from '../LibraryPage.styles'
 import { LibraryCollectionsSection } from './LibraryCollectionsSection'
 import { LibraryRecipesSection } from './LibraryRecipesSection'
-import { LibrarySearch } from './LibrarySearch'
 import { LIBRARY_TAB, type LibraryTab } from './libraryTab'
 
 interface LibraryContentProps {
@@ -22,6 +23,8 @@ export function LibraryContent({
   hasError,
   onSearchChange,
 }: LibraryContentProps) {
+  const { t } = useTranslation()
+
   return (
     <Content
       role="tabpanel"
@@ -30,7 +33,11 @@ export function LibraryContent({
     >
       {tab !== LIBRARY_TAB.RECIPES && (
         <>
-          <LibrarySearch search={search} onSearchChange={onSearchChange} />
+          <SearchField
+            value={search}
+            onChange={onSearchChange}
+            placeholder={t('library.searchCollections')}
+          />
           <LibraryCollectionsSection
             collections={collections}
             search={search}
