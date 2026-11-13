@@ -1,6 +1,7 @@
 import { Alert, Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Description } from '../../../components/ui/typography/Description'
+import { matchesSearch } from '../../../utils/search'
 import type { RecipeCollection } from '../../recipes/create/hooks/useMyCollectionsQuery'
 import { SectionTitle } from '../LibraryPage.styles'
 import { LibraryCollectionGrid } from './LibraryCollectionGrid'
@@ -20,9 +21,7 @@ export function LibraryCollectionsSection({
 }: LibraryCollectionsSectionProps) {
   const { t } = useTranslation()
   const matchingCollections = collections.filter((collection) =>
-    collection.name
-      .toLocaleLowerCase()
-      .includes(search.trim().toLocaleLowerCase()),
+    matchesSearch(collection.name, search),
   )
 
   return (
