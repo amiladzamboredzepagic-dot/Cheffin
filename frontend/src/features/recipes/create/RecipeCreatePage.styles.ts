@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { PageContainer } from '../../../components/ui/layout/PageContainer'
 
@@ -32,39 +32,6 @@ export const RecipeWorkspace = styled(Box)(({ theme }) => ({
 export const RecipeEntry = styled(Flex)(({ theme }) => ({
   width: '100%',
   gap: theme.spacing(3.125),
-}))
-
-export const EntryTabs = styled(Flex)(({ theme }) => ({
-  boxSizing: 'border-box',
-  width: '100%',
-  maxWidth: 560,
-  padding: 4,
-  borderRadius: 10,
-  backgroundColor: theme.palette.background.secondary,
-}))
-
-export const EntryTab = styled(ButtonBase, {
-  shouldForwardProp: (prop) => prop !== 'selected',
-})<{ selected: boolean }>(({ theme, selected }) => ({
-  display: 'flex',
-  flex: '1 1 0',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: theme.spacing(1),
-  minWidth: 0,
-  minHeight: 42,
-  borderRadius: 7,
-  color: selected ? theme.palette.primary.light : theme.palette.text.secondary,
-  backgroundColor: selected ? theme.palette.background.input : 'transparent',
-  fontFamily: theme.typography.fontFamily,
-  fontSize: theme.typography.body2.fontSize,
-  fontWeight: selected
-    ? theme.typography.fontWeightMedium
-    : theme.typography.fontWeightRegular,
-  '&:focus-visible': {
-    outline: `2px solid ${theme.palette.primary.light}`,
-    outlineOffset: '-2px',
-  },
 }))
 
 export const ImportGuidance = styled(Typography)(({ theme }) => ({
