@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LandingPage } from '../landing/LandingPage'
+import { LibraryPage } from '../library/LibraryPage'
 import { RecipeCreatePage } from '../recipes/create/RecipeCreatePage'
 import { ProtectedRoute } from './ProtectedRoute'
 
@@ -21,10 +22,18 @@ export function AppRoutes({
       <Route
         path="/"
         element={
-          <LandingPage
-            onCreateAccount={onCreateAccount}
-            onLogin={onLogin}
-          />
+          <LandingPage onCreateAccount={onCreateAccount} onLogin={onLogin} />
+        }
+      />
+      <Route
+        path="/library"
+        element={
+          <ProtectedRoute
+            isAuthenticated={isAuthenticated}
+            onAuthenticationRequired={onAuthenticationRequired}
+          >
+            <LibraryPage />
+          </ProtectedRoute>
         }
       />
       <Route
