@@ -1,4 +1,25 @@
 {
+  "library": {
+    "eyebrow": "Your own little cookbook",
+    "description": "Good finds, kept together. Ready when you are.",
+    "newCollection": "New collection",
+    "saved": "Saved",
+    "collections": "Collections",
+    "myRecipes": "My recipes",
+    "yourTags": "Your tags",
+    "tagsUnavailable": "Recipe tags are not available here yet.",
+    "fromYourKitchen": "From your kitchen",
+    "addYourRecipe": "Keep a favorite recipe in your cookbook.",
+    "privateRecipes": "Recipes you add are private to you.",
+    "searchCollections": "Search your collections",
+    "yourCollections": "Your collections",
+    "loadingCollections": "Loading your collections...",
+    "collectionsError": "Couldn't load your collections. Please try again later.",
+    "noCollections": "No collections yet. Create one to get started.",
+    "noMatches": "No collections match your search.",
+    "savedRecipes": "Saved recipes",
+    "recipesUnavailable": "Recipe browsing is not available in your library yet."
+  },
   "navigation": {
     "discover": "Discover",
     "pantry": "Pantry",

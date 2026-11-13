@@ -1,4 +1,25 @@
 {
+  "library": {
+    "eyebrow": "Tvoja mala kuharica",
+    "description": "Dobri recepti, na jednom mjestu. Spremni kad i ti.",
+    "newCollection": "Nova kolekcija",
+    "saved": "Spremljeno",
+    "collections": "Kolekcije",
+    "myRecipes": "Moji recepti",
+    "yourTags": "Tvoje oznake",
+    "tagsUnavailable": "Oznake recepata ovdje još nisu dostupne.",
+    "fromYourKitchen": "Iz tvoje kuhinje",
+    "addYourRecipe": "Sačuvaj omiljeni recept u svojoj kuharici.",
+    "privateRecipes": "Recepti koje dodaš vidljivi su samo tebi.",
+    "searchCollections": "Pretraži kolekcije",
+    "yourCollections": "Tvoje kolekcije",
+    "loadingCollections": "Učitavanje kolekcija...",
+    "collectionsError": "Kolekcije nije moguće učitati. Pokušaj ponovo kasnije.",
+    "noCollections": "Još nema kolekcija. Kreiraj svoju prvu kolekciju.",
+    "noMatches": "Nema kolekcija koje odgovaraju pretrazi.",
+    "savedRecipes": "Spremljeni recepti",
+    "recipesUnavailable": "Pregled recepata u tvojoj biblioteci još nije dostupan."
+  },
   "navigation": {
     "discover": "Istraži",
     "pantry": "Namirnice",

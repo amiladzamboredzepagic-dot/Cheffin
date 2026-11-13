@@ -1,4 +1,25 @@
 {
+  "library": {
+    "eyebrow": "Dein eigenes kleines Kochbuch",
+    "description": "Gute Funde, an einem Ort. Bereit, wenn du es bist.",
+    "newCollection": "Neue Sammlung",
+    "saved": "Gespeichert",
+    "collections": "Sammlungen",
+    "myRecipes": "Meine Rezepte",
+    "yourTags": "Deine Tags",
+    "tagsUnavailable": "Rezept-Tags sind hier noch nicht verfügbar.",
+    "fromYourKitchen": "Aus deiner Küche",
+    "addYourRecipe": "Bewahre ein Lieblingsrezept in deinem Kochbuch auf.",
+    "privateRecipes": "Rezepte, die du hinzufügst, sind nur für dich sichtbar.",
+    "searchCollections": "Sammlungen durchsuchen",
+    "yourCollections": "Deine Sammlungen",
+    "loadingCollections": "Sammlungen werden geladen...",
+    "collectionsError": "Sammlungen konnten nicht geladen werden. Bitte versuche es später erneut.",
+    "noCollections": "Noch keine Sammlungen. Erstelle deine erste Sammlung.",
+    "noMatches": "Keine Sammlungen entsprechen deiner Suche.",
+    "savedRecipes": "Gespeicherte Rezepte",
+    "recipesUnavailable": "Die Rezeptübersicht ist in deiner Bibliothek noch nicht verfügbar."
+  },
   "navigation": {
     "discover": "Entdecken",
     "pantry": "Vorrat",
