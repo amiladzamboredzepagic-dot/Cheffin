@@ -4,6 +4,7 @@ import {
   SectionIntroductionEyebrow,
   SectionIntroductionRoot,
   SectionIntroductionTitle,
+  SectionIntroductionWithAction,
   type SectionIntroductionVariant,
 } from './SectionIntroduction.styles'
 
@@ -11,6 +12,7 @@ interface SectionIntroductionProps {
   eyebrow: ReactNode
   title: ReactNode
   description?: ReactNode
+  action?: ReactNode
   titleId?: string
   titleLevel?: 'h1' | 'h2'
   variant?: SectionIntroductionVariant
@@ -20,11 +22,12 @@ export function SectionIntroduction({
   eyebrow,
   title,
   description,
+  action,
   titleId,
   titleLevel = 'h2',
   variant = 'page',
 }: SectionIntroductionProps) {
-  return (
+  const introduction = (
     <SectionIntroductionRoot
       introVariant={variant}
       direction="column"
@@ -46,5 +49,14 @@ export function SectionIntroduction({
         </SectionIntroductionDescription>
       )}
     </SectionIntroductionRoot>
+  )
+
+  if (action == null || typeof action === 'boolean') return introduction
+
+  return (
+    <SectionIntroductionWithAction>
+      {introduction}
+      {action}
+    </SectionIntroductionWithAction>
   )
 }

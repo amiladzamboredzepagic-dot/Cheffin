@@ -7,6 +7,18 @@ interface VariantProps {
   introVariant: SectionIntroductionVariant
 }
 
+export const SectionIntroductionWithAction = styled('div')(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  gap: theme.spacing(4),
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+  },
+}))
+
 export const SectionIntroductionRoot = styled(Flex, {
   shouldForwardProp: (prop) => prop !== 'introVariant',
 })<VariantProps>(({ theme, introVariant }) => ({
