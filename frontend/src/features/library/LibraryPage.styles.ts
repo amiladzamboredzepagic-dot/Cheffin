@@ -1,16 +1,5 @@
 import { styled } from '@mui/material'
 
-export const Workspace = styled('div')(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: '236px minmax(0, 1fr)',
-  gap: 36,
-  marginTop: 32,
-  [theme.breakpoints.down('md')]: {
-    gridTemplateColumns: 'minmax(0, 1fr)',
-    gap: 24,
-  },
-}))
-
 export const Sidebar = styled('aside')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
