@@ -8,6 +8,9 @@ import {
   RecipeContext,
   RecipeInformation,
   RecipeMetadata,
+  RecipeDetails,
+  RecipeRating,
+  RecipeTag,
   RecipeTitle,
   SaveButton,
   VideoBadge,
@@ -21,6 +24,7 @@ export interface RecipeCardProps {
   metadata: string
   context?: string
   tag?: string
+  rating?: number
   inspirationOrder?: number
   titleKey?: string
   imageAltKey?: string
@@ -40,6 +44,7 @@ export function RecipeCard({
   metadata,
   context = '',
   tag,
+  rating,
   videoDuration,
   saved = false,
   variant = 'default',
@@ -52,7 +57,7 @@ export function RecipeCard({
       as="article"
       direction="column"
       align="flex-start"
-      gap={13 / 8}
+      gap={0}
       className={`recipe-card-${variant}`}
     >
       <Media className="recipe-card-media">
@@ -73,9 +78,9 @@ export function RecipeCard({
             size="small"
           >
             {isSaved ? (
-              <BookmarkCheck size={17} aria-hidden="true" />
+              <BookmarkCheck size={18} strokeWidth={1.7} aria-hidden="true" />
             ) : (
-              <Bookmark size={17} aria-hidden="true" />
+              <Bookmark size={18} strokeWidth={1.7} aria-hidden="true" />
             )}
           </SaveButton>
         )}
@@ -89,9 +94,10 @@ export function RecipeCard({
       <RecipeInformation
         direction="column"
         align="flex-start"
-        gap={7 / 8}
+        gap={0}
         className="recipe-information"
       >
+        {tag && <RecipeTag>{tag}</RecipeTag>}
         <RecipeTitle
           as={variant === 'inspiration' ? 'h3' : 'h2'}
           title={title}
@@ -99,17 +105,11 @@ export function RecipeCard({
         >
           {title}
         </RecipeTitle>
-        {variant === 'inspiration' && tag ? (
-          <div className="recipe-card-details">
-            <RecipeMetadata>{metadata}</RecipeMetadata>
-            <RecipeContext className="recipe-card-context">{tag}</RecipeContext>
-          </div>
-        ) : (
-          <>
-            <RecipeMetadata>{metadata}</RecipeMetadata>
-            <RecipeContext>{context}</RecipeContext>
-          </>
-        )}
+        {context && <RecipeContext>{context}</RecipeContext>}
+        <RecipeDetails>
+          <RecipeMetadata>{metadata}</RecipeMetadata>
+          {rating !== undefined && <RecipeRating>★ {rating}</RecipeRating>}
+        </RecipeDetails>
       </RecipeInformation>
     </CardRoot>
   )

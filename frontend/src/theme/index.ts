@@ -16,8 +16,15 @@ declare module '@mui/material/styles' {
     mealSlot: string
   }
   interface TypeText {
+    detail: string
     label?: string
     placeholder?: string
+  }
+  interface TypographyVariants {
+    fontFamilySerif: string
+  }
+  interface TypographyVariantsOptions {
+    fontFamilySerif?: string
   }
 }
 
@@ -65,6 +72,7 @@ export const theme = createTheme({
     text: {
       primary: '#1d2a44',
       secondary: '#787A6B',
+      detail: '#686D5D',
       label: '#293E30',
       placeholder: '#666D5A',
     },
@@ -72,6 +80,7 @@ export const theme = createTheme({
   typography: {
     fontFamily:
       '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontFamilySerif: '"Lora", Georgia, serif',
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 600,
