@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { BookmarkCheck, Bookmark, Play } from 'lucide-react'
+import { BookmarkCheck, Bookmark, ImageOff, Play } from 'lucide-react'
 import {
   CardRoot,
   Media,
   Photograph,
+  PhotoPlaceholder,
   RecipeContext,
   RecipeInformation,
   RecipeMetadata,
@@ -55,7 +56,13 @@ export function RecipeCard({
       className={`recipe-card-${variant}`}
     >
       <Media className="recipe-card-media">
-        <Photograph src={imageUrl} alt={imageAlt} loading="lazy" />
+        {imageUrl ? (
+          <Photograph src={imageUrl} alt={imageAlt} loading="lazy" />
+        ) : (
+          <PhotoPlaceholder aria-hidden="true">
+            <ImageOff size={32} />
+          </PhotoPlaceholder>
+        )}
         {showSaveButton && (
           <SaveButton
             aria-label={

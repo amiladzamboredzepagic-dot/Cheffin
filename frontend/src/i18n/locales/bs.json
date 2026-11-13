@@ -18,7 +18,13 @@
     "noCollections": "Još nema kolekcija. Kreiraj svoju prvu kolekciju.",
     "noMatches": "Nema kolekcija koje odgovaraju pretrazi.",
     "savedRecipes": "Spremljeni recepti",
-    "recipesUnavailable": "Pregled recepata u tvojoj biblioteci još nije dostupan."
+    "recipesUnavailable": "Spremljeni recepti još nisu dostupni u tvojoj biblioteci.",
+    "loadingRecipes": "Učitavanje recepata...",
+    "recipesError": "Recepte nije moguće učitati. Pokušaj ponovo kasnije.",
+    "noRecipes": "Još nisi dodao/la nijedan recept.",
+    "recipeMetadata_one": "{{minutes}} min · {{count}} porcija",
+    "recipeMetadata_few": "{{minutes}} min · {{count}} porcije",
+    "recipeMetadata_other": "{{minutes}} min · {{count}} porcija"
   },
   "navigation": {
     "discover": "Istraži",

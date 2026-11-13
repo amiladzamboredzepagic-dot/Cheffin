@@ -53,6 +53,18 @@ export const CollectionGrid = styled('div')(({ theme }) => ({
   },
 }))
 
+export const RecipeGrid = styled('div')(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+  gap: theme.spacing(3),
+  [theme.breakpoints.down('md')]: {
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+  },
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: 'minmax(0, 1fr)',
+  },
+}))
+
 export const CollectionCard = styled('article')(({ theme }) => ({
   minHeight: 150,
   boxSizing: 'border-box',

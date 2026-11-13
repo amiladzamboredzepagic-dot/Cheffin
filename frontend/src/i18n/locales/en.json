@@ -18,7 +18,12 @@
     "noCollections": "No collections yet. Create one to get started.",
     "noMatches": "No collections match your search.",
     "savedRecipes": "Saved recipes",
-    "recipesUnavailable": "Recipe browsing is not available in your library yet."
+    "recipesUnavailable": "Saved recipes are not available in your library yet.",
+    "loadingRecipes": "Loading your recipes...",
+    "recipesError": "Couldn't load your recipes. Please try again later.",
+    "noRecipes": "You haven't added any recipes yet.",
+    "recipeMetadata_one": "{{minutes}} min · {{count}} serving",
+    "recipeMetadata_other": "{{minutes}} min · {{count}} servings"
   },
   "navigation": {
     "discover": "Discover",

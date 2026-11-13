@@ -18,7 +18,12 @@
     "noCollections": "Noch keine Sammlungen. Erstelle deine erste Sammlung.",
     "noMatches": "Keine Sammlungen entsprechen deiner Suche.",
     "savedRecipes": "Gespeicherte Rezepte",
-    "recipesUnavailable": "Die Rezeptübersicht ist in deiner Bibliothek noch nicht verfügbar."
+    "recipesUnavailable": "Gespeicherte Rezepte sind in deiner Bibliothek noch nicht verfügbar.",
+    "loadingRecipes": "Rezepte werden geladen...",
+    "recipesError": "Rezepte konnten nicht geladen werden. Bitte versuche es später erneut.",
+    "noRecipes": "Du hast noch keine Rezepte hinzugefügt.",
+    "recipeMetadata_one": "{{minutes}} Min. · {{count}} Portion",
+    "recipeMetadata_other": "{{minutes}} Min. · {{count}} Portionen"
   },
   "navigation": {
     "discover": "Entdecken",

@@ -54,6 +54,16 @@ export const Photograph = styled('img')({
   objectFit: 'cover',
 })
 
+export const PhotoPlaceholder = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: theme.palette.background.secondary,
+  color: theme.palette.primary.light,
+}))
+
 export const SaveButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
