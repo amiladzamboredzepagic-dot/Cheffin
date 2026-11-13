@@ -10,4 +10,12 @@ export const HeaderContainer = styled(Flex)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     paddingInline: theme.spacing(8),
   },
+  [theme.breakpoints.down('md')]: {
+    height: 'auto',
+    minHeight: 88,
+    paddingBlock: theme.spacing(1),
+  },
+  [theme.breakpoints.down('sm')]: {
+    paddingInline: theme.spacing(1),
+  },
 }))

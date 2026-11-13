@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { Flex } from '../../components/ui/layout/Flex'
 import { CreateAccountButton } from './CreateAccountButton'
 import {
@@ -24,6 +25,7 @@ interface HeroProps {
 
 export function Hero({ onCreateAccount }: HeroProps) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   return (
     <HeroSection aria-labelledby="welcome-heading">
@@ -46,7 +48,10 @@ export function Hero({ onCreateAccount }: HeroProps) {
                 fontSize: { xs: 12, sm: 14 },
               }}
             />
-            <ExploreButton href="#recipes" variant="outlined">
+            <ExploreButton
+              onClick={() => navigate('/explore')}
+              variant="outlined"
+            >
               {t('navigation.exploreRecipes')}
             </ExploreButton>
           </HeroActions>

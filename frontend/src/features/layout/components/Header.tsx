@@ -7,7 +7,7 @@ interface HeaderProps {
 
 export default function Header({ children }: HeaderProps) {
   return (
-    <HeaderContainer component="header" justify="space-between">
+    <HeaderContainer component="header" justify="space-between" wrap="wrap">
       {children}
     </HeaderContainer>
   )

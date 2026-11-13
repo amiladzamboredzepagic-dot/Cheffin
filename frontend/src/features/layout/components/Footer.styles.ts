@@ -12,6 +12,10 @@ export const FooterContainer = styled(Flex)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     paddingInline: theme.spacing(8),
   },
+  [theme.breakpoints.down('sm')]: {
+    height: 'auto',
+    paddingBlock: theme.spacing(2),
+  },
 }))
 
 export const BrandMotto = styled(Typography)(({ theme }) => ({
@@ -24,6 +28,12 @@ export const BrandMotto = styled(Typography)(({ theme }) => ({
   width: '193px',
   height: '18px',
   whiteSpace: 'nowrap',
+  [theme.breakpoints.down('sm')]: {
+    width: 'auto',
+    height: 'auto',
+    whiteSpace: 'normal',
+    textAlign: 'center',
+  },
 }))
 
 export const FooterLink = styled(TextLinkBase)(({ theme }) => ({

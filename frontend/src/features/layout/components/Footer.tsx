@@ -12,7 +12,11 @@ export function Footer() {
   const { t } = useTranslation()
 
   return (
-    <FooterContainer component="footer" justify="space-between">
+    <FooterContainer
+      component="footer"
+      direction={{ xs: 'column', sm: 'row' }}
+      justify="space-between"
+    >
       <BrandMotto>{t('common.motto')}</BrandMotto>
 
       <Flex gap={2.5}>
