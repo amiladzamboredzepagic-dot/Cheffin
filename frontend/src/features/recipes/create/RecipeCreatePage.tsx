@@ -37,13 +37,7 @@ export function RecipeCreatePage() {
   const introKeys = PAGE_INTRO_KEYS[entryMode]
 
   return (
-    <Page
-      component="main"
-      direction="column"
-      align="stretch"
-      gap={4}
-      aria-labelledby="create-recipe-heading"
-    >
+    <Page aria-labelledby="create-recipe-heading">
       <InteractiveLink
         text={t('recipeCreate.back')}
         href="/"
@@ -65,9 +59,7 @@ export function RecipeCreatePage() {
 
       <RecipeWorkspace
         sx={
-          isManualEntry
-            ? { gridTemplateColumns: 'minmax(0, 1fr)' }
-            : undefined
+          isManualEntry ? { gridTemplateColumns: 'minmax(0, 1fr)' } : undefined
         }
       >
         <RecipeEntrySection

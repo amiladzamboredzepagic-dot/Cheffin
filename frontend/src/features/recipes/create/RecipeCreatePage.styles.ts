@@ -1,13 +1,14 @@
 import { Box, ButtonBase, Typography, styled } from '@mui/material'
 import { Flex } from '../../../components/ui/layout/Flex'
+import { PageContainer } from '../../../components/ui/layout/PageContainer'
 
-export const CreateRecipePage = styled(Flex)(({ theme }) => ({
-  boxSizing: 'border-box',
-  width: '100%',
-  minHeight: 866,
-  padding: theme.spacing(5, 8, 6),
+export const CreateRecipePage = styled(PageContainer)(({ theme }) => ({
+  display: 'flex',
+  flex: '0 1 auto',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  gap: theme.spacing(4),
   [theme.breakpoints.down('md')]: {
-    minHeight: 0,
     padding: theme.spacing(4, 4, 5),
   },
   [theme.breakpoints.down('sm')]: {
