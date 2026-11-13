@@ -1,8 +1,9 @@
 import { useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Search } from 'lucide-react'
+import { ActionButton } from '../actions/ActionButton'
 import { FormTextField } from './FormTextField'
-import { PantryButton, SearchRow } from './SearchField.styles'
+import { SearchRow } from './SearchField.styles'
 
 interface SearchFieldProps {
   value: string
@@ -34,14 +35,14 @@ export function SearchField({
       />
       {showPantryButton && (
         <>
-          <PantryButton
+          <ActionButton
             type="button"
             disabled
+            text={`${t('discovery.cookWithPantry')} →`}
             title={t('discovery.pantryUnavailable')}
             aria-describedby={descriptionId}
-          >
-            {t('discovery.cookWithPantry')} →
-          </PantryButton>
+            sx={{ height: 50, px: 3 }}
+          />
           <span id={descriptionId} hidden>
             {t('discovery.pantryUnavailable')}
           </span>
