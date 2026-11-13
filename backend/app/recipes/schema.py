@@ -1,3 +1,4 @@
+from base64 import b64encode
 from datetime import datetime, timezone
 from typing import Any
 
@@ -27,6 +28,17 @@ class Collection:
 
 
 @strawberry.type
+class MyRecipe:
+    id: str
+    title: str
+    description: str
+    prep_time_minutes: int
+    servings: int
+    photo_content_type: str | None
+    photo_base64: str | None
+
+
+@strawberry.type
 class Query:
     @strawberry.field
     async def my_collections(self, info: strawberry.Info) -> list[Collection]:
@@ -38,6 +50,30 @@ class Query:
             Collection(id=str(document["_id"]), name=document["name"])
             async for document in cursor
         ]
+
+    @strawberry.field
+    async def my_recipes(self, info: strawberry.Info) -> list[MyRecipe]:
+        owner_id = require_owner_id(info)
+        cursor = get_database()["recipes"].find(
+            {"owner_id": owner_id}
+        ).sort("created_at", -1)
+        recipes = []
+        async for document in cursor:
+            photo = document["photo"]
+            recipes.append(
+                MyRecipe(
+                    id=str(document["_id"]),
+                    title=document["title"],
+                    description=document["description"],
+                    prep_time_minutes=document["prep_time_minutes"],
+                    servings=document["servings"],
+                    photo_content_type=photo["content_type"] if photo else None,
+                    photo_base64=(
+                        b64encode(photo["data"]).decode("ascii") if photo else None
+                    ),
+                )
+            )
+        return recipes
 
 
 @strawberry.input
