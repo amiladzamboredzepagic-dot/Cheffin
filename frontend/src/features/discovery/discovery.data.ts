@@ -23,6 +23,7 @@ export const cuisines = [
 ] as const
 
 type Meal = (typeof meals)[number]
+export type DiscoveryMeal = 'all' | Meal
 type Diet = (typeof diets)[number]
 type Time = (typeof times)[number]
 type Difficulty = (typeof difficulties)[number]

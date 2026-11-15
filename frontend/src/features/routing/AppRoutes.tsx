@@ -3,6 +3,7 @@ import { LandingPage } from '../landing/LandingPage'
 import { LibraryPage } from '../library/LibraryPage'
 import { RecipeCreatePage } from '../recipes/create/RecipeCreatePage'
 import { ProtectedRoute } from './ProtectedRoute'
+import { DiscoveryPage } from '../discovery/DiscoveryPage'
 
 interface AppRoutesProps {
   isAuthenticated: boolean
@@ -25,6 +26,7 @@ export function AppRoutes({
           <LandingPage onCreateAccount={onCreateAccount} onLogin={onLogin} />
         }
       />
+      <Route path="/explore" element={<DiscoveryPage />} />
       <Route
         path="/library"
         element={

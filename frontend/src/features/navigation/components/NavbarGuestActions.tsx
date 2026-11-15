@@ -31,7 +31,7 @@ export function NavbarGuestActions({
         hoverShadow={false}
         onClick={onLogin}
         sx={{
-          minWidth: { xs: 40, sm: 186 },
+          minWidth: { xs: 40, sm: 0, md: 186 },
           width: { xs: 40, sm: 'auto' },
           height: { xs: 40, sm: 48 },
           px: { xs: 0, sm: 1.25 },
@@ -47,7 +47,7 @@ export function NavbarGuestActions({
         text={t('auth.createAccount')}
         onClick={onCreateAccount}
         sx={{
-          minWidth: { xs: 0, sm: 186 },
+          minWidth: { xs: 0, sm: 0, md: 186 },
           width: { xs: 'auto', sm: 'auto' },
           height: { xs: 40, sm: 48 },
           px: { xs: 1, sm: 1.25 },

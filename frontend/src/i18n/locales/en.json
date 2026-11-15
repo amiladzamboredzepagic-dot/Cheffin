@@ -25,6 +25,115 @@
     "recipeMetadata_one": "{{minutes}} min · {{count}} serving",
     "recipeMetadata_other": "{{minutes}} min · {{count}} servings"
   },
+  "recipeCard": {
+    "save": "Save {{title}}",
+    "removeSaved": "Remove {{title}} from saved recipes"
+  },
+  "discovery": {
+    "eyebrow": "A little inspiration for every appetite",
+    "title": "Find your next favorite.",
+    "description": "Everyday comforts, happy experiments, and something delicious for tonight.",
+    "cookbook": "The Cheffin cookbook",
+    "realKitchens": "Made for real kitchens.",
+    "search": "Search recipes, ingredients, or cuisines",
+    "cookWithPantry": "Cook with my pantry",
+    "categories": "Recipe categories",
+    "demoNotice": "Sample recipes and ratings. Saves last only while this page is open and aren't added to your library.",
+    "refine": "Refine your recipes",
+    "reset": "Reset",
+    "lessWaste": "A little less waste.",
+    "pantryDescription": "A little more delicious. Find recipes that use what you already have at home.",
+    "pantryUnavailable": "Pantry discovery is coming soon.",
+    "resultCount_one": "{{count}} recipe to make your own",
+    "resultCount_other": "{{count}} recipes to make your own",
+    "sort": "Sort recipes",
+    "sortRecommended": "Sort: Recommended",
+    "sortQuickest": "Sort: Quickest",
+    "sortRating": "Sort: Highest rated",
+    "noResults": "No recipes match your search and filters.",
+    "metadata": "{{minutes}} min · {{difficulty}}",
+    "filterGroups": {
+      "diets": "Dietary preferences",
+      "times": "Cooking time",
+      "difficulties": "Difficulty",
+      "cuisines": "Cuisine"
+    },
+    "meals": {
+      "all": "All recipes",
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snacks": "Snacks",
+      "desserts": "Desserts",
+      "drinks": "Drinks"
+    },
+    "diets": {
+      "vegetarian": "Vegetarian",
+      "vegan": "Vegan",
+      "glutenFree": "Gluten-free",
+      "dairyFree": "Dairy-free",
+      "highProtein": "High protein"
+    },
+    "times": {
+      "under15": "Under 15 minutes",
+      "from15to30": "15–29 minutes",
+      "from30to60": "30–60 minutes",
+      "over60": "Over 60 minutes"
+    },
+    "difficulties": {
+      "easy": "Easy",
+      "medium": "A little adventure",
+      "project": "Weekend project"
+    },
+    "cuisines": {
+      "italian": "Italian",
+      "mediterranean": "Mediterranean",
+      "asian": "Asian-inspired",
+      "mexican": "Mexican"
+    },
+    "recipes": {
+      "goddess": {
+        "title": "Green goddess salad",
+        "description": "Crisp greens meet a zesty herb dressing.",
+        "ingredients": "greens herbs dressing"
+      },
+      "chickpea": {
+        "title": "Mediterranean chickpea salad",
+        "description": "A fresh and filling lunch with a little crunch.",
+        "ingredients": "chickpea vegetables"
+      },
+      "salmon": {
+        "title": "Lemon & herb salmon",
+        "description": "A simple salmon dinner with fresh herbs and lemon.",
+        "ingredients": "salmon lemon herbs"
+      },
+      "toast": {
+        "title": "Avocado & egg toast",
+        "description": "A bright, satisfying start to your morning.",
+        "ingredients": "avocado egg toast bread"
+      },
+      "bowl": {
+        "title": "Roasted veggie nourish bowl",
+        "description": "A wholesome bowl packed with seasonal produce.",
+        "ingredients": "vegetables greens"
+      },
+      "berry": {
+        "title": "Berry & yogurt breakfast bowl",
+        "description": "Creamy, fruity, and ready in just a few minutes.",
+        "ingredients": "berry yogurt fruit"
+      },
+      "vegetables": {
+        "title": "Golden roast vegetable plate",
+        "description": "Oven-roasted favorites with a savory finish.",
+        "ingredients": "roasted vegetables"
+      },
+      "citrus": {
+        "title": "Citrus avocado garden salad",
+        "description": "A zippy, feel-good salad for any day of the week.",
+        "ingredients": "citrus avocado greens"
+      }
+    }
+  },
   "navigation": {
     "discover": "Discover",
     "pantry": "Pantry",

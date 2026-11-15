@@ -25,6 +25,115 @@
     "recipeMetadata_one": "{{minutes}} Min. · {{count}} Portion",
     "recipeMetadata_other": "{{minutes}} Min. · {{count}} Portionen"
   },
+  "recipeCard": {
+    "save": "{{title}} speichern",
+    "removeSaved": "{{title}} aus gespeicherten Rezepten entfernen"
+  },
+  "discovery": {
+    "eyebrow": "Ein wenig Inspiration für jeden Appetit",
+    "title": "Entdecke dein neues Lieblingsrezept.",
+    "description": "Alltagslieblinge, fröhliche Experimente und etwas Leckeres für heute Abend.",
+    "cookbook": "Das Cheffin-Kochbuch",
+    "realKitchens": "Für echte Küchen.",
+    "search": "Rezepte, Zutaten oder Küchen suchen",
+    "cookWithPantry": "Mit meinem Vorrat kochen",
+    "categories": "Rezeptkategorien",
+    "demoNotice": "Beispielrezepte und -bewertungen. Gespeicherte Rezepte bleiben nur auf dieser Seite und werden nicht zur Bibliothek hinzugefügt.",
+    "refine": "Rezepte filtern",
+    "reset": "Zurücksetzen",
+    "lessWaste": "Ein bisschen weniger Abfall.",
+    "pantryDescription": "Ein bisschen mehr Genuss. Entdecke Rezepte für Zutaten, die du schon zu Hause hast.",
+    "pantryUnavailable": "Die Vorratssuche kommt bald.",
+    "resultCount_one": "{{count}} Rezept zum Nachkochen",
+    "resultCount_other": "{{count}} Rezepte zum Nachkochen",
+    "sort": "Rezepte sortieren",
+    "sortRecommended": "Sortieren: Empfohlen",
+    "sortQuickest": "Sortieren: Am schnellsten",
+    "sortRating": "Sortieren: Beste Bewertung",
+    "noResults": "Keine Rezepte entsprechen deiner Suche und deinen Filtern.",
+    "metadata": "{{minutes}} Min. · {{difficulty}}",
+    "filterGroups": {
+      "diets": "Ernährungsweise",
+      "times": "Kochzeit",
+      "difficulties": "Schwierigkeit",
+      "cuisines": "Küche"
+    },
+    "meals": {
+      "all": "Alle Rezepte",
+      "breakfast": "Frühstück",
+      "lunch": "Mittagessen",
+      "dinner": "Abendessen",
+      "snacks": "Snacks",
+      "desserts": "Desserts",
+      "drinks": "Getränke"
+    },
+    "diets": {
+      "vegetarian": "Vegetarisch",
+      "vegan": "Vegan",
+      "glutenFree": "Glutenfrei",
+      "dairyFree": "Milchfrei",
+      "highProtein": "Proteinreich"
+    },
+    "times": {
+      "under15": "Unter 15 Minuten",
+      "from15to30": "15–29 Minuten",
+      "from30to60": "30–60 Minuten",
+      "over60": "Über 60 Minuten"
+    },
+    "difficulties": {
+      "easy": "Einfach",
+      "medium": "Kleines Abenteuer",
+      "project": "Wochenendprojekt"
+    },
+    "cuisines": {
+      "italian": "Italienisch",
+      "mediterranean": "Mediterran",
+      "asian": "Asiatisch inspiriert",
+      "mexican": "Mexikanisch"
+    },
+    "recipes": {
+      "goddess": {
+        "title": "Green-Goddess-Salat",
+        "description": "Knackiges Grün mit einem würzigen Kräuterdressing.",
+        "ingredients": "salat kräuter dressing"
+      },
+      "chickpea": {
+        "title": "Mediterraner Kichererbsensalat",
+        "description": "Ein frisches, sättigendes Mittagessen mit Biss.",
+        "ingredients": "kichererbsen gemüse"
+      },
+      "salmon": {
+        "title": "Lachs mit Zitrone und Kräutern",
+        "description": "Ein einfaches Abendessen mit Lachs, Kräutern und Zitrone.",
+        "ingredients": "lachs zitrone kräuter"
+      },
+      "toast": {
+        "title": "Avocado-Ei-Toast",
+        "description": "Ein frischer, sättigender Start in den Tag.",
+        "ingredients": "avocado ei toast brot"
+      },
+      "bowl": {
+        "title": "Bowl mit geröstetem Gemüse",
+        "description": "Eine nahrhafte Bowl voller saisonalem Gemüse.",
+        "ingredients": "gemüse salat"
+      },
+      "berry": {
+        "title": "Frühstücksbowl mit Beeren und Joghurt",
+        "description": "Cremig, fruchtig und in wenigen Minuten fertig.",
+        "ingredients": "beeren joghurt obst"
+      },
+      "vegetables": {
+        "title": "Goldbraunes Ofengemüse",
+        "description": "Lieblingsgemüse aus dem Ofen, herzhaft verfeinert.",
+        "ingredients": "ofengemüse gemüse"
+      },
+      "citrus": {
+        "title": "Salat mit Zitrusfrüchten und Avocado",
+        "description": "Ein erfrischender Salat für jeden Tag.",
+        "ingredients": "zitrusfrüchte avocado salat"
+      }
+    }
+  },
   "navigation": {
     "discover": "Entdecken",
     "pantry": "Vorrat",

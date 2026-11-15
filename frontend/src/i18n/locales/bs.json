@@ -26,6 +26,116 @@
     "recipeMetadata_few": "{{minutes}} min · {{count}} porcije",
     "recipeMetadata_other": "{{minutes}} min · {{count}} porcija"
   },
+  "recipeCard": {
+    "save": "Sačuvaj {{title}}",
+    "removeSaved": "Ukloni {{title}} iz sačuvanih recepata"
+  },
+  "discovery": {
+    "eyebrow": "Malo inspiracije za svačiji ukus",
+    "title": "Pronađite svog novog favorita.",
+    "description": "Svakodnevni užici, veseli eksperimenti i nešto ukusno za večeras.",
+    "cookbook": "Cheffin kuharica",
+    "realKitchens": "Za stvarne kuhinje.",
+    "search": "Pretražite recepte, sastojke ili kuhinje",
+    "cookWithPantry": "Kuhajte s mojim namirnicama",
+    "categories": "Kategorije recepata",
+    "demoNotice": "Primjeri recepata i ocjena. Sačuvani recepti traju samo dok je ova stranica otvorena i ne dodaju se u biblioteku.",
+    "refine": "Filtrirajte recepte",
+    "reset": "Poništi",
+    "lessWaste": "Malo manje otpada.",
+    "pantryDescription": "Malo više ukusa. Pronađite recepte za namirnice koje već imate kod kuće.",
+    "pantryUnavailable": "Pretraga prema namirnicama uskoro dolazi.",
+    "resultCount_one": "{{count}} recept koji možete pripremiti",
+    "resultCount_few": "{{count}} recepta koja možete pripremiti",
+    "resultCount_other": "{{count}} recepata koje možete pripremiti",
+    "sort": "Sortiraj recepte",
+    "sortRecommended": "Sortiraj: Preporučeno",
+    "sortQuickest": "Sortiraj: Najbrže",
+    "sortRating": "Sortiraj: Najbolje ocijenjeno",
+    "noResults": "Nema recepata koji odgovaraju pretrazi i filterima.",
+    "metadata": "{{minutes}} min · {{difficulty}}",
+    "filterGroups": {
+      "diets": "Način ishrane",
+      "times": "Vrijeme pripreme",
+      "difficulties": "Težina",
+      "cuisines": "Kuhinja"
+    },
+    "meals": {
+      "all": "Svi recepti",
+      "breakfast": "Doručak",
+      "lunch": "Ručak",
+      "dinner": "Večera",
+      "snacks": "Užine",
+      "desserts": "Deserti",
+      "drinks": "Pića"
+    },
+    "diets": {
+      "vegetarian": "Vegetarijansko",
+      "vegan": "Vegansko",
+      "glutenFree": "Bez glutena",
+      "dairyFree": "Bez mliječnih proizvoda",
+      "highProtein": "Bogato proteinima"
+    },
+    "times": {
+      "under15": "Manje od 15 minuta",
+      "from15to30": "15–29 minuta",
+      "from30to60": "30–60 minuta",
+      "over60": "Više od 60 minuta"
+    },
+    "difficulties": {
+      "easy": "Jednostavno",
+      "medium": "Mala avantura",
+      "project": "Vikend projekt"
+    },
+    "cuisines": {
+      "italian": "Italijanska",
+      "mediterranean": "Mediteranska",
+      "asian": "Azijska",
+      "mexican": "Meksička"
+    },
+    "recipes": {
+      "goddess": {
+        "title": "Zelena goddess salata",
+        "description": "Hrskavo povrće s osvježavajućim prelivom od bilja.",
+        "ingredients": "zeleno povrće bilje preliv"
+      },
+      "chickpea": {
+        "title": "Mediteranska salata s leblebijama",
+        "description": "Svjež i zasitan ručak s malo hrskavosti.",
+        "ingredients": "leblebije povrće"
+      },
+      "salmon": {
+        "title": "Losos s limunom i začinskim biljem",
+        "description": "Jednostavna večera od lososa, bilja i limuna.",
+        "ingredients": "losos limun bilje"
+      },
+      "toast": {
+        "title": "Tost s avokadom i jajetom",
+        "description": "Svjež i zasitan početak dana.",
+        "ingredients": "avokado jaje tost hljeb"
+      },
+      "bowl": {
+        "title": "Zdjela s pečenim povrćem",
+        "description": "Hranjiva zdjela puna sezonskog povrća.",
+        "ingredients": "povrće zeleno"
+      },
+      "berry": {
+        "title": "Zdjela s bobičastim voćem i jogurtom",
+        "description": "Kremasto, voćno i gotovo za nekoliko minuta.",
+        "ingredients": "bobice jogurt voće"
+      },
+      "vegetables": {
+        "title": "Zlatno pečeno povrće",
+        "description": "Omiljeno povrće iz rerne s bogatim okusom.",
+        "ingredients": "pečeno povrće"
+      },
+      "citrus": {
+        "title": "Salata s citrusima i avokadom",
+        "description": "Osvježavajuća salata za svaki dan.",
+        "ingredients": "citrusi avokado zeleno povrće"
+      }
+    }
+  },
   "navigation": {
     "discover": "Istraži",
     "pantry": "Namirnice",
