@@ -48,7 +48,7 @@ export const SectionIntroductionEyebrow = styled(Typography, {
 }))
 
 export const SectionIntroductionTitle = styled('h2', {
-  shouldForwardProp: (prop) => prop !== 'introVariant',
+  shouldForwardProp: (prop) => prop !== 'introVariant' && prop !== 'as',
 })<VariantProps>(({ theme, introVariant }) => ({
   margin: 0,
   color: theme.palette.text.label,

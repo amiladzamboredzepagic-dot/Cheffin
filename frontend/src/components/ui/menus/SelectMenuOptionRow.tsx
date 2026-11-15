@@ -1,9 +1,12 @@
-import { MenuItem } from '@mui/material'
+import { MenuItem, type MenuItemProps } from '@mui/material'
 import { Check } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Flex } from '../layout/Flex'
 
-interface SelectMenuOptionRowProps {
+interface SelectMenuOptionRowProps extends Omit<
+  MenuItemProps,
+  'value' | 'selected'
+> {
   value: string
   label: string
   icon?: ReactNode
@@ -15,10 +18,12 @@ export function SelectMenuOptionRow({
   label,
   icon,
   selected,
+  ...menuItemProps
 }: SelectMenuOptionRowProps) {
   return (
     <MenuItem
       value={value}
+      {...menuItemProps}
       sx={{
         boxSizing: 'border-box',
         display: 'flex',

@@ -1,4 +1,5 @@
 import { ChevronDown } from 'lucide-react'
+import type { Theme } from '@mui/material/styles'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactNode } from 'react'
@@ -26,6 +27,8 @@ interface CustomSelectMenuProps {
   onCreateClick?: () => void
   startAdornment?: ReactNode
   disabled?: boolean
+  hideLabel?: boolean
+  compact?: boolean
 }
 
 export function CustomSelectMenu({
@@ -39,6 +42,8 @@ export function CustomSelectMenu({
   onCreateClick,
   startAdornment,
   disabled = false,
+  hideLabel = false,
+  compact = false,
 }: CustomSelectMenuProps) {
   const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
@@ -52,9 +57,28 @@ export function CustomSelectMenu({
   return (
     <FormTextField
       select
-      label={label}
+      label={hideLabel ? undefined : label}
       value={value}
       disabled={disabled}
+      sx={
+        compact
+          ? {
+              width: 'auto',
+              '& .MuiOutlinedInput-root': {
+                height: 36,
+                borderRadius: '8px',
+                fontSize: '12px',
+                color: 'text.label',
+              },
+              '& .MuiSelect-icon': {
+                width: 16,
+                height: 16,
+                top: 'calc(50% - 8px)',
+                right: 10,
+              },
+            }
+          : undefined
+      }
       onChange={(e) => {
         onChange(e.target.value)
         setOpen(false)
@@ -66,6 +90,36 @@ export function CustomSelectMenu({
           open,
           onOpen: () => setOpen(true),
           onClose: () => setOpen(false),
+          SelectDisplayProps: hideLabel ? { 'aria-label': label } : undefined,
+          MenuProps: compact
+            ? {
+                slotProps: {
+                  paper: {
+                    sx: (theme: Theme) => ({
+                      mt: 1,
+                      width: 'max-content',
+                      maxWidth: 'calc(100vw - 32px)',
+                      maxHeight: 'calc(100vh - 32px)',
+                      border: `1px solid ${theme.palette.divider}`,
+                      borderRadius: '10px',
+                      backgroundColor: theme.palette.background.input,
+                      boxShadow: '0px 10px 28px rgba(41, 62, 48, 0.14)',
+                    }),
+                  },
+                  list: {
+                    sx: {
+                      boxSizing: 'border-box',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      minWidth: 220,
+                      maxWidth: '100%',
+                      gap: '2px',
+                      py: '4px',
+                    },
+                  },
+                },
+              }
+            : undefined,
           renderValue: (selectedValue: unknown) => {
             const selectedOption = options.find(
               (option) => option.id === selectedValue,
