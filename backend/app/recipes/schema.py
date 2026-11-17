@@ -10,7 +10,11 @@ from pymongo.errors import DuplicateKeyError
 
 from app.db.database import get_database
 from app.graphql.auth import require_auth
-from app.recipes.metadata import RECIPE_DIETARY_PREFERENCES
+from app.recipes.metadata import (
+    RECIPE_CUISINES,
+    RECIPE_DIETARY_PREFERENCES,
+    RECIPE_DIFFICULTIES,
+)
 from app.recipes.models import CollectionCreateData, RecipeCreateData
 
 
@@ -64,6 +68,8 @@ class PublicRecipe:
 @strawberry.type
 class RecipeMetadata:
     dietary_preferences: list[str]
+    cuisines: list[str]
+    difficulties: list[str]
 
 
 @strawberry.type
@@ -71,7 +77,9 @@ class Query:
     @strawberry.field
     def recipe_metadata(self) -> RecipeMetadata:
         return RecipeMetadata(
-            dietary_preferences=list(RECIPE_DIETARY_PREFERENCES)
+            dietary_preferences=list(RECIPE_DIETARY_PREFERENCES),
+            cuisines=list(RECIPE_CUISINES),
+            difficulties=list(RECIPE_DIFFICULTIES),
         )
 
     @strawberry.field

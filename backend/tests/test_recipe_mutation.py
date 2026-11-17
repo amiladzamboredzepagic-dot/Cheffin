@@ -66,14 +66,32 @@ class FakeDatabase:
 class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
     async def test_returns_recipe_dietary_preferences_metadata(self) -> None:
         result = await schema.execute(
-            "{ recipeMetadata { dietaryPreferences } }",
+            """
+            {
+              recipeMetadata {
+                dietaryPreferences
+                cuisines
+                difficulties
+              }
+            }
+            """,
             context_value=SimpleNamespace(user=None),
         )
 
         self.assertIsNone(result.errors)
         self.assertEqual(
-            result.data["recipeMetadata"]["dietaryPreferences"],
-            ["vegetarian", "vegan", "glutenFree", "dairyFree", "highProtein"],
+            result.data["recipeMetadata"],
+            {
+                "dietaryPreferences": [
+                    "vegetarian",
+                    "vegan",
+                    "glutenFree",
+                    "dairyFree",
+                    "highProtein",
+                ],
+                "cuisines": ["italian", "mediterranean", "asian", "mexican"],
+                "difficulties": ["easy", "medium", "hard"],
+            },
         )
 
     async def test_persists_and_returns_recipe_taxonomy(self) -> None:

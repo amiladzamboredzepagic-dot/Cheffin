@@ -4,6 +4,8 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 
+from app.recipes.metadata import RECIPE_DIFFICULTIES
+
 MAX_RECIPE_PHOTO_SIZE_BYTES = 10 * 1024 * 1024
 MAX_RECIPE_METADATA_VALUE_LENGTH = 60
 MAX_RECIPE_DIETARY_PREFERENCES = 12
@@ -16,7 +18,7 @@ Cuisine = Annotated[
     str,
     Field(min_length=1, max_length=MAX_RECIPE_METADATA_VALUE_LENGTH),
 ]
-Difficulty = Literal["easy", "medium", "hard"]
+Difficulty = str
 
 
 class RecipeCreateData(BaseModel):
@@ -62,6 +64,13 @@ class RecipeCreateData(BaseModel):
                 for step in value
                 if step.strip()
             ]
+        return value
+
+    @field_validator("difficulty")
+    @classmethod
+    def validate_difficulty(cls, value: str | None) -> str | None:
+        if value is not None and value not in RECIPE_DIFFICULTIES:
+            raise ValueError("Difficulty must be easy, medium, or hard")
         return value
 
     @field_validator("photo_base64")

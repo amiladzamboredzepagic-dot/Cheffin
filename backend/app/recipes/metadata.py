@@ -5,3 +5,16 @@ RECIPE_DIETARY_PREFERENCES = (
     "dairyFree",
     "highProtein",
 )
+
+RECIPE_CUISINES = (
+    "italian",
+    "mediterranean",
+    "asian",
+    "mexican",
+)
+
+RECIPE_DIFFICULTIES = (
+    "easy",
+    "medium",
+    "hard",
+)
