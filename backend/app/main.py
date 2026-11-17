@@ -20,6 +20,14 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         unique=True,
         partialFilterExpression={"normalized_name": {"$type": "string"}},
     )
+    await database["dietary_preferences"].create_index(
+        [("owner_id", 1), ("normalized_name", 1)],
+        unique=True,
+    )
+    await database["cuisines"].create_index(
+        [("owner_id", 1), ("normalized_name", 1)],
+        unique=True,
+    )
     yield
 
 

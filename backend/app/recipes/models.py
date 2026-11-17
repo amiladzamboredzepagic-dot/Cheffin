@@ -119,3 +119,29 @@ class CollectionCreateData(BaseModel):
     @property
     def normalized_name(self) -> str:
         return self.name.casefold()
+
+
+class DietaryPreferenceCreateData(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    preference: str = Field(
+        min_length=1,
+        max_length=MAX_RECIPE_METADATA_VALUE_LENGTH,
+    )
+
+    @property
+    def normalized_name(self) -> str:
+        return self.preference.casefold()
+
+
+class CuisineCreateData(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    cuisine: str = Field(
+        min_length=1,
+        max_length=MAX_RECIPE_METADATA_VALUE_LENGTH,
+    )
+
+    @property
+    def normalized_name(self) -> str:
+        return self.cuisine.casefold()

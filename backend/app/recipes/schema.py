@@ -15,7 +15,12 @@ from app.recipes.metadata import (
     RECIPE_DIETARY_PREFERENCES,
     RECIPE_DIFFICULTIES,
 )
-from app.recipes.models import CollectionCreateData, RecipeCreateData
+from app.recipes.models import (
+    CollectionCreateData,
+    CuisineCreateData,
+    DietaryPreferenceCreateData,
+    RecipeCreateData,
+)
 
 
 def require_owner_id(info: strawberry.Info) -> str:
@@ -68,17 +73,41 @@ class PublicRecipe:
 @strawberry.type
 class RecipeMetadata:
     dietary_preferences: list[str]
+    custom_dietary_preferences: list[str]
     cuisines: list[str]
+    custom_cuisines: list[str]
     difficulties: list[str]
 
 
 @strawberry.type
 class Query:
     @strawberry.field
-    def recipe_metadata(self) -> RecipeMetadata:
+    async def recipe_metadata(self, info: strawberry.Info) -> RecipeMetadata:
+        custom_preferences: list[str] = []
+        custom_cuisines: list[str] = []
+        user = getattr(info.context, "user", None)
+        if user:
+            owner_id = user.get("sub")
+            if not isinstance(owner_id, str) or not owner_id:
+                raise GraphQLError("401: Unauthorized")
+            cursor = get_database()["dietary_preferences"].find(
+                {"owner_id": owner_id}
+            ).sort("normalized_name", 1)
+            custom_preferences = [
+                document["preference"] async for document in cursor
+            ]
+            cuisine_cursor = get_database()["cuisines"].find(
+                {"owner_id": owner_id}
+            ).sort("normalized_name", 1)
+            custom_cuisines = [
+                document["cuisine"] async for document in cuisine_cursor
+            ]
+
         return RecipeMetadata(
             dietary_preferences=list(RECIPE_DIETARY_PREFERENCES),
+            custom_dietary_preferences=custom_preferences,
             cuisines=list(RECIPE_CUISINES),
+            custom_cuisines=custom_cuisines,
             difficulties=list(RECIPE_DIFFICULTIES),
         )
 
@@ -195,6 +224,95 @@ class Recipe:
 
 @strawberry.type
 class Mutation:
+    @strawberry.mutation
+    async def add_cuisine(self, info: strawberry.Info, cuisine: str) -> str:
+        owner_id = require_owner_id(info)
+
+        try:
+            cuisine_data = CuisineCreateData.model_validate({"cuisine": cuisine})
+        except ValidationError as error:
+            raise GraphQLError(
+                "Cuisine must contain 1 to 60 characters",
+                extensions={"code": "BAD_USER_INPUT"},
+            ) from error
+
+        standard_cuisine = next(
+            (
+                option
+                for option in RECIPE_CUISINES
+                if option.casefold() == cuisine_data.normalized_name
+            ),
+            None,
+        )
+        if standard_cuisine is not None:
+            return standard_cuisine
+
+        cuisines = get_database()["cuisines"]
+        await cuisines.update_one(
+            {
+                "owner_id": owner_id,
+                "normalized_name": cuisine_data.normalized_name,
+            },
+            {
+                "$setOnInsert": {
+                    "owner_id": owner_id,
+                    "cuisine": cuisine_data.cuisine,
+                    "normalized_name": cuisine_data.normalized_name,
+                }
+            },
+            upsert=True,
+        )
+        saved = await cuisines.find_one(
+            {
+                "owner_id": owner_id,
+                "normalized_name": cuisine_data.normalized_name,
+            }
+        )
+        if saved is None:
+            raise GraphQLError("Could not save cuisine")
+        return saved["cuisine"]
+
+    @strawberry.mutation
+    async def add_dietary_preference(
+        self, info: strawberry.Info, preference: str
+    ) -> str:
+        owner_id = require_owner_id(info)
+
+        try:
+            preference_data = DietaryPreferenceCreateData.model_validate(
+                {"preference": preference}
+            )
+        except ValidationError as error:
+            raise GraphQLError(
+                "Dietary preference must contain 1 to 60 characters",
+                extensions={"code": "BAD_USER_INPUT"},
+            ) from error
+
+        preferences = get_database()["dietary_preferences"]
+        await preferences.update_one(
+            {
+                "owner_id": owner_id,
+                "normalized_name": preference_data.normalized_name,
+            },
+            {
+                "$setOnInsert": {
+                    "owner_id": owner_id,
+                    "preference": preference_data.preference,
+                    "normalized_name": preference_data.normalized_name,
+                }
+            },
+            upsert=True,
+        )
+        saved = await preferences.find_one(
+            {
+                "owner_id": owner_id,
+                "normalized_name": preference_data.normalized_name,
+            }
+        )
+        if saved is None:
+            raise GraphQLError("Could not save dietary preference")
+        return saved["preference"]
+
     @strawberry.mutation
     async def create_collection(
         self, info: strawberry.Info, name: str

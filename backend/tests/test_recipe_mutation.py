@@ -53,24 +53,73 @@ class FakeRecipeCursor:
             yield document
 
 
+class FakeUserMetadataCollection:
+    def __init__(self) -> None:
+        self.documents: list[dict] = []
+
+    def find(self, query: dict) -> FakeRecipeCursor:
+        return FakeRecipeCursor(
+            [
+                document
+                for document in self.documents
+                if all(document.get(key) == value for key, value in query.items())
+            ]
+        )
+
+    async def find_one(self, query: dict) -> dict | None:
+        return next(
+            (
+                document
+                for document in self.documents
+                if all(
+                    document.get(key) == value for key, value in query.items()
+                )
+            ),
+            None,
+        )
+
+    async def update_one(
+        self,
+        query: dict,
+        update: dict,
+        upsert: bool = False,
+    ) -> SimpleNamespace:
+        existing = await self.find_one(query)
+        if existing is not None:
+            return SimpleNamespace(upserted_id=None)
+        if upsert:
+            self.documents.append(
+                {**update["$setOnInsert"], "_id": ObjectId()}
+            )
+        return SimpleNamespace(upserted_id=ObjectId() if upsert else None)
+
+
 class FakeDatabase:
     def __init__(self) -> None:
         self.recipes = FakeRecipeCollection()
+        self.dietary_preferences = FakeUserMetadataCollection()
+        self.cuisines = FakeUserMetadataCollection()
 
-    def __getitem__(self, collection_name: str) -> FakeRecipeCollection:
-        if collection_name != "recipes":
-            raise AssertionError(f"Unexpected collection: {collection_name}")
-        return self.recipes
+    def __getitem__(self, collection_name: str):
+        if collection_name == "recipes":
+            return self.recipes
+        if collection_name == "dietary_preferences":
+            return self.dietary_preferences
+        if collection_name == "cuisines":
+            return self.cuisines
+        raise AssertionError(f"Unexpected collection: {collection_name}")
 
 
 class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
-    async def test_returns_recipe_dietary_preferences_metadata(self) -> None:
+    async def test_returns_recipe_metadata(self) -> None:
         result = await schema.execute(
             """
             {
               recipeMetadata {
                 dietaryPreferences
+                customDietaryPreferences
                 cuisines
+                customCuisines
                 difficulties
               }
             }
@@ -89,9 +138,107 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
                     "dairyFree",
                     "highProtein",
                 ],
+                "customDietaryPreferences": [],
                 "cuisines": ["italian", "mediterranean", "asian", "mexican"],
+                "customCuisines": [],
                 "difficulties": ["easy", "medium", "hard"],
             },
+        )
+
+    async def test_custom_cuisines_are_private_and_deduplicated(self) -> None:
+        database = FakeDatabase()
+        mutation = """
+            mutation AddCuisine($cuisine: String!) {
+              addCuisine(cuisine: $cuisine)
+            }
+        """
+        query = """
+            {
+              recipeMetadata {
+                customCuisines
+              }
+            }
+        """
+
+        with patch("app.recipes.schema.get_database", return_value=database):
+            added = await schema.execute(
+                mutation,
+                variable_values={"cuisine": "Korean"},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            duplicate = await schema.execute(
+                mutation,
+                variable_values={"cuisine": " korean "},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            owner_metadata = await schema.execute(
+                query,
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            other_metadata = await schema.execute(
+                query,
+                context_value=SimpleNamespace(user={"sub": "other"}),
+            )
+
+        self.assertIsNone(added.errors)
+        self.assertEqual(added.data["addCuisine"], "Korean")
+        self.assertIsNone(duplicate.errors)
+        self.assertEqual(duplicate.data["addCuisine"], "Korean")
+        self.assertEqual(
+            owner_metadata.data["recipeMetadata"]["customCuisines"],
+            ["Korean"],
+        )
+        self.assertEqual(
+            other_metadata.data["recipeMetadata"]["customCuisines"],
+            [],
+        )
+
+    async def test_custom_dietary_preferences_are_private_and_deduplicated(self) -> None:
+        database = FakeDatabase()
+        mutation = """
+            mutation AddPreference($preference: String!) {
+              addDietaryPreference(preference: $preference)
+            }
+        """
+        query = """
+            {
+              recipeMetadata {
+                customDietaryPreferences
+              }
+            }
+        """
+
+        with patch("app.recipes.schema.get_database", return_value=database):
+            added = await schema.execute(
+                mutation,
+                variable_values={"preference": "Low carb"},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            duplicate = await schema.execute(
+                mutation,
+                variable_values={"preference": " low CARB "},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            owner_metadata = await schema.execute(
+                query,
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            other_metadata = await schema.execute(
+                query,
+                context_value=SimpleNamespace(user={"sub": "other"}),
+            )
+
+        self.assertIsNone(added.errors)
+        self.assertEqual(added.data["addDietaryPreference"], "Low carb")
+        self.assertIsNone(duplicate.errors)
+        self.assertEqual(duplicate.data["addDietaryPreference"], "Low carb")
+        self.assertEqual(
+            owner_metadata.data["recipeMetadata"]["customDietaryPreferences"],
+            ["Low carb"],
+        )
+        self.assertEqual(
+            other_metadata.data["recipeMetadata"]["customDietaryPreferences"],
+            [],
         )
 
     async def test_persists_and_returns_recipe_taxonomy(self) -> None:

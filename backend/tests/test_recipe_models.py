@@ -3,7 +3,11 @@ import unittest
 
 from pydantic import ValidationError
 
-from app.recipes.models import RecipeCreateData
+from app.recipes.models import (
+    CuisineCreateData,
+    DietaryPreferenceCreateData,
+    RecipeCreateData,
+)
 
 
 class RecipeCreateDataTests(unittest.TestCase):
@@ -106,6 +110,30 @@ class RecipeCreateDataTests(unittest.TestCase):
                     "photo_content_type": "image/png",
                 }
             ).decoded_photo()
+
+    def test_normalizes_and_validates_custom_dietary_preference(self) -> None:
+        preference = DietaryPreferenceCreateData.model_validate(
+            {"preference": "  Low Carb  "}
+        )
+        self.assertEqual(preference.preference, "Low Carb")
+        self.assertEqual(preference.normalized_name, "low carb")
+
+        for value in (" ", "x" * 61):
+            with self.subTest(value=value):
+                with self.assertRaises(ValidationError):
+                    DietaryPreferenceCreateData.model_validate(
+                        {"preference": value}
+                    )
+
+    def test_normalizes_and_validates_custom_cuisine(self) -> None:
+        cuisine = CuisineCreateData.model_validate({"cuisine": "  Korean  "})
+        self.assertEqual(cuisine.cuisine, "Korean")
+        self.assertEqual(cuisine.normalized_name, "korean")
+
+        for value in (" ", "x" * 61):
+            with self.subTest(value=value):
+                with self.assertRaises(ValidationError):
+                    CuisineCreateData.model_validate({"cuisine": value})
 
 
 if __name__ == "__main__":
