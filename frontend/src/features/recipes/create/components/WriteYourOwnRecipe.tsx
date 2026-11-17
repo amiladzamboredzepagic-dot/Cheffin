@@ -17,6 +17,7 @@ import { RecipeBasicsSection } from './manual/RecipeBasicsSection'
 import { RecipeDetailsSection } from './manual/RecipeDetailsSection'
 import { RecipePreferencesSection } from './manual/RecipePreferencesSection'
 import { useRecipeMetadataQuery } from '../../hooks/useRecipeMetadataQuery'
+import { RECIPE_MEAL_TYPES } from '../../recipeMetadata'
 import type {
   RecipeDifficulty,
   RecipeMealType,
@@ -76,6 +77,17 @@ export function WriteYourOwnRecipe({
   const [feedback, setFeedback] = useState<RecipeFeedback | null>(null)
   const [submitting, setSubmitting] = useState<RecipeAction | null>(null)
 
+  const isPositiveInteger = (value: string) => {
+    const number = Number(value)
+    return value.trim() !== '' && Number.isSafeInteger(number) && number > 0
+  }
+  const canCreateRecipe =
+    title.trim() !== '' &&
+    ingredients.some((ingredient) => ingredient.trim() !== '') &&
+    isPositiveInteger(prepTime) &&
+    isPositiveInteger(servings) &&
+    RECIPE_MEAL_TYPES.includes(mealType)
+
   const resetForm = () => {
     setTitle('')
     setDescription('')
@@ -94,6 +106,8 @@ export function WriteYourOwnRecipe({
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (!canCreateRecipe) return
+
     const publish =
       event.nativeEvent.submitter instanceof HTMLButtonElement &&
       event.nativeEvent.submitter.value === RECIPE_ACTION.PUBLISH
@@ -189,7 +203,7 @@ export function WriteYourOwnRecipe({
           <ActionButton
             type="submit"
             value={RECIPE_ACTION.SAVE}
-            disabled={loading || submitting !== null}
+            disabled={!canCreateRecipe || loading || submitting !== null}
             text={
               <>
                 <BookmarkPlus size={18} aria-hidden="true" />
@@ -205,7 +219,7 @@ export function WriteYourOwnRecipe({
           <ActionButton
             type="submit"
             value={RECIPE_ACTION.PUBLISH}
-            disabled={loading || submitting !== null}
+            disabled={!canCreateRecipe || loading || submitting !== null}
             text={t(
               submitting === RECIPE_ACTION.PUBLISH
                 ? 'recipeCreate.publishing'

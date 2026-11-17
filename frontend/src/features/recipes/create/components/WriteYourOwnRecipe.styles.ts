@@ -126,6 +126,11 @@ export const ManualTextButton = styled('button')(({ theme }) => ({
   fontSize: theme.typography.pxToRem(11),
   fontWeight: theme.typography.fontWeightMedium,
   cursor: 'pointer',
+  '&:disabled': {
+    color: theme.palette.text.disabled,
+    cursor: 'not-allowed',
+    opacity: 0.6,
+  },
 }))
 
 export const ManualIconButton = styled(ButtonBase)(({ theme }) => ({
