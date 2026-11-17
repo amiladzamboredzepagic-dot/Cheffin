@@ -21,6 +21,7 @@ export interface CreateRecipeInput {
   photoBase64: string | null
   photoContentType: string | null
   collectionId: string | null
+  publish: boolean
 }
 
 interface CreateRecipeResponse {

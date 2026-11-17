@@ -29,15 +29,39 @@ type Time = (typeof times)[number]
 type Difficulty = (typeof difficulties)[number]
 type Cuisine = (typeof cuisines)[number]
 
+export const DISCOVERY_RECIPE_SOURCE_KEY = 'source'
+export const DISCOVERY_RECIPE_SOURCE = {
+  PUBLISHED: 'published',
+  SAMPLE: 'sample',
+} as const
+
 export interface DiscoveryRecipe {
   id: string
   imageUrl: string
   meal: Meal
   diets: readonly Diet[]
   minutes: number
-  difficulty: Difficulty
+  difficulty?: Difficulty
   cuisine?: Cuisine
-  rating: number
+  rating?: number
+}
+
+export interface PublishedDiscoveryRecipe extends DiscoveryRecipe {
+  [DISCOVERY_RECIPE_SOURCE_KEY]: typeof DISCOVERY_RECIPE_SOURCE.PUBLISHED
+  title: string
+  description: string
+  ingredients: string[]
+  steps: string[]
+  servings: number
+}
+
+export function isPublishedRecipe(
+  recipe: DiscoveryRecipe,
+): recipe is PublishedDiscoveryRecipe {
+  return (
+    DISCOVERY_RECIPE_SOURCE_KEY in recipe &&
+    recipe[DISCOVERY_RECIPE_SOURCE_KEY] === DISCOVERY_RECIPE_SOURCE.PUBLISHED
+  )
 }
 
 export const discoveryRecipes: DiscoveryRecipe[] = [
@@ -160,7 +184,8 @@ export function matchesFilters(
       filters.diets.every((diet) => recipe.diets.includes(diet))) &&
     (!filters.times.length || filters.times.some(matchesTime)) &&
     (!filters.difficulties.length ||
-      filters.difficulties.includes(recipe.difficulty)) &&
+      (recipe.difficulty !== undefined &&
+        filters.difficulties.includes(recipe.difficulty))) &&
     (!filters.cuisines.length ||
       (recipe.cuisine !== undefined &&
         filters.cuisines.includes(recipe.cuisine)))
