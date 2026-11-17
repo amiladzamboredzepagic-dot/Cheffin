@@ -33,6 +33,7 @@
     "drafts": "Entwürfe",
     "draft": "Entwurf",
     "published": "Veröffentlicht",
+    "recipeActions": "Aktionen für {{title}}",
     "noStatusRecipes": "Noch keine Rezepte mit diesem Status.",
     "publish": "Veröffentlichen",
     "publishRecipe": "{{title}} veröffentlichen",

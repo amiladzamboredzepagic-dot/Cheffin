@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { RecipeCard } from '../../../components/RecipeCard'
-import { ActionButton } from '../../../components/ui/actions/ActionButton'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { Description } from '../../../components/ui/typography/Description'
 import type { MyRecipe } from '../hooks/useMyRecipesQuery'
+import { MyRecipeActionsMenu } from './MyRecipeActionsMenu'
 
 interface MyRecipeCardProps {
   recipe: MyRecipe
@@ -41,11 +41,10 @@ export function MyRecipeCard({
           {t(recipe.isPrivate ? 'library.draft' : 'library.published')}
         </Description>
         {recipe.isPrivate && (
-          <ActionButton
-            text={t('library.publish')}
-            aria-label={t('library.publishRecipe', { title: recipe.title })}
+          <MyRecipeActionsMenu
+            recipe={recipe}
             disabled={publishing}
-            onClick={() => onPublish(recipe.id)}
+            onPublish={onPublish}
           />
         )}
       </Flex>
