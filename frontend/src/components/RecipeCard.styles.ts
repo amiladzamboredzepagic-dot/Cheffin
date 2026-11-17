@@ -2,6 +2,7 @@ import { Box, IconButton, Typography, styled } from '@mui/material'
 import { Flex } from './ui/layout/Flex'
 
 export const CardRoot = styled(Flex)(({ theme }) => ({
+  position: 'relative',
   boxSizing: 'border-box',
   width: '100%',
   minWidth: 0,
@@ -10,6 +11,22 @@ export const CardRoot = styled(Flex)(({ theme }) => ({
   backgroundColor: theme.palette.background.input,
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: 14,
+}))
+
+export const CardOpenButton = styled('button')(({ theme }) => ({
+  position: 'absolute',
+  inset: 0,
+  zIndex: 1,
+  width: '100%',
+  border: 0,
+  padding: 0,
+  background: 'transparent',
+  cursor: 'pointer',
+  '&:focus-visible': {
+    outline: `2px solid ${theme.palette.primary.light}`,
+    outlineOffset: -4,
+    borderRadius: 'inherit',
+  },
 }))
 
 export const Media = styled(Box)({

@@ -66,6 +66,27 @@ test('cooking time ranges cover their boundaries without overlap', () => {
   }
 })
 
+test('recipes without classification do not match unsupported filters', () => {
+  const published = {
+    ...recipe,
+    diets: [],
+    difficulty: undefined,
+    cuisine: undefined,
+  }
+  assert.equal(matchesFilters(published, emptyFilters()), true)
+  assert.equal(
+    matchesFilters(published, { ...emptyFilters(), times: ['from15to30'] }),
+    true,
+  )
+  for (const filters of [
+    { ...emptyFilters(), diets: ['vegan'] },
+    { ...emptyFilters(), difficulties: ['easy'] },
+    { ...emptyFilters(), cuisines: ['italian'] },
+  ]) {
+    assert.equal(matchesFilters(published, filters), false)
+  }
+})
+
 test('discovery and card translations exist for every supported language', () => {
   const load = (language) =>
     JSON.parse(
@@ -83,7 +104,12 @@ test('discovery and card translations exist for every supported language', () =>
   const english = load('en')
   for (const language of ['bs', 'de']) {
     const translated = load(language)
-    for (const section of ['discovery', 'recipeCard']) {
+    for (const section of [
+      'discovery',
+      'recipeCard',
+      'library',
+      'recipeCreate',
+    ]) {
       const requiredKeys = keys(english[section]).filter(
         (key) => !key.endsWith('_one') && !key.endsWith('_other'),
       )

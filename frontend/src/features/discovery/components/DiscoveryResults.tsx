@@ -14,7 +14,7 @@ export function DiscoveryResults({ recipes }: DiscoveryResultsProps) {
   const [sort, setSort] = useState<DiscoverySort>('recommended')
   const sortedRecipes = [...recipes].sort((a, b) => {
     if (sort === 'quickest') return a.minutes - b.minutes
-    if (sort === 'rating') return b.rating - a.rating
+    if (sort === 'rating') return (b.rating ?? -1) - (a.rating ?? -1)
     return 0
   })
 

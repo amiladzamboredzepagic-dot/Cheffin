@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { BookmarkCheck, Bookmark, ImageOff, Play } from 'lucide-react'
 import {
   CardRoot,
+  CardOpenButton,
   Media,
   Photograph,
   PhotoPlaceholder,
@@ -37,6 +38,8 @@ export interface RecipeCardProps {
   onSavedChange?: (saved: boolean) => void
   variant?: 'default' | 'inspiration'
   showSaveButton?: boolean
+  onOpen?: () => void
+  openLabel?: string
 }
 
 export function RecipeCard({
@@ -52,6 +55,8 @@ export function RecipeCard({
   onSavedChange,
   variant = 'default',
   showSaveButton = true,
+  onOpen,
+  openLabel,
 }: RecipeCardProps) {
   const { t } = useTranslation()
   const [localSaved, setLocalSaved] = useState(saved)
@@ -66,7 +71,26 @@ export function RecipeCard({
       gap={0}
       className={`recipe-card-${variant}`}
     >
-      <Media className="recipe-card-media">
+      {onOpen && (
+        <CardOpenButton
+          type="button"
+          aria-label={openLabel ?? title}
+          aria-haspopup="dialog"
+          onClick={onOpen}
+        />
+      )}
+      <Media
+        className="recipe-card-media"
+        sx={
+          onOpen
+            ? {
+                zIndex: 2,
+                pointerEvents: 'none',
+                '& button': { pointerEvents: 'auto' },
+              }
+            : undefined
+        }
+      >
         {imageUrl ? (
           <Photograph src={imageUrl} alt={imageAlt} loading="lazy" />
         ) : (
