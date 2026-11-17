@@ -1,37 +1,60 @@
 import { useQuery } from '@apollo/client/react'
 import { useState } from 'react'
+import { Navigate, useLocation, useMatch, useNavigate } from 'react-router-dom'
 import { PageContainer } from '../../components/ui/layout/PageContainer'
 import { Workspace } from '../../components/ui/layout/Workspace'
 import { CreateCollectionDialog } from '../recipes/create/components/CreateCollectionDialog'
 import { MY_COLLECTIONS } from '../recipes/create/hooks/useMyCollectionsQuery'
+import {
+  getLibraryTabFromPath,
+  isLibraryBasePath,
+  isLibraryTabPath,
+  LIBRARY_ROUTES,
+  LIBRARY_TAB_ROUTES,
+  libraryCollectionPath,
+} from './LibraryRoutes'
 import { LibraryContent } from './components/LibraryContent'
 import { LibraryIntroduction } from './components/LibraryIntroduction'
 import { LibrarySidebar } from './components/LibrarySidebar'
 import { LibraryTabs } from './components/LibraryTabs'
-import { LIBRARY_TAB, type LibraryTab } from './components/libraryTab'
+import type { LibraryTab } from './components/libraryTab'
 
 export function LibraryPage() {
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const collectionMatch = useMatch(LIBRARY_ROUTES.COLLECTION)
+  const collectionId = collectionMatch?.params.collectionId
   const { data, loading, error } = useQuery(MY_COLLECTIONS, {
     fetchPolicy: 'network-only',
   })
   const collections = data?.myCollections ?? []
 
-  const [tab, setTab] = useState<LibraryTab>(LIBRARY_TAB.SAVED)
   const [search, setSearch] = useState<string>('')
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-  const [selectedCollection, setSelectedCollection] =
-    useState<(typeof collections)[number] | null>(null)
+  const selectedCollection =
+    collections.find((collection) => collection.id === collectionId) ?? null
+  const isCollectionRoute = collectionMatch !== null
+  const activeTab = getLibraryTabFromPath(pathname, isCollectionRoute)
+  const isTabRoute = isLibraryTabPath(pathname)
+  const isBaseRoute = isLibraryBasePath(pathname)
 
   const handleTabChange = (nextTab: LibraryTab) => {
-    setTab(nextTab)
-    if (nextTab !== LIBRARY_TAB.RECIPES) setSelectedCollection(null)
+    navigate(LIBRARY_TAB_ROUTES[nextTab])
+  }
+
+  if (isBaseRoute) return <Navigate to={LIBRARY_ROUTES.SAVED} replace />
+  if (!isTabRoute && !isCollectionRoute) {
+    return <Navigate to={LIBRARY_ROUTES.SAVED} replace />
+  }
+  if (!loading && !error && collectionId && !selectedCollection) {
+    return <Navigate to={LIBRARY_ROUTES.COLLECTIONS} replace />
   }
 
   return (
     <PageContainer aria-labelledby="library-title">
       <LibraryIntroduction onCreateCollection={() => setDialogOpen(true)} />
       <LibraryTabs
-        tab={tab}
+        tab={activeTab}
         collectionCount={!loading && !error ? collections.length : null}
         onTabChange={handleTabChange}
       />
@@ -48,7 +71,7 @@ export function LibraryPage() {
       >
         <LibrarySidebar />
         <LibraryContent
-          tab={tab}
+          tab={activeTab}
           search={search}
           collections={collections}
           loading={loading}
@@ -56,12 +79,10 @@ export function LibraryPage() {
           onSearchChange={setSearch}
           selectedCollection={selectedCollection}
           onCollectionSelect={(collection) => {
-            setSelectedCollection(collection)
-            setTab(LIBRARY_TAB.RECIPES)
+            navigate(libraryCollectionPath(collection.id))
           }}
           onCollectionClear={() => {
-            setSelectedCollection(null)
-            setTab(LIBRARY_TAB.COLLECTIONS)
+            navigate(LIBRARY_ROUTES.COLLECTIONS)
           }}
         />
       </Workspace>
@@ -70,8 +91,7 @@ export function LibraryPage() {
         onClose={() => setDialogOpen(false)}
         onCreated={() => {
           setSearch('')
-          setSelectedCollection(null)
-          setTab(LIBRARY_TAB.COLLECTIONS)
+          navigate(LIBRARY_ROUTES.COLLECTIONS)
         }}
       />
     </PageContainer>

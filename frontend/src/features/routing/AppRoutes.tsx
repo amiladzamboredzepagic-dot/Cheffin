@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LandingPage } from '../landing/LandingPage'
 import { LibraryPage } from '../library/LibraryPage'
+import { getLibraryRouteElements } from '../library/LibraryRoutes'
 import { RecipeCreatePage } from '../recipes/create/RecipeCreatePage'
 import { ProtectedRoute } from './ProtectedRoute'
 import { DiscoveryPage } from '../discovery/DiscoveryPage'
@@ -18,6 +19,15 @@ export function AppRoutes({
   onCreateAccount,
   onLogin,
 }: AppRoutesProps) {
+  const libraryPage = (
+    <ProtectedRoute
+      isAuthenticated={isAuthenticated}
+      onAuthenticationRequired={onAuthenticationRequired}
+    >
+      <LibraryPage />
+    </ProtectedRoute>
+  )
+
   return (
     <Routes>
       <Route
@@ -27,17 +37,7 @@ export function AppRoutes({
         }
       />
       <Route path="/explore" element={<DiscoveryPage />} />
-      <Route
-        path="/library"
-        element={
-          <ProtectedRoute
-            isAuthenticated={isAuthenticated}
-            onAuthenticationRequired={onAuthenticationRequired}
-          >
-            <LibraryPage />
-          </ProtectedRoute>
-        }
-      />
+      {getLibraryRouteElements(libraryPage)}
       <Route
         path="/recipe/create"
         element={

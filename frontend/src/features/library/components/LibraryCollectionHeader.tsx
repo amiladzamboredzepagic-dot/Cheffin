@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { InteractiveLink } from '../../../components/ui/links/InteractiveLink'
+import { LIBRARY_ROUTES } from '../LibraryRoutes'
 import { SectionTitle } from '../LibraryPage.styles'
 
 interface LibraryCollectionHeaderProps {
@@ -24,8 +25,11 @@ export function LibraryCollectionHeader({
       <SectionTitle>{name}</SectionTitle>
       <InteractiveLink
         text={t('library.backToCollections')}
-        href="#library-collections-heading"
-        onClick={onBack}
+        href={LIBRARY_ROUTES.COLLECTIONS}
+        onClick={(event) => {
+          event.preventDefault()
+          onBack()
+        }}
       />
     </Flex>
   )
