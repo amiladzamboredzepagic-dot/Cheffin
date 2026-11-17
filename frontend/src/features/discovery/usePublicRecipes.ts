@@ -1,6 +1,12 @@
 import { gql, type TypedDocumentNode } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
-import type { RecipeMealType } from '../recipes/create/components/manual/recipeDraft'
+import type {
+  RecipeCuisine,
+  RecipeDifficulty,
+  RecipeDietaryPreference,
+  RecipeMealType,
+} from '../recipes/recipeMetadata'
+import { RECIPE_MEAL_TYPE } from '../recipes/recipeMetadata'
 import {
   DISCOVERY_RECIPE_SOURCE,
   DISCOVERY_RECIPE_SOURCE_KEY,
@@ -16,6 +22,9 @@ interface PublicRecipe {
   prepTimeMinutes: number
   servings: number
   mealType: RecipeMealType
+  dietaryPreferences: RecipeDietaryPreference[]
+  cuisine: RecipeCuisine | null
+  difficulty: RecipeDifficulty | null
   photoContentType: string | null
   photoBase64: string | null
 }
@@ -31,6 +40,9 @@ const PUBLIC_RECIPES = gql`
       prepTimeMinutes
       servings
       mealType
+      dietaryPreferences
+      cuisine
+      difficulty
       photoContentType
       photoBase64
     }
@@ -55,9 +67,18 @@ export function usePublicRecipes() {
         recipe.photoBase64 && recipe.photoContentType
           ? `data:${recipe.photoContentType};base64,${recipe.photoBase64}`
           : '',
-      meal: recipe.mealType === 'snack' ? 'snacks' : recipe.mealType,
-      diets: [],
+      meal:
+        recipe.mealType === RECIPE_MEAL_TYPE.SNACK
+          ? 'snacks'
+          : recipe.mealType === RECIPE_MEAL_TYPE.DESSERT
+            ? 'desserts'
+            : recipe.mealType === RECIPE_MEAL_TYPE.DRINK
+              ? 'drinks'
+              : recipe.mealType,
+      diets: recipe.dietaryPreferences,
       minutes: recipe.prepTimeMinutes,
+      cuisine: recipe.cuisine ?? undefined,
+      difficulty: recipe.difficulty ?? undefined,
     }),
   )
 

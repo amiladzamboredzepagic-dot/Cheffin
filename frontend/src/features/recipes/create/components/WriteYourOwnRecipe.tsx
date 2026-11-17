@@ -15,7 +15,13 @@ import { PhotoSection } from './manual/PhotoSection'
 import { RecipeCollectionSection } from './manual/RecipeCollectionSection'
 import { RecipeBasicsSection } from './manual/RecipeBasicsSection'
 import { RecipeDetailsSection } from './manual/RecipeDetailsSection'
-import type { RecipeMealType } from './manual/recipeDraft'
+import { RecipePreferencesSection } from './manual/RecipePreferencesSection'
+import type {
+  RecipeCuisine,
+  RecipeDifficulty,
+  RecipeDietaryPreference,
+  RecipeMealType,
+} from '../../recipeMetadata'
 import { useCreateRecipeMutation } from '../hooks/useCreateRecipeMutation'
 import { encodePhoto } from '../utils/encodePhoto'
 
@@ -54,6 +60,11 @@ export function WriteYourOwnRecipe({
   const [prepTime, setPrepTime] = useState<string>('')
   const [servings, setServings] = useState<string>('')
   const [mealType, setMealType] = useState<RecipeMealType>(DEFAULT_MEAL_TYPE)
+  const [dietaryPreferences, setDietaryPreferences] = useState<
+    RecipeDietaryPreference[]
+  >([])
+  const [cuisine, setCuisine] = useState<RecipeCuisine | null>(null)
+  const [difficulty, setDifficulty] = useState<RecipeDifficulty | null>(null)
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoResetKey, setPhotoResetKey] = useState(0)
   const [feedback, setFeedback] = useState<RecipeFeedback | null>(null)
@@ -67,6 +78,9 @@ export function WriteYourOwnRecipe({
     setPrepTime('')
     setServings('')
     setMealType(DEFAULT_MEAL_TYPE)
+    setDietaryPreferences([])
+    setCuisine(null)
+    setDifficulty(null)
     setPhoto(null)
     setPhotoResetKey((current) => current + 1)
     onCollectionChange('')
@@ -87,6 +101,9 @@ export function WriteYourOwnRecipe({
         prepTimeMinutes: Number(prepTime),
         servings: Number(servings),
         mealType,
+        dietaryPreferences,
+        cuisine,
+        difficulty,
         photoBase64: photo ? await encodePhoto(photo) : null,
         photoContentType: photo?.type ?? null,
         collectionId: selectedCollectionId || null,
@@ -139,6 +156,14 @@ export function WriteYourOwnRecipe({
               onPrepTimeChange={setPrepTime}
               onServingsChange={setServings}
               onMealTypeChange={setMealType}
+            />
+            <RecipePreferencesSection
+              dietaryPreferences={dietaryPreferences}
+              cuisine={cuisine}
+              difficulty={difficulty}
+              onDietaryPreferencesChange={setDietaryPreferences}
+              onCuisineChange={setCuisine}
+              onDifficultyChange={setDifficulty}
             />
             <RecipeCollectionSection
               value={selectedCollectionId}

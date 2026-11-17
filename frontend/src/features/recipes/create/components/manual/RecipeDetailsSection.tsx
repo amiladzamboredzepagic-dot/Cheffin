@@ -2,7 +2,10 @@ import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Check } from 'lucide-react'
 import { FormTextField } from '../../../../../components/ui/forms/FormTextField'
-import type { RecipeMealType } from './recipeDraft'
+import {
+  RECIPE_MEAL_TYPES,
+  type RecipeMealType,
+} from '../../../recipeMetadata'
 import {
   ManualDetailsGrid,
   ManualFieldLabel,
@@ -12,13 +15,6 @@ import {
   ManualSectionHint,
   ManualSectionTitle,
 } from '../WriteYourOwnRecipe.styles'
-
-const MEAL_TYPES: RecipeMealType[] = [
-  'breakfast',
-  'lunch',
-  'dinner',
-  'snack',
-]
 
 interface RecipeDetailsSectionProps {
   prepTime: string
@@ -70,7 +66,7 @@ function RecipeDetailsSectionView({
       <ManualFieldLabel>{t('recipeCreate.mealTypeLabel')}</ManualFieldLabel>
 
       <ManualMealTypes>
-        {MEAL_TYPES.map((type) => (
+        {RECIPE_MEAL_TYPES.map((type) => (
           <ManualMealTypeButton
             key={type}
             type="button"

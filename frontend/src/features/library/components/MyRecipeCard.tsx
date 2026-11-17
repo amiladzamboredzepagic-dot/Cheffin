@@ -4,6 +4,7 @@ import { RecipeCard } from '../../../components/RecipeCard'
 import { RecipeSourceChip } from '../../../components/ui/chips/RecipeSourceChip'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { Description } from '../../../components/ui/typography/Description'
+import { getRecipeAttributeTagKeys } from '../../discovery/recipeTags'
 import type { MyRecipe } from '../hooks/useMyRecipesQuery'
 import { MyRecipeActionsMenu } from './MyRecipeActionsMenu'
 
@@ -32,6 +33,11 @@ export function MyRecipeCard({
             : ''
         }
         imageAlt={recipe.title}
+        tag={
+          getRecipeAttributeTagKeys(recipe)
+            .map((key) => t(key))
+            .join(' · ') || undefined
+        }
         metadata={t('library.recipeMetadata', {
           minutes: recipe.prepTimeMinutes,
           count: recipe.servings,

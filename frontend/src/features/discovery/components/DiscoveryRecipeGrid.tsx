@@ -8,6 +8,7 @@ import {
   isPublishedRecipe,
   type DiscoveryRecipe,
 } from '../discovery.data'
+import { getRecipeTagKeys } from '../recipeTags'
 import { DiscoveryRecipeDialog } from './DiscoveryRecipeDialog'
 
 interface DiscoveryRecipeGridProps {
@@ -45,11 +46,9 @@ export function DiscoveryRecipeGrid({ recipes }: DiscoveryRecipeGridProps) {
                   ? recipe.description
                   : t(`discovery.recipes.${recipe.id}.description`)
               }
-              tag={
-                published
-                  ? `${t('discovery.published')} · ${t(`discovery.meals.${recipe.meal}`)}`
-                  : `${t('discovery.sample')} · ${t(`discovery.meals.${recipe.meal}`)} · ${t(`discovery.diets.${recipe.diets[0]}`)}`
-              }
+              tag={getRecipeTagKeys(recipe)
+                .map((key) => t(key))
+                .join(' · ')}
               metadata={
                 published
                   ? t('library.recipeMetadata', {

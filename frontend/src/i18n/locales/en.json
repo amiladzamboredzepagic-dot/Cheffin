@@ -303,8 +303,15 @@
       "breakfast": "Breakfast",
       "lunch": "Lunch",
       "dinner": "Dinner",
-      "snack": "Snack"
+      "snack": "Snack",
+      "dessert": "Dessert",
+      "drink": "Drink"
     },
+    "preferencesTitle": "Recipe preferences",
+    "dietaryPreferencesLabel": "Dietary preferences",
+    "cuisineLabel": "Cuisine",
+    "difficultyLabel": "Difficulty",
+    "notSpecified": "Not specified",
     "cookbookTitle": "Just for your cookbook",
     "cookbookDescription": "This recipe is private to your account. You can find, edit or delete it in My library whenever you like.",
     "kitchenNoteEyebrow": "A note from the kitchen",

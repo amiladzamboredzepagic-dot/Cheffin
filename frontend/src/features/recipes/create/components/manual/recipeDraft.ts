@@ -1,4 +1,11 @@
-export type RecipeMealType = 'breakfast' | 'lunch' | 'dinner' | 'snack'
+import type {
+  RecipeCuisine,
+  RecipeDifficulty,
+  RecipeDietaryPreference,
+  RecipeMealType,
+} from '../../../recipeMetadata'
+
+export type { RecipeMealType } from '../../../recipeMetadata'
 
 export interface ManualRecipeDraft {
   title: string
@@ -8,5 +15,8 @@ export interface ManualRecipeDraft {
   prepTimeMinutes: string
   servings: string
   mealType: RecipeMealType
+  dietaryPreferences: RecipeDietaryPreference[]
+  cuisine: RecipeCuisine | null
+  difficulty: RecipeDifficulty | null
   photo: File | null
 }

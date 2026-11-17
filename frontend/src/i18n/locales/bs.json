@@ -306,8 +306,15 @@
       "breakfast": "Doručak",
       "lunch": "Ručak",
       "dinner": "Večera",
-      "snack": "Užina"
+      "snack": "Užina",
+      "dessert": "Desert",
+      "drink": "Piće"
     },
+    "preferencesTitle": "Karakteristike recepta",
+    "dietaryPreferencesLabel": "Način ishrane",
+    "cuisineLabel": "Kuhinja",
+    "difficultyLabel": "Težina",
+    "notSpecified": "Nije navedeno",
     "cookbookTitle": "Samo za vašu zbirku",
     "cookbookDescription": "Ovaj recept je privatan. Uvijek ga možete pronaći, urediti ili izbrisati u Moji recepti.",
     "kitchenNoteEyebrow": "Poruka iz kuhinje",

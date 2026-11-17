@@ -18,17 +18,7 @@ import {
   type RecipeStatusFilter,
 } from './recipeStatusFilter'
 
-export interface MyRecipe {
-  id: string
-  title: string
-  description: string
-  prepTimeMinutes: number
-  servings: number
-  photoContentType: string | null
-  photoBase64: string | null
-  isPrivate: boolean
-  collectionId: string | null
-}
+export type { MyRecipe } from '../hooks/useMyRecipesQuery'
 
 interface MyRecipesProps {
   collectionId: string | null

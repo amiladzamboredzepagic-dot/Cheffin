@@ -1,3 +1,12 @@
+import {
+  RECIPE_CUISINES,
+  RECIPE_DIETARY_PREFERENCES,
+  RECIPE_DIFFICULTIES,
+  type RecipeCuisine,
+  type RecipeDifficulty,
+  type RecipeDietaryPreference,
+} from '../recipes/recipeMetadata'
+
 export const meals = [
   'breakfast',
   'lunch',
@@ -6,28 +15,17 @@ export const meals = [
   'desserts',
   'drinks',
 ] as const
-export const diets = [
-  'vegetarian',
-  'vegan',
-  'glutenFree',
-  'dairyFree',
-  'highProtein',
-] as const
+export const diets = RECIPE_DIETARY_PREFERENCES
 export const times = ['under15', 'from15to30', 'from30to60', 'over60'] as const
-export const difficulties = ['easy', 'medium', 'project'] as const
-export const cuisines = [
-  'italian',
-  'mediterranean',
-  'asian',
-  'mexican',
-] as const
+export const difficulties = RECIPE_DIFFICULTIES
+export const cuisines = RECIPE_CUISINES
 
 type Meal = (typeof meals)[number]
 export type DiscoveryMeal = 'all' | Meal
-type Diet = (typeof diets)[number]
+type Diet = RecipeDietaryPreference
 type Time = (typeof times)[number]
-type Difficulty = (typeof difficulties)[number]
-type Cuisine = (typeof cuisines)[number]
+type Difficulty = RecipeDifficulty
+type Cuisine = RecipeCuisine
 
 export const DISCOVERY_RECIPE_SOURCE_KEY = 'source'
 export const DISCOVERY_RECIPE_SOURCE = {

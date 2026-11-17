@@ -303,8 +303,15 @@
       "breakfast": "Frühstück",
       "lunch": "Mittagessen",
       "dinner": "Abendessen",
-      "snack": "Snack"
+      "snack": "Snack",
+      "dessert": "Dessert",
+      "drink": "Getränk"
     },
+    "preferencesTitle": "Rezeptmerkmale",
+    "dietaryPreferencesLabel": "Ernährungsweise",
+    "cuisineLabel": "Küche",
+    "difficultyLabel": "Schwierigkeit",
+    "notSpecified": "Nicht angegeben",
     "cookbookTitle": "Nur für dein Kochbuch",
     "cookbookDescription": "Dieses Rezept ist privat. Du kannst es jederzeit in deiner Bibliothek finden, bearbeiten oder löschen.",
     "kitchenNoteEyebrow": "Eine Notiz aus der Küche",
