@@ -16,8 +16,17 @@ const COLLECTION_RECIPE_IMAGES = gql`
       photoContentType
       photoBase64
     }
+    mySavedRecipes {
+      title
+      collectionId
+      photoContentType
+      photoBase64
+    }
   }
-` as TypedDocumentNode<{ myRecipes: CollectionRecipeImage[] }>
+` as TypedDocumentNode<{
+  myRecipes: CollectionRecipeImage[]
+  mySavedRecipes: CollectionRecipeImage[]
+}>
 
 export function useCollectionRecipeImagesQuery(skip = false) {
   const { data, error } = useQuery(COLLECTION_RECIPE_IMAGES, {
@@ -26,7 +35,7 @@ export function useCollectionRecipeImagesQuery(skip = false) {
   })
 
   return {
-    recipes: data?.myRecipes ?? [],
+    recipes: [...(data?.myRecipes ?? []), ...(data?.mySavedRecipes ?? [])],
     error,
   }
 }

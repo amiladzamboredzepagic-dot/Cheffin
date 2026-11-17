@@ -1,4 +1,4 @@
-import { Alert, Box } from '@mui/material'
+import { Alert } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -8,15 +8,13 @@ import {
   getLibraryRecipeStatusFromPath,
   libraryRecipeStatusPath,
 } from '../LibraryRoutes'
-import { RecipeGrid } from '../LibraryPage.styles'
 import { useMyRecipesQuery } from '../hooks/useMyRecipesQuery'
 import { usePublishRecipeMutation } from '../hooks/usePublishRecipeMutation'
-import { MyRecipeCard } from './MyRecipeCard'
+import { useMySavedRecipesQuery } from '../../recipes/hooks/useMySavedRecipesQuery'
+import { useRemoveSavedRecipeMutation } from '../../recipes/hooks/useRemoveSavedRecipeMutation'
 import { MyRecipesFilter } from './MyRecipesFilter'
-import {
-  RECIPE_STATUS_FILTER,
-  type RecipeStatusFilter,
-} from './recipeStatusFilter'
+import { MyRecipesResults } from './MyRecipesResults'
+import type { RecipeStatusFilter } from './recipeStatusFilter'
 
 export type { MyRecipe } from '../hooks/useMyRecipesQuery'
 
@@ -31,9 +29,17 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
   const routeFilter = getLibraryRecipeStatusFromPath(pathname)
   const filter = routeFilter
   const [feedback, setFeedback] = useState<'success' | 'error' | null>(null)
+  const [removeSavedError, setRemoveSavedError] = useState(false)
 
   const { publishRecipe, loading: publishing } = usePublishRecipeMutation()
   const { recipes: allRecipes, loading, error, refetch } = useMyRecipesQuery()
+  const {
+    recipes: savedRecipes,
+    loading: savedLoading,
+    error: savedError,
+  } = useMySavedRecipesQuery(!collectionId)
+  const { removeSavedRecipe, loading: removingSaved } =
+    useRemoveSavedRecipeMutation()
 
   const handleFilterChange = (nextFilter: RecipeStatusFilter) => {
     navigate(libraryRecipeStatusPath(nextFilter, collectionId ?? undefined))
@@ -50,48 +56,36 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
     }
   }
 
+  const handleRemoveSaved = async (recipeId: string) => {
+    setRemoveSavedError(false)
+    try {
+      await removeSavedRecipe(recipeId)
+    } catch (error) {
+      console.error('Failed to remove saved recipe:', error)
+      setRemoveSavedError(true)
+    }
+  }
+
   if (loading) return <Description>{t('library.loadingRecipes')}</Description>
   if (error) return <Alert severity="error">{t('library.recipesError')}</Alert>
   if (!allRecipes) return <Alert severity="error">{t('library.recipesError')}</Alert>
-  const collectionRecipes = allRecipes.filter(
-    (recipe) => !collectionId || recipe.collectionId === collectionId,
-  )
-  const recipes = collectionRecipes.filter((recipe) =>
-    filter === RECIPE_STATUS_FILTER.ALL
-      ? true
-      : filter === RECIPE_STATUS_FILTER.DRAFTS
-        ? recipe.isPrivate
-        : !recipe.isPrivate,
-  )
 
   return (
     <>
       <MyRecipesFilter value={filter} onChange={handleFilterChange} />
-      {recipes.length === 0 ? (
-        <Box sx={{ mt: 2 }}>
-          <Description>
-            {t(
-              collectionId && collectionRecipes.length === 0
-                ? 'library.noCollectionRecipes'
-                : allRecipes.length === 0
-                  ? 'library.noRecipes'
-                  : 'library.noStatusRecipes',
-            )}
-          </Description>
-        </Box>
-      ) : (
-        <RecipeGrid sx={{ mt: 2 }}>
-          {recipes.map((recipe) => (
-            <MyRecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              isInCollection={Boolean(collectionId)}
-              publishing={publishing}
-              onPublish={handlePublish}
-            />
-          ))}
-        </RecipeGrid>
-      )}
+      <MyRecipesResults
+        allRecipes={allRecipes}
+        savedRecipes={savedRecipes}
+        collectionId={collectionId}
+        filter={filter}
+        savedLoading={savedLoading}
+        savedError={Boolean(savedError)}
+        removeSavedError={removeSavedError}
+        publishing={publishing}
+        removingSaved={removingSaved}
+        onPublish={handlePublish}
+        onRemoveSaved={handleRemoveSaved}
+      />
       {feedback && (
         <FeedbackSnackbar
           open

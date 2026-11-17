@@ -25,7 +25,9 @@ export function DiscoveryResults({ recipes }: DiscoveryResultsProps) {
         sort={sort}
         onSortChange={setSort}
       />
-      <DiscoveryRecipeGrid recipes={sortedRecipes} />
+      <DiscoveryRecipeGrid
+        recipes={sortedRecipes}
+      />
     </section>
   )
 }

@@ -38,6 +38,7 @@ export interface RecipeCardProps {
   onSavedChange?: (saved: boolean) => void
   variant?: 'default' | 'inspiration'
   showSaveButton?: boolean
+  saveDisabled?: boolean
   onOpen?: () => void
   openLabel?: string
 }
@@ -55,6 +56,7 @@ export function RecipeCard({
   onSavedChange,
   variant = 'default',
   showSaveButton = true,
+  saveDisabled = false,
   onOpen,
   openLabel,
 }: RecipeCardProps) {
@@ -105,6 +107,7 @@ export function RecipeCard({
               { title },
             )}
             aria-pressed={isSaved}
+            disabled={saveDisabled}
             onClick={() => {
               if (onSavedChange) onSavedChange(!isSaved)
               else setLocalSaved((current) => !current)

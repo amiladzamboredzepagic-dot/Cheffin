@@ -91,6 +91,17 @@ export const FilterPanel = styled('div')(({ theme }) => ({
   },
 }))
 
+export const PantryCard = styled('div')(({ theme }) => ({
+  marginTop: 24,
+  padding: 18,
+  borderRadius: 12,
+  backgroundColor: theme.palette.background.planner,
+  '& h3': {
+    margin: '0 0 10px',
+    fontSize: theme.typography.pxToRem(18),
+  },
+}))
+
 export const ResultsHeader = styled(SectionHeader)(({ theme }) => ({
   '& > div:first-of-type': {
     display: 'flex',

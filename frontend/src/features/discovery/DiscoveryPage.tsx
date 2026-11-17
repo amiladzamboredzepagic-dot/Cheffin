@@ -91,7 +91,9 @@ export function DiscoveryPage() {
           filters={filters}
           onFiltersChange={setFilters}
         />
-        <DiscoveryResults recipes={recipes} />
+        <DiscoveryResults
+          recipes={recipes}
+        />
       </Workspace>
     </PageContainer>
   )

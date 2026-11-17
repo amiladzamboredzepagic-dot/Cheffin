@@ -4,29 +4,22 @@ import { CreateAccount } from './CreateAccount'
 import { Hero } from './Hero'
 import { RecipeInspiration } from './RecipeInspiration'
 import { WeeklyPlan } from './WeeklyPlan'
+import { useAuth } from '../../context/useAuth'
 
-interface LandingPageProps {
-  isAuthenticated: boolean
-  onCreateAccount: () => void
-  onLogin: () => void
-}
+export function LandingPage() {
+  const { isAuthenticated, openSignup, openLogin } = useAuth()
 
-export function LandingPage({
-  isAuthenticated,
-  onCreateAccount,
-  onLogin,
-}: LandingPageProps) {
   return (
     <>
       <Hero
-        onCreateAccount={isAuthenticated ? undefined : onCreateAccount}
+        onCreateAccount={isAuthenticated ? undefined : openSignup}
       />
       <Benefits />
       <RecipeInspiration />
       <WeeklyPlan />
       <CommunityInvitation />
       {!isAuthenticated && (
-        <CreateAccount onCreateAccount={onCreateAccount} onLogin={onLogin} />
+        <CreateAccount onCreateAccount={openSignup} onLogin={openLogin} />
       )}
     </>
   )

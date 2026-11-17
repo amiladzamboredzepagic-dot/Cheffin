@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RecipeCard } from '../../../components/RecipeCard'
+import { FeedbackSnackbar } from '../../../components/ui/feedback/FeedbackSnackbar'
 import { Description } from '../../../components/ui/typography/Description'
 import { RecipeGrid } from '../DiscoveryPage.styles'
 import {
@@ -9,7 +10,9 @@ import {
   type DiscoveryRecipe,
 } from '../discovery.data'
 import { getRecipeTags } from '../recipeTags'
+import { useDiscoveryRecipeSaving } from '../hooks/useDiscoveryRecipeSaving'
 import { DiscoveryRecipeDialog } from './DiscoveryRecipeDialog'
+import { SavePublicRecipeDialog } from './SavePublicRecipeDialog'
 
 interface DiscoveryRecipeGridProps {
   recipes: DiscoveryRecipe[]
@@ -17,10 +20,21 @@ interface DiscoveryRecipeGridProps {
 
 export function DiscoveryRecipeGrid({ recipes }: DiscoveryRecipeGridProps) {
   const { t } = useTranslation()
-  const [saved, setSaved] = useState<Set<string>>(() => new Set())
   const [selectedRecipe, setSelectedRecipe] = useState<DiscoveryRecipe | null>(
     null,
   )
+  const {
+    savedRecipeIds,
+    saving,
+    removing,
+    saveErrorOpen,
+    saveDialogError,
+    recipeToSave,
+    handleSaveChange,
+    handleSaveRecipe,
+    closeSaveDialog,
+    closeSaveError,
+  } = useDiscoveryRecipeSaving()
 
   if (recipes.length === 0) {
     return <Description>{t('discovery.noResults')}</Description>
@@ -63,14 +77,11 @@ export function DiscoveryRecipeGrid({ recipes }: DiscoveryRecipeGridProps) {
               rating={recipe.rating}
               onOpen={() => setSelectedRecipe(recipe)}
               openLabel={t('discovery.viewRecipeTitle', { title })}
-              saved={saved.has(key)}
-              onSavedChange={(isSaved) =>
-                setSaved((current) => {
-                  const next = new Set(current)
-                  if (isSaved) next.add(key)
-                  else next.delete(key)
-                  return next
-                })
+              saved={published && savedRecipeIds.has(recipe.id)}
+              showSaveButton={published}
+              saveDisabled={saving || removing}
+              onSavedChange={
+                published ? () => handleSaveChange(recipe) : undefined
               }
             />
           )
@@ -79,6 +90,20 @@ export function DiscoveryRecipeGrid({ recipes }: DiscoveryRecipeGridProps) {
       <DiscoveryRecipeDialog
         recipe={selectedRecipe}
         onClose={() => setSelectedRecipe(null)}
+      />
+      <SavePublicRecipeDialog
+        key={recipeToSave?.id ?? 'closed'}
+        recipe={recipeToSave}
+        loading={saving}
+        errorMessage={saveDialogError}
+        onClose={closeSaveDialog}
+        onSave={handleSaveRecipe}
+      />
+      <FeedbackSnackbar
+        open={saveErrorOpen}
+        severity="error"
+        message={t('discovery.saveRecipeFailed')}
+        onClose={closeSaveError}
       />
     </>
   )
