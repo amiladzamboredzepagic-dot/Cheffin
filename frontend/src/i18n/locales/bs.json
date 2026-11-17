@@ -61,6 +61,8 @@
     "demoNotice": "Primjeri recepata i ocjena služe za ilustraciju. Oznake na ovoj stranici traju samo dok je otvorena i ne dodaju se u biblioteku. Za objavljene recepte još nema podataka o prehrani, kuhinji, težini i ocjenama.",
     "loadingPublished": "Učitavanje objavljenih recepata...",
     "publishedError": "Objavljene recepte nije moguće učitati. Primjeri su i dalje prikazani.",
+    "loadingDietaryPreferences": "Učitavanje načina ishrane...",
+    "dietaryPreferencesUnavailable": "Načine ishrane nije moguće učitati. Pokušajte ponovo kasnije.",
     "sample": "Primjer",
     "sampleDetailsUnavailable": "Sastojci i koraci pripreme nisu dostupni za primjere recepata.",
     "published": "Objavljeno",
@@ -111,8 +113,8 @@
     },
     "difficulties": {
       "easy": "Jednostavno",
-      "medium": "Mala avantura",
-      "project": "Vikend projekt"
+      "medium": "Srednje",
+      "hard": "Teško"
     },
     "cuisines": {
       "italian": "Italijanska",
@@ -311,8 +313,19 @@
       "drink": "Piće"
     },
     "preferencesTitle": "Karakteristike recepta",
+    "loadingDietaryPreferences": "Učitavanje načina ishrane...",
+    "dietaryPreferencesUnavailable": "Načine ishrane nije moguće učitati. Pokušajte ponovo kasnije.",
     "dietaryPreferencesLabel": "Način ishrane",
+    "customDietaryPreferenceLabel": "Drugi način ishrane",
+    "customDietaryPreferencePlaceholder": "npr. manje ugljikohidrata",
+    "addPreference": "Dodaj preferencu",
     "cuisineLabel": "Kuhinja",
+    "findCuisine": "Pretražite kuhinje...",
+    "addCuisineTitle": "Dodaj kuhinju",
+    "addCuisine": "Dodaj kuhinju",
+    "cuisineNameLabel": "Naziv kuhinje",
+    "cuisineNamePlaceholder": "npr. korejska",
+    "cuisineNameRequired": "Unesite naziv kuhinje.",
     "difficultyLabel": "Težina",
     "notSpecified": "Nije navedeno",
     "cookbookTitle": "Samo za vašu zbirku",

@@ -59,6 +59,8 @@
     "demoNotice": "Sample recipes and ratings are illustrative. Bookmarks on this page last only while it is open and aren't added to your library. Published recipes don't yet have dietary, cuisine, difficulty, or rating information.",
     "loadingPublished": "Loading published recipes...",
     "publishedError": "Couldn't load published recipes. Sample recipes are still shown.",
+    "loadingDietaryPreferences": "Loading dietary preferences...",
+    "dietaryPreferencesUnavailable": "Couldn't load dietary preferences. Please try again later.",
     "sample": "Sample",
     "sampleDetailsUnavailable": "Ingredients and preparation steps are not available for sample recipes.",
     "published": "Published",
@@ -108,8 +110,8 @@
     },
     "difficulties": {
       "easy": "Easy",
-      "medium": "A little adventure",
-      "project": "Weekend project"
+      "medium": "Medium",
+      "hard": "Hard"
     },
     "cuisines": {
       "italian": "Italian",
@@ -308,8 +310,19 @@
       "drink": "Drink"
     },
     "preferencesTitle": "Recipe preferences",
+    "loadingDietaryPreferences": "Loading dietary preferences...",
+    "dietaryPreferencesUnavailable": "Couldn't load dietary preferences. Please try again later.",
     "dietaryPreferencesLabel": "Dietary preferences",
+    "customDietaryPreferenceLabel": "Other dietary preference",
+    "customDietaryPreferencePlaceholder": "e.g. low carb",
+    "addPreference": "Add preference",
     "cuisineLabel": "Cuisine",
+    "findCuisine": "Search cuisines...",
+    "addCuisineTitle": "Add a cuisine",
+    "addCuisine": "Add cuisine",
+    "cuisineNameLabel": "Cuisine name",
+    "cuisineNamePlaceholder": "e.g. Korean",
+    "cuisineNameRequired": "Enter a cuisine name.",
     "difficultyLabel": "Difficulty",
     "notSpecified": "Not specified",
     "cookbookTitle": "Just for your cookbook",

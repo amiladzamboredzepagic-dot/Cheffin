@@ -59,6 +59,8 @@
     "demoNotice": "Beispielrezepte und Bewertungen dienen zur Veranschaulichung. Lesezeichen gelten nur während diese Seite geöffnet ist und werden nicht zur Bibliothek hinzugefügt. Für veröffentlichte Rezepte fehlen noch Angaben zu Ernährung, Küche, Schwierigkeit und Bewertung.",
     "loadingPublished": "Veröffentlichte Rezepte werden geladen...",
     "publishedError": "Veröffentlichte Rezepte konnten nicht geladen werden. Beispielrezepte werden weiterhin angezeigt.",
+    "loadingDietaryPreferences": "Ernährungsweisen werden geladen...",
+    "dietaryPreferencesUnavailable": "Ernährungsweisen konnten nicht geladen werden. Bitte versuche es später erneut.",
     "sample": "Beispiel",
     "sampleDetailsUnavailable": "Zutaten und Zubereitungsschritte sind für Beispielrezepte nicht verfügbar.",
     "published": "Veröffentlicht",
@@ -108,8 +110,8 @@
     },
     "difficulties": {
       "easy": "Einfach",
-      "medium": "Kleines Abenteuer",
-      "project": "Wochenendprojekt"
+      "medium": "Mittel",
+      "hard": "Schwer"
     },
     "cuisines": {
       "italian": "Italienisch",
@@ -308,8 +310,19 @@
       "drink": "Getränk"
     },
     "preferencesTitle": "Rezeptmerkmale",
+    "loadingDietaryPreferences": "Ernährungsweisen werden geladen...",
+    "dietaryPreferencesUnavailable": "Ernährungsweisen konnten nicht geladen werden. Bitte versuche es später erneut.",
     "dietaryPreferencesLabel": "Ernährungsweise",
+    "customDietaryPreferenceLabel": "Andere Ernährungsweise",
+    "customDietaryPreferencePlaceholder": "z. B. kohlenhydratarm",
+    "addPreference": "Präferenz hinzufügen",
     "cuisineLabel": "Küche",
+    "findCuisine": "Küchen suchen...",
+    "addCuisineTitle": "Küche hinzufügen",
+    "addCuisine": "Küche hinzufügen",
+    "cuisineNameLabel": "Name der Küche",
+    "cuisineNamePlaceholder": "z. B. Koreanisch",
+    "cuisineNameRequired": "Gib einen Küchennamen ein.",
     "difficultyLabel": "Schwierigkeit",
     "notSpecified": "Nicht angegeben",
     "cookbookTitle": "Nur für dein Kochbuch",

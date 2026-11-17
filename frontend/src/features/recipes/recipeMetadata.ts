@@ -18,26 +18,6 @@ export const RECIPE_MEAL_TYPES = [
 
 export type RecipeMealType = (typeof RECIPE_MEAL_TYPES)[number]
 
-export const RECIPE_DIETARY_PREFERENCES = [
-  'vegetarian',
-  'vegan',
-  'glutenFree',
-  'dairyFree',
-  'highProtein',
-] as const
+export type RecipeCuisine = string
 
-export type RecipeDietaryPreference =
-  (typeof RECIPE_DIETARY_PREFERENCES)[number]
-
-export const RECIPE_CUISINES = [
-  'italian',
-  'mediterranean',
-  'asian',
-  'mexican',
-] as const
-
-export type RecipeCuisine = (typeof RECIPE_CUISINES)[number]
-
-export const RECIPE_DIFFICULTIES = ['easy', 'medium', 'project'] as const
-
-export type RecipeDifficulty = (typeof RECIPE_DIFFICULTIES)[number]
+export type RecipeDifficulty = string

@@ -10,6 +10,7 @@ import { DiscoveryResults } from './components/DiscoveryResults'
 import { DiscoverySearch } from './components/DiscoverySearch'
 import { Description } from '../../components/ui/typography/Description'
 import { usePublicRecipes } from './usePublicRecipes'
+import { useRecipeMetadataQuery } from '../recipes/hooks/useRecipeMetadataQuery'
 import {
   discoveryRecipes,
   emptyFilters,
@@ -18,6 +19,7 @@ import {
   type DiscoveryFilters,
   type DiscoveryMeal,
 } from './discovery.data'
+import { getRecipeAttributeTags } from './recipeTags'
 
 export function DiscoveryPage() {
   const { t, i18n } = useTranslation()
@@ -26,6 +28,13 @@ export function DiscoveryPage() {
   const [meal, setMeal] = useState<DiscoveryMeal>('all')
   const [filters, setFilters] = useState<DiscoveryFilters>(emptyFilters)
   const { recipes: publishedRecipes, loading, error } = usePublicRecipes()
+  const {
+    dietaryPreferences,
+    cuisines,
+    difficulties,
+    loading: metadataLoading,
+    error: metadataError,
+  } = useRecipeMetadataQuery()
 
   const recipes = [...publishedRecipes, ...discoveryRecipes].filter(
     (recipe) => {
@@ -35,7 +44,10 @@ export function DiscoveryPage() {
             t(`discovery.recipes.${recipe.id}.title`),
             t(`discovery.recipes.${recipe.id}.description`),
             t(`discovery.recipes.${recipe.id}.ingredients`),
-            recipe.cuisine ? t(`discovery.cuisines.${recipe.cuisine}`) : '',
+            ...getRecipeAttributeTags(
+              { dietaryPreferences: [], cuisine: recipe.cuisine },
+              (key) => t(key),
+            ),
           ].join(' ')
       return (
         (meal === 'all' || recipe.meal === meal) &&
@@ -59,8 +71,19 @@ export function DiscoveryPage() {
       />
       {loading && <Description>{t('discovery.loadingPublished')}</Description>}
       {error && <Alert severity="error">{t('discovery.publishedError')}</Alert>}
+      {metadataLoading && (
+        <Description>{t('discovery.loadingDietaryPreferences')}</Description>
+      )}
+      {metadataError && (
+        <Alert severity="error">
+          {t('discovery.dietaryPreferencesUnavailable')}
+        </Alert>
+      )}
       <Workspace>
         <DiscoveryFiltersSidebar
+          dietaryPreferences={dietaryPreferences}
+          cuisines={cuisines}
+          difficulties={difficulties}
           filters={filters}
           onFiltersChange={setFilters}
         />

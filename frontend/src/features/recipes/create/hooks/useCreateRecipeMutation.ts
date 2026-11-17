@@ -1,9 +1,7 @@
 import { gql, type TypedDocumentNode } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 import type {
-  RecipeCuisine,
   RecipeDifficulty,
-  RecipeDietaryPreference,
   RecipeMealType,
 } from '../../recipeMetadata'
 
@@ -23,8 +21,8 @@ export interface CreateRecipeInput {
   prepTimeMinutes: number
   servings: number
   mealType: RecipeMealType
-  dietaryPreferences: RecipeDietaryPreference[]
-  cuisine: RecipeCuisine | null
+  dietaryPreferences: string[]
+  cuisine: string | null
   difficulty: RecipeDifficulty | null
   photoBase64: string | null
   photoContentType: string | null

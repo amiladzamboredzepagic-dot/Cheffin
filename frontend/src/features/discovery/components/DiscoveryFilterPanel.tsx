@@ -3,22 +3,26 @@ import { useTranslation } from 'react-i18next'
 import { SectionIntroductionTitle } from '../../../components/ui/layout/SectionIntroduction.styles'
 import { FilterHeader, FilterPanel, ResetButton } from '../DiscoveryPage.styles'
 import {
-  cuisines,
-  diets,
-  difficulties,
   emptyFilters,
   times,
   type DiscoveryFilters,
 } from '../discovery.data'
 
-const filterGroups = [
-  { key: 'diets', values: diets },
-  { key: 'times', values: times },
-  { key: 'difficulties', values: difficulties },
-  { key: 'cuisines', values: cuisines },
-] as const
+type FilterGroup = {
+  key: keyof DiscoveryFilters
+  values: readonly string[]
+}
 
 interface DiscoveryFilterPanelProps {
+  dietaryPreferences: string[]
+  cuisines: string[]
+  difficulties: string[]
+  filters: DiscoveryFilters
+  onFiltersChange: Dispatch<SetStateAction<DiscoveryFilters>>
+}
+
+interface DiscoveryFilterGroupProps {
+  group: FilterGroup
   filters: DiscoveryFilters
   onFiltersChange: Dispatch<SetStateAction<DiscoveryFilters>>
 }
@@ -27,7 +31,7 @@ function DiscoveryFilterGroup({
   group,
   filters,
   onFiltersChange,
-}: DiscoveryFilterPanelProps & { group: (typeof filterGroups)[number] }) {
+}: DiscoveryFilterGroupProps) {
   const { t } = useTranslation()
 
   return (
@@ -48,7 +52,7 @@ function DiscoveryFilterGroup({
               }))
             }}
           />
-          {t(`discovery.${group.key}.${value}`)}
+          {t(`discovery.${group.key}.${value}`, { defaultValue: value })}
         </label>
       ))}
     </fieldset>
@@ -56,10 +60,19 @@ function DiscoveryFilterGroup({
 }
 
 export function DiscoveryFilterPanel({
+  dietaryPreferences,
+  cuisines,
+  difficulties,
   filters,
   onFiltersChange,
 }: DiscoveryFilterPanelProps) {
   const { t } = useTranslation()
+  const filterGroups: FilterGroup[] = [
+    { key: 'diets', values: dietaryPreferences },
+    { key: 'times', values: times },
+    { key: 'difficulties', values: difficulties },
+    { key: 'cuisines', values: cuisines },
+  ]
 
   return (
     <>

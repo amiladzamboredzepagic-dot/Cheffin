@@ -16,10 +16,9 @@ import { RecipeCollectionSection } from './manual/RecipeCollectionSection'
 import { RecipeBasicsSection } from './manual/RecipeBasicsSection'
 import { RecipeDetailsSection } from './manual/RecipeDetailsSection'
 import { RecipePreferencesSection } from './manual/RecipePreferencesSection'
+import { useRecipeMetadataQuery } from '../../hooks/useRecipeMetadataQuery'
 import type {
-  RecipeCuisine,
   RecipeDifficulty,
-  RecipeDietaryPreference,
   RecipeMealType,
 } from '../../recipeMetadata'
 import { useCreateRecipeMutation } from '../hooks/useCreateRecipeMutation'
@@ -52,6 +51,13 @@ export function WriteYourOwnRecipe({
 }: WriteYourOwnRecipeProps) {
   const { t } = useTranslation()
   const { createRecipe, loading } = useCreateRecipeMutation()
+  const {
+    dietaryPreferences: supportedDietaryPreferences,
+    cuisines: supportedCuisines,
+    difficulties: supportedDifficulties,
+    loading: metadataLoading,
+    error: metadataError,
+  } = useRecipeMetadataQuery()
 
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
@@ -60,10 +66,8 @@ export function WriteYourOwnRecipe({
   const [prepTime, setPrepTime] = useState<string>('')
   const [servings, setServings] = useState<string>('')
   const [mealType, setMealType] = useState<RecipeMealType>(DEFAULT_MEAL_TYPE)
-  const [dietaryPreferences, setDietaryPreferences] = useState<
-    RecipeDietaryPreference[]
-  >([])
-  const [cuisine, setCuisine] = useState<RecipeCuisine | null>(null)
+  const [dietaryPreferences, setDietaryPreferences] = useState<string[]>([])
+  const [cuisine, setCuisine] = useState<string | null>(null)
   const [difficulty, setDifficulty] = useState<RecipeDifficulty | null>(null)
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoResetKey, setPhotoResetKey] = useState(0)
@@ -159,6 +163,11 @@ export function WriteYourOwnRecipe({
             />
             <RecipePreferencesSection
               dietaryPreferences={dietaryPreferences}
+              supportedDietaryPreferences={supportedDietaryPreferences}
+              supportedCuisines={supportedCuisines}
+              supportedDifficulties={supportedDifficulties}
+              metadataLoading={metadataLoading}
+              metadataError={Boolean(metadataError)}
               cuisine={cuisine}
               difficulty={difficulty}
               onDietaryPreferencesChange={setDietaryPreferences}

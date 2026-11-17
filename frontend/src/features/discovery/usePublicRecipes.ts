@@ -1,9 +1,7 @@
 import { gql, type TypedDocumentNode } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 import type {
-  RecipeCuisine,
   RecipeDifficulty,
-  RecipeDietaryPreference,
   RecipeMealType,
 } from '../recipes/recipeMetadata'
 import { RECIPE_MEAL_TYPE } from '../recipes/recipeMetadata'
@@ -22,8 +20,8 @@ interface PublicRecipe {
   prepTimeMinutes: number
   servings: number
   mealType: RecipeMealType
-  dietaryPreferences: RecipeDietaryPreference[]
-  cuisine: RecipeCuisine | null
+  dietaryPreferences: string[]
+  cuisine: string | null
   difficulty: RecipeDifficulty | null
   photoContentType: string | null
   photoBase64: string | null
