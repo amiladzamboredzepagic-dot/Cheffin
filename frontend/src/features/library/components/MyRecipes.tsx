@@ -1,8 +1,13 @@
 import { Alert, Box } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { FeedbackSnackbar } from '../../../components/ui/feedback/FeedbackSnackbar'
 import { Description } from '../../../components/ui/typography/Description'
+import {
+  getLibraryRecipeStatusFromPath,
+  libraryRecipeStatusPath,
+} from '../LibraryRoutes'
 import { RecipeGrid } from '../LibraryPage.styles'
 import { useMyRecipesQuery } from '../hooks/useMyRecipesQuery'
 import { usePublishRecipeMutation } from '../hooks/usePublishRecipeMutation'
@@ -31,13 +36,18 @@ interface MyRecipesProps {
 
 export function MyRecipes({ collectionId }: MyRecipesProps) {
   const { t } = useTranslation()
-  const [filter, setFilter] = useState<RecipeStatusFilter>(
-    RECIPE_STATUS_FILTER.ALL,
-  )
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const routeFilter = getLibraryRecipeStatusFromPath(pathname)
+  const filter = routeFilter
   const [feedback, setFeedback] = useState<'success' | 'error' | null>(null)
 
   const { publishRecipe, loading: publishing } = usePublishRecipeMutation()
   const { recipes: allRecipes, loading, error, refetch } = useMyRecipesQuery()
+
+  const handleFilterChange = (nextFilter: RecipeStatusFilter) => {
+    navigate(libraryRecipeStatusPath(nextFilter, collectionId ?? undefined))
+  }
 
   const handlePublish = async (recipeId: string) => {
     try {
@@ -66,7 +76,7 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
 
   return (
     <>
-      <MyRecipesFilter value={filter} onChange={setFilter} />
+      <MyRecipesFilter value={filter} onChange={handleFilterChange} />
       {recipes.length === 0 ? (
         <Box sx={{ mt: 2 }}>
           <Description>

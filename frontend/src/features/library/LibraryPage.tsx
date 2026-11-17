@@ -22,7 +22,13 @@ import type { LibraryTab } from './components/libraryTab'
 export function LibraryPage() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const collectionMatch = useMatch(LIBRARY_ROUTES.COLLECTION)
+  const baseCollectionMatch = useMatch(LIBRARY_ROUTES.COLLECTION)
+  const draftsCollectionMatch = useMatch(LIBRARY_ROUTES.COLLECTION_DRAFTS)
+  const publishedCollectionMatch = useMatch(
+    LIBRARY_ROUTES.COLLECTION_PUBLISHED,
+  )
+  const collectionMatch =
+    baseCollectionMatch ?? draftsCollectionMatch ?? publishedCollectionMatch
   const collectionId = collectionMatch?.params.collectionId
   const { data, loading, error } = useQuery(MY_COLLECTIONS, {
     fetchPolicy: 'network-only',
