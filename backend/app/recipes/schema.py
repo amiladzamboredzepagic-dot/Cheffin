@@ -10,6 +10,7 @@ from pymongo.errors import DuplicateKeyError
 
 from app.db.database import get_database
 from app.graphql.auth import require_auth
+from app.recipes.metadata import RECIPE_DIETARY_PREFERENCES
 from app.recipes.models import CollectionCreateData, RecipeCreateData
 
 
@@ -61,7 +62,18 @@ class PublicRecipe:
 
 
 @strawberry.type
+class RecipeMetadata:
+    dietary_preferences: list[str]
+
+
+@strawberry.type
 class Query:
+    @strawberry.field
+    def recipe_metadata(self) -> RecipeMetadata:
+        return RecipeMetadata(
+            dietary_preferences=list(RECIPE_DIETARY_PREFERENCES)
+        )
+
     @strawberry.field
     async def my_collections(self, info: strawberry.Info) -> list[Collection]:
         owner_id = require_owner_id(info)

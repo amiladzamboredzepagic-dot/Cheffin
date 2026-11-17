@@ -64,6 +64,18 @@ class FakeDatabase:
 
 
 class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
+    async def test_returns_recipe_dietary_preferences_metadata(self) -> None:
+        result = await schema.execute(
+            "{ recipeMetadata { dietaryPreferences } }",
+            context_value=SimpleNamespace(user=None),
+        )
+
+        self.assertIsNone(result.errors)
+        self.assertEqual(
+            result.data["recipeMetadata"]["dietaryPreferences"],
+            ["vegetarian", "vegan", "glutenFree", "dairyFree", "highProtein"],
+        )
+
     async def test_persists_and_returns_recipe_taxonomy(self) -> None:
         database = FakeDatabase()
         create = """
@@ -82,8 +94,8 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
             "prepTimeMinutes": 40,
             "servings": 6,
             "mealType": "dessert",
-            "dietaryPreferences": ["vegetarian", "glutenFree"],
-            "cuisine": "mediterranean",
+            "dietaryPreferences": ["low carb", "whole30"],
+            "cuisine": "Korean fusion",
             "difficulty": "medium",
             "publish": True,
         }
@@ -116,20 +128,23 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
             created.data["createRecipe"],
             {
                 "mealType": "dessert",
-                "dietaryPreferences": ["vegetarian", "glutenFree"],
-                "cuisine": "mediterranean",
+                "dietaryPreferences": ["low carb", "whole30"],
+                "cuisine": "Korean fusion",
                 "difficulty": "medium",
             },
         )
-        self.assertEqual(database.recipes.document["dietary_preferences"], ["vegetarian", "glutenFree"])
-        self.assertEqual(database.recipes.document["cuisine"], "mediterranean")
+        self.assertEqual(
+            database.recipes.document["dietary_preferences"],
+            ["low carb", "whole30"],
+        )
+        self.assertEqual(database.recipes.document["cuisine"], "Korean fusion")
         self.assertEqual(database.recipes.document["difficulty"], "medium")
         self.assertIsNone(mine.errors)
         self.assertEqual(
             mine.data["myRecipes"][0],
             {
-                "dietaryPreferences": ["vegetarian", "glutenFree"],
-                "cuisine": "mediterranean",
+                "dietaryPreferences": ["low carb", "whole30"],
+                "cuisine": "Korean fusion",
                 "difficulty": "medium",
             },
         )
@@ -138,8 +153,8 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
             public.data["publicRecipes"][0],
             {
                 "mealType": "dessert",
-                "dietaryPreferences": ["vegetarian", "glutenFree"],
-                "cuisine": "mediterranean",
+                "dietaryPreferences": ["low carb", "whole30"],
+                "cuisine": "Korean fusion",
                 "difficulty": "medium",
             },
         )

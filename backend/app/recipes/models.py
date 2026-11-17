@@ -1,16 +1,22 @@
 import base64
 import binascii
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 
 MAX_RECIPE_PHOTO_SIZE_BYTES = 10 * 1024 * 1024
+MAX_RECIPE_METADATA_VALUE_LENGTH = 60
+MAX_RECIPE_DIETARY_PREFERENCES = 12
 MealType = Literal["breakfast", "lunch", "dinner", "snack", "dessert", "drink"]
-DietaryPreference = Literal[
-    "vegetarian", "vegan", "glutenFree", "dairyFree", "highProtein"
+DietaryPreference = Annotated[
+    str,
+    Field(min_length=1, max_length=MAX_RECIPE_METADATA_VALUE_LENGTH),
 ]
-Cuisine = Literal["italian", "mediterranean", "asian", "mexican"]
-Difficulty = Literal["easy", "medium", "project"]
+Cuisine = Annotated[
+    str,
+    Field(min_length=1, max_length=MAX_RECIPE_METADATA_VALUE_LENGTH),
+]
+Difficulty = Literal["easy", "medium", "hard"]
 
 
 class RecipeCreateData(BaseModel):
@@ -23,7 +29,10 @@ class RecipeCreateData(BaseModel):
     prep_time_minutes: StrictInt = Field(gt=0)
     servings: StrictInt = Field(gt=0)
     meal_type: MealType
-    dietary_preferences: list[DietaryPreference] = Field(default_factory=list)
+    dietary_preferences: list[DietaryPreference] = Field(
+        default_factory=list,
+        max_length=MAX_RECIPE_DIETARY_PREFERENCES,
+    )
     cuisine: Cuisine | None = None
     difficulty: Difficulty | None = None
     photo_base64: str | None = None

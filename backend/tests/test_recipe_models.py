@@ -52,18 +52,31 @@ class RecipeCreateDataTests(unittest.TestCase):
                 "meal_type": "dessert",
                 "dietary_preferences": ["vegan", "glutenFree"],
                 "cuisine": "mediterranean",
-                "difficulty": "easy",
+                "difficulty": "hard",
             }
         )
         self.assertEqual(recipe.meal_type, "dessert")
         self.assertEqual(recipe.dietary_preferences, ["vegan", "glutenFree"])
         self.assertEqual(recipe.cuisine, "mediterranean")
-        self.assertEqual(recipe.difficulty, "easy")
+        self.assertEqual(recipe.difficulty, "hard")
+
+        custom = RecipeCreateData.model_validate(
+            {
+                **self.valid_recipe,
+                "dietary_preferences": ["  low carb  "],
+                "cuisine": "  Korean fusion  ",
+            }
+        )
+        self.assertEqual(custom.dietary_preferences, ["low carb"])
+        self.assertEqual(custom.cuisine, "Korean fusion")
 
         for invalid_fields in (
-            {"dietary_preferences": ["keto"]},
-            {"cuisine": "unknown"},
-            {"difficulty": "expert"},
+            {"dietary_preferences": [" "]},
+            {"dietary_preferences": ["x" * 61]},
+            {"cuisine": " "},
+            {"cuisine": "x" * 61},
+            {"dietary_preferences": [f"option-{index}" for index in range(13)]},
+            {"difficulty": "project"},
         ):
             with self.subTest(invalid_fields=invalid_fields):
                 with self.assertRaises(ValidationError):
