@@ -60,8 +60,8 @@ export function CustomSelectMenu({
       label={hideLabel ? undefined : label}
       value={value}
       disabled={disabled}
-      sx={
-        compact
+      sx={{
+        ...(compact
           ? {
               width: 'auto',
               '& .MuiOutlinedInput-root': {
@@ -70,15 +70,15 @@ export function CustomSelectMenu({
                 fontSize: '12px',
                 color: 'text.label',
               },
-              '& .MuiSelect-icon': {
-                width: 16,
-                height: 16,
-                top: 'calc(50% - 8px)',
-                right: 10,
-              },
             }
-          : undefined
-      }
+          : {}),
+        '& .MuiSelect-icon': {
+          width: 16,
+          height: 16,
+          top: 'calc(50% - 8px)',
+          right: 10,
+        },
+      }}
       onChange={(e) => {
         onChange(e.target.value)
         setOpen(false)
@@ -119,7 +119,7 @@ export function CustomSelectMenu({
                   },
                 },
               }
-            : undefined,
+              : undefined,
           renderValue: (selectedValue: unknown) => {
             const selectedOption = options.find(
               (option) => option.id === selectedValue,
