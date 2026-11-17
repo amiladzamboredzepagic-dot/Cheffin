@@ -37,6 +37,7 @@ class MyRecipe:
     photo_content_type: str | None
     photo_base64: str | None
     is_private: bool
+    collection_id: str | None
 
 
 @strawberry.type
@@ -87,6 +88,11 @@ class Query:
                         b64encode(photo["data"]).decode("ascii") if photo else None
                     ),
                     is_private=document.get("is_private", True),
+                    collection_id=(
+                        str(document["collection_id"])
+                        if document.get("collection_id") is not None
+                        else None
+                    ),
                 )
             )
         return recipes

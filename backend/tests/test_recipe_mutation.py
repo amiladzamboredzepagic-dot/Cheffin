@@ -210,7 +210,7 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         ]
         query = """
             { myRecipes {
-                id title description prepTimeMinutes servings photoContentType photoBase64 isPrivate
+                id title description prepTimeMinutes servings photoContentType photoBase64 isPrivate collectionId
             } }
         """
 
@@ -238,6 +238,7 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(recipes[0]["prepTimeMinutes"], 20)
         self.assertEqual(recipes[0]["servings"], 2)
         self.assertTrue(all(recipe["isPrivate"] for recipe in recipes))
+        self.assertTrue(all(recipe["collectionId"] is None for recipe in recipes))
         self.assertIsNotNone(unauthenticated.errors)
         self.assertIsNone(empty.errors)
         self.assertEqual(empty.data["myRecipes"], [])
