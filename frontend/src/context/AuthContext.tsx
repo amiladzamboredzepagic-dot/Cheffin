@@ -1,9 +1,11 @@
-import { useState, useEffect, type ReactNode } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { apolloClient, setAccessTokenGetter } from '../apolloClient'
 import { API_ENDPOINTS } from '../constants/apiEndpoints'
 import {
   AuthContext,
   AuthRequestError,
+  type AuthMode,
   type AuthResponse,
 } from './auth-context'
 
@@ -27,9 +29,13 @@ async function readAuthResponse(response: Response): Promise<AuthResponse> {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const navigate = useNavigate()
+
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [firstName, setFirstName] = useState<string | null>(null)
   const [lastName, setLastName] = useState<string | null>(null)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authMode, setAuthMode] = useState<AuthMode>('login')
   const [loading, setLoading] = useState(true)
   const [loginLoading, setLoginLoading] = useState(false)
   const [registerLoading, setRegisterLoading] = useState(false)
@@ -139,10 +145,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLastName(null)
   }
 
+  const openLogin = () => {
+    setAuthMode('login')
+    setAuthModalOpen(true)
+  }
+
+  const openSignup = () => {
+    setAuthMode('signup')
+    setAuthModalOpen(true)
+  }
+
+  const closeAuthModal = () => setAuthModalOpen(false)
+
+  const requireAuthentication = useCallback(() => {
+    setAuthMode('login')
+    setAuthModalOpen(true)
+    navigate('/', { replace: true })
+  }, [navigate])
+
   return (
     <AuthContext.Provider
       value={{
         accessToken,
+        isAuthenticated: Boolean(accessToken),
         firstName,
         lastName,
         login,
@@ -151,6 +176,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         registerLoading,
         logout,
         loading,
+        authModalOpen,
+        authMode,
+        setAuthMode,
+        openLogin,
+        openSignup,
+        closeAuthModal,
+        requireAuthentication,
       }}
     >
       {!loading && children}

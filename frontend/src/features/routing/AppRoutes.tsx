@@ -6,46 +6,19 @@ import { getRecipeCreateRouteElements } from '../recipes/create/RecipeCreateRout
 import { ProtectedRoute } from './ProtectedRoute'
 import { DiscoveryPage } from '../discovery/DiscoveryPage'
 
-interface AppRoutesProps {
-  isAuthenticated: boolean
-  onAuthenticationRequired: () => void
-  onCreateAccount: () => void
-  onLogin: () => void
-}
-
-export function AppRoutes({
-  isAuthenticated,
-  onAuthenticationRequired,
-  onCreateAccount,
-  onLogin,
-}: AppRoutesProps) {
+export function AppRoutes() {
   const libraryPage = (
-    <ProtectedRoute
-      isAuthenticated={isAuthenticated}
-      onAuthenticationRequired={onAuthenticationRequired}
-    >
+    <ProtectedRoute>
       <LibraryPage />
     </ProtectedRoute>
   )
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <LandingPage
-            isAuthenticated={isAuthenticated}
-            onCreateAccount={onCreateAccount}
-            onLogin={onLogin}
-          />
-        }
-      />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/explore" element={<DiscoveryPage />} />
       {getLibraryRouteElements(libraryPage)}
-      {getRecipeCreateRouteElements({
-        isAuthenticated,
-        onAuthenticationRequired,
-      })}
+      {getRecipeCreateRouteElements()}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

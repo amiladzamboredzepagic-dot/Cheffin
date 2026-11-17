@@ -1,24 +1,20 @@
 import { useEffect, type ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/useAuth'
 
 interface ProtectedRouteProps {
   children: ReactNode
-  isAuthenticated: boolean
-  onAuthenticationRequired: () => void
 }
 
-export function ProtectedRoute({
-  children,
-  isAuthenticated,
-  onAuthenticationRequired,
-}: ProtectedRouteProps) {
+export function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const { isAuthenticated, requireAuthentication } = useAuth()
   const location = useLocation()
 
   useEffect(() => {
     if (!isAuthenticated) {
-      onAuthenticationRequired()
+      requireAuthentication()
     }
-  }, [isAuthenticated, onAuthenticationRequired])
+  }, [isAuthenticated, requireAuthentication])
 
   if (!isAuthenticated) {
     return <Navigate to="/" state={{ from: location }} replace />

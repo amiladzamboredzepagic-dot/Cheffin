@@ -6,8 +6,11 @@ export interface AuthResponse {
   last_name?: string
 }
 
+export type AuthMode = 'login' | 'signup'
+
 export interface AuthContextValue {
   accessToken: string | null
+  isAuthenticated: boolean
   firstName: string | null
   lastName: string | null
   login: (email: string, password: string) => Promise<AuthResponse>
@@ -21,6 +24,13 @@ export interface AuthContextValue {
   registerLoading: boolean
   logout: () => Promise<void>
   loading: boolean
+  authModalOpen: boolean
+  authMode: AuthMode
+  setAuthMode: (mode: AuthMode) => void
+  openLogin: () => void
+  openSignup: () => void
+  closeAuthModal: () => void
+  requireAuthentication: () => void
 }
 
 export class AuthRequestError extends Error {

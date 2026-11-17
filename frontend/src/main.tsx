@@ -12,14 +12,14 @@ import './i18n'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
             <App />
-          </BrowserRouter>
-        </ThemeProvider>
-      </AuthProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,
 )
