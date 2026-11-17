@@ -1,7 +1,5 @@
 import type {
-  RecipeCuisine,
   RecipeDifficulty,
-  RecipeDietaryPreference,
   RecipeMealType,
 } from '../../../recipeMetadata'
 
@@ -15,8 +13,8 @@ export interface ManualRecipeDraft {
   prepTimeMinutes: string
   servings: string
   mealType: RecipeMealType
-  dietaryPreferences: RecipeDietaryPreference[]
-  cuisine: RecipeCuisine | null
+  dietaryPreferences: string[]
+  cuisine: string | null
   difficulty: RecipeDifficulty | null
   photo: File | null
 }

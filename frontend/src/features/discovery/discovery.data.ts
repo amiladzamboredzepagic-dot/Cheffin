@@ -1,12 +1,3 @@
-import {
-  RECIPE_CUISINES,
-  RECIPE_DIETARY_PREFERENCES,
-  RECIPE_DIFFICULTIES,
-  type RecipeCuisine,
-  type RecipeDifficulty,
-  type RecipeDietaryPreference,
-} from '../recipes/recipeMetadata'
-
 export const meals = [
   'breakfast',
   'lunch',
@@ -15,17 +6,14 @@ export const meals = [
   'desserts',
   'drinks',
 ] as const
-export const diets = RECIPE_DIETARY_PREFERENCES
 export const times = ['under15', 'from15to30', 'from30to60', 'over60'] as const
-export const difficulties = RECIPE_DIFFICULTIES
-export const cuisines = RECIPE_CUISINES
 
 type Meal = (typeof meals)[number]
 export type DiscoveryMeal = 'all' | Meal
-type Diet = RecipeDietaryPreference
+type Diet = string
 type Time = (typeof times)[number]
-type Difficulty = RecipeDifficulty
-type Cuisine = RecipeCuisine
+type Difficulty = string
+type Cuisine = string
 
 export const DISCOVERY_RECIPE_SOURCE_KEY = 'source'
 export const DISCOVERY_RECIPE_SOURCE = {
@@ -37,10 +25,10 @@ export interface DiscoveryRecipe {
   id: string
   imageUrl: string
   meal: Meal
-  diets: readonly Diet[]
+  diets: readonly string[]
   minutes: number
   difficulty?: Difficulty
-  cuisine?: Cuisine
+  cuisine?: string
   rating?: number
 }
 
@@ -186,6 +174,6 @@ export function matchesFilters(
         filters.difficulties.includes(recipe.difficulty))) &&
     (!filters.cuisines.length ||
       (recipe.cuisine !== undefined &&
-        filters.cuisines.includes(recipe.cuisine)))
+        filters.cuisines.some((cuisine) => cuisine === recipe.cuisine)))
   )
 }

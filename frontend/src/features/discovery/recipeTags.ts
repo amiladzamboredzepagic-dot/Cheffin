@@ -1,51 +1,60 @@
-import type {
-  RecipeCuisine,
-  RecipeDifficulty,
-  RecipeDietaryPreference,
-} from '../recipes/recipeMetadata'
 import {
   isPublishedRecipe,
   type DiscoveryRecipe,
 } from './discovery.data'
 
+type Translate = (key: string) => string
+
 interface RecipeTagAttributes {
-  dietaryPreferences: readonly RecipeDietaryPreference[]
-  cuisine?: RecipeCuisine | null
-  difficulty?: RecipeDifficulty | null
+  dietaryPreferences: readonly string[]
+  cuisine?: string | null
+  difficulty?: string | null
 }
 
-export function getRecipeAttributeTagKeys({
-  dietaryPreferences,
-  cuisine,
-  difficulty,
-}: RecipeTagAttributes): string[] {
+function translateMetadata(value: string, prefix: string, translate: Translate) {
+  const key = `${prefix}.${value}`
+  const translated = translate(key)
+  return translated === key ? value : translated
+}
+
+export function getRecipeAttributeTags(
+  { dietaryPreferences, cuisine, difficulty }: RecipeTagAttributes,
+  translate: Translate,
+): string[] {
   return [
-    ...dietaryPreferences.map(
-      (preference) => `discovery.diets.${preference}`,
+    ...dietaryPreferences.map((preference) =>
+      translateMetadata(preference, 'discovery.diets', translate),
     ),
-    ...(cuisine ? [`discovery.cuisines.${cuisine}`] : []),
-    ...(difficulty ? [`discovery.difficulties.${difficulty}`] : []),
+    ...(cuisine
+      ? [
+          translateMetadata(cuisine, 'discovery.cuisines', translate),
+        ]
+      : []),
+    ...(difficulty
+      ? [
+          translateMetadata(difficulty, 'discovery.difficulties', translate),
+        ]
+      : []),
   ]
 }
 
-export function getRecipeTagKeys(recipe: DiscoveryRecipe): string[] {
-  if (!isPublishedRecipe(recipe)) {
-    return [
-      'discovery.sample',
-      `discovery.meals.${recipe.meal}`,
-      ...getRecipeAttributeTagKeys({
-        dietaryPreferences: recipe.diets.slice(0, 1),
-      }),
-    ]
-  }
+export function getRecipeTags(
+  recipe: DiscoveryRecipe,
+  translate: Translate,
+): string[] {
+  const published = isPublishedRecipe(recipe)
 
   return [
-    'discovery.published',
-    `discovery.meals.${recipe.meal}`,
-    ...getRecipeAttributeTagKeys({
-      dietaryPreferences: recipe.diets,
-      cuisine: recipe.cuisine,
-      difficulty: recipe.difficulty,
-    }),
+    translate(published ? 'discovery.published' : 'discovery.sample'),
+    translate(`discovery.meals.${recipe.meal}`),
+    ...getRecipeAttributeTags(
+      {
+        dietaryPreferences: published ? recipe.diets : recipe.diets.slice(0, 1),
+        cuisine: published ? recipe.cuisine : undefined,
+        difficulty: published ? recipe.difficulty : undefined,
+      },
+      translate,
+    ),
   ]
 }
+
