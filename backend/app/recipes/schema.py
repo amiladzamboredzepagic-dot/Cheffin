@@ -71,6 +71,24 @@ class PublicRecipe:
 
 
 @strawberry.type
+class SavedPublicRecipe:
+    id: str
+    title: str
+    description: str
+    ingredients: list[str]
+    steps: list[str]
+    prep_time_minutes: int
+    servings: int
+    meal_type: str
+    dietary_preferences: list[str]
+    cuisine: str | None
+    difficulty: str | None
+    photo_content_type: str | None
+    photo_base64: str | None
+    collection_id: str | None
+
+
+@strawberry.type
 class RecipeMetadata:
     dietary_preferences: list[str]
     custom_dietary_preferences: list[str]
@@ -183,6 +201,56 @@ class Query:
                 )
             )
         return recipes
+
+    @strawberry.field
+    async def my_saved_recipes(
+        self, info: strawberry.Info
+    ) -> list[SavedPublicRecipe]:
+        owner_id = require_owner_id(info)
+        database = get_database()
+        cursor = database["saved_recipes"].find(
+            {"owner_id": owner_id}
+        ).sort("saved_at", -1)
+        saved_recipes = []
+        async for saved_document in cursor:
+            recipe_document = await database["recipes"].find_one(
+                {
+                    "_id": saved_document["recipe_id"],
+                    "is_private": False,
+                }
+            )
+            if recipe_document is None:
+                continue
+
+            photo = recipe_document.get("photo")
+            collection_id = saved_document.get("collection_id")
+            saved_recipes.append(
+                SavedPublicRecipe(
+                    id=str(recipe_document["_id"]),
+                    title=recipe_document["title"],
+                    description=recipe_document["description"],
+                    ingredients=recipe_document["ingredients"],
+                    steps=recipe_document["steps"],
+                    prep_time_minutes=recipe_document["prep_time_minutes"],
+                    servings=recipe_document["servings"],
+                    meal_type=recipe_document["meal_type"],
+                    dietary_preferences=(
+                        recipe_document.get("dietary_preferences") or []
+                    ),
+                    cuisine=recipe_document.get("cuisine"),
+                    difficulty=recipe_document.get("difficulty"),
+                    photo_content_type=(
+                        photo["content_type"] if photo else None
+                    ),
+                    photo_base64=(
+                        b64encode(photo["data"]).decode("ascii") if photo else None
+                    ),
+                    collection_id=(
+                        str(collection_id) if collection_id is not None else None
+                    ),
+                )
+            )
+        return saved_recipes
 
 
 @strawberry.input
@@ -344,6 +412,71 @@ class Mutation:
             ) from error
 
         return Collection(id=str(result.inserted_id), name=collection_data.name)
+
+    @strawberry.mutation
+    async def save_public_recipe(
+        self,
+        info: strawberry.Info,
+        recipe_id: str,
+        collection_id: str | None = None,
+    ) -> bool:
+        owner_id = require_owner_id(info)
+        if not ObjectId.is_valid(recipe_id):
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+
+        recipe_object_id = ObjectId(recipe_id)
+        database = get_database()
+        recipe = await database["recipes"].find_one(
+            {"_id": recipe_object_id, "is_private": False}
+        )
+        if recipe is None:
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+
+        collection_object_id = None
+        if collection_id is not None:
+            if not ObjectId.is_valid(collection_id):
+                raise GraphQLError(
+                    "Invalid collection",
+                    extensions={"code": "BAD_USER_INPUT"},
+                )
+            collection_object_id = ObjectId(collection_id)
+            collection = await database["collections"].find_one(
+                {"_id": collection_object_id, "owner_id": owner_id}
+            )
+            if collection is None:
+                raise GraphQLError(
+                    "Collection not found",
+                    extensions={"code": "BAD_USER_INPUT"},
+                )
+
+        await database["saved_recipes"].update_one(
+            {"owner_id": owner_id, "recipe_id": recipe_object_id},
+            {
+                "$set": {
+                    "collection_id": collection_object_id,
+                    "saved_at": datetime.now(timezone.utc),
+                },
+                "$setOnInsert": {
+                    "owner_id": owner_id,
+                    "recipe_id": recipe_object_id,
+                },
+            },
+            upsert=True,
+        )
+        return True
+
+    @strawberry.mutation
+    async def remove_saved_recipe(
+        self, info: strawberry.Info, recipe_id: str
+    ) -> bool:
+        owner_id = require_owner_id(info)
+        if not ObjectId.is_valid(recipe_id):
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+
+        result = await get_database()["saved_recipes"].delete_one(
+            {"owner_id": owner_id, "recipe_id": ObjectId(recipe_id)}
+        )
+        return result.deleted_count > 0
 
     @strawberry.mutation
     async def create_recipe(
