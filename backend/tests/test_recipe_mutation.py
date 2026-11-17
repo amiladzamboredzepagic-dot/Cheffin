@@ -29,6 +29,13 @@ class FakeRecipeCollection:
             ]
         )
 
+    async def update_one(self, query: dict, update: dict) -> SimpleNamespace:
+        for document in self.documents:
+            if all(document.get(key) == value for key, value in query.items()):
+                document.update(update["$set"])
+                return SimpleNamespace(matched_count=1)
+        return SimpleNamespace(matched_count=0)
+
 
 class FakeRecipeCursor:
     def __init__(self, documents: list[dict]) -> None:
@@ -57,6 +64,88 @@ class FakeDatabase:
 
 
 class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
+    async def test_publishing_is_owner_only_and_public_listing_excludes_drafts(self) -> None:
+        database = FakeDatabase()
+        create = """
+            mutation Create($input: CreateRecipeInput!) {
+              createRecipe(input: $input) { id isPrivate }
+            }
+        """
+        publish = """
+            mutation Publish($id: String!) { publishRecipe(recipeId: $id) }
+        """
+        recipe_input = {
+            "title": "Tomato soup",
+            "ingredients": ["2 tomatoes"],
+            "steps": ["Cook"],
+            "prepTimeMinutes": 20,
+            "servings": 2,
+            "mealType": "lunch",
+        }
+        with patch("app.recipes.schema.get_database", return_value=database):
+            draft = await schema.execute(
+                create, variable_values={"input": recipe_input},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            direct = await schema.execute(
+                create, variable_values={"input": {**recipe_input, "publish": True}},
+                context_value=SimpleNamespace(user={"sub": "other"}),
+            )
+            recipe_id = draft.data["createRecipe"]["id"]
+            rejected = await schema.execute(
+                publish, variable_values={"id": recipe_id},
+                context_value=SimpleNamespace(user={"sub": "other"}),
+            )
+            anonymous = await schema.execute(
+                publish, variable_values={"id": recipe_id},
+                context_value=SimpleNamespace(user=None),
+            )
+            invalid = await schema.execute(
+                publish, variable_values={"id": "invalid"},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            before = await schema.execute(
+                "{ publicRecipes { id ingredients steps } }",
+                context_value=SimpleNamespace(user=None),
+            )
+            published = await schema.execute(
+                publish, variable_values={"id": recipe_id},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            after = await schema.execute(
+                "{ publicRecipes { id ingredients steps } }",
+                context_value=SimpleNamespace(user=None),
+            )
+            mine = await schema.execute(
+                "{ myRecipes { id isPrivate } }",
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            direct_mine = await schema.execute(
+                "{ myRecipes { id isPrivate } }",
+                context_value=SimpleNamespace(user={"sub": "other"}),
+            )
+
+        self.assertIsNone(draft.errors)
+        self.assertTrue(draft.data["createRecipe"]["isPrivate"])
+        self.assertIsNone(direct.errors)
+        self.assertFalse(direct.data["createRecipe"]["isPrivate"])
+        self.assertIsNotNone(rejected.errors)
+        self.assertIsNotNone(anonymous.errors)
+        self.assertIsNotNone(invalid.errors)
+        self.assertIsNone(before.errors)
+        self.assertEqual([item["id"] for item in before.data["publicRecipes"]], [direct.data["createRecipe"]["id"]])
+        self.assertIsNone(published.errors)
+        self.assertTrue(published.data["publishRecipe"])
+        self.assertIsNone(after.errors)
+        self.assertEqual(len(after.data["publicRecipes"]), 2)
+        self.assertEqual(after.data["publicRecipes"][0]["ingredients"], ["2 tomatoes"])
+        self.assertEqual(after.data["publicRecipes"][0]["steps"], ["Cook"])
+        self.assertFalse(mine.data["myRecipes"][0]["isPrivate"])
+        self.assertEqual(
+            direct_mine.data["myRecipes"][0]["id"], direct.data["createRecipe"]["id"]
+        )
+        self.assertFalse(direct_mine.data["myRecipes"][0]["isPrivate"])
+
     async def test_saves_recipe_as_private_to_authenticated_user(self) -> None:
         database = FakeDatabase()
         query = """
@@ -121,7 +210,7 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         ]
         query = """
             { myRecipes {
-                id title description prepTimeMinutes servings photoContentType photoBase64
+                id title description prepTimeMinutes servings photoContentType photoBase64 isPrivate
             } }
         """
 
@@ -135,6 +224,9 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
             empty = await schema.execute(
                 query, context_value=SimpleNamespace(user={"sub": "user-3"})
             )
+            public = await schema.execute(
+                "{ publicRecipes { id } }", context_value=SimpleNamespace(user=None)
+            )
 
         self.assertIsNone(result.errors)
         recipes = result.data["myRecipes"]
@@ -145,9 +237,12 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(recipes[1]["photoContentType"])
         self.assertEqual(recipes[0]["prepTimeMinutes"], 20)
         self.assertEqual(recipes[0]["servings"], 2)
+        self.assertTrue(all(recipe["isPrivate"] for recipe in recipes))
         self.assertIsNotNone(unauthenticated.errors)
         self.assertIsNone(empty.errors)
         self.assertEqual(empty.data["myRecipes"], [])
+        self.assertIsNone(public.errors)
+        self.assertEqual(public.data["publicRecipes"], [])
 
 
 if __name__ == "__main__":

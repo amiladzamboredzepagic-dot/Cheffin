@@ -36,6 +36,21 @@ class MyRecipe:
     servings: int
     photo_content_type: str | None
     photo_base64: str | None
+    is_private: bool
+
+
+@strawberry.type
+class PublicRecipe:
+    id: str
+    title: str
+    description: str
+    ingredients: list[str]
+    steps: list[str]
+    prep_time_minutes: int
+    servings: int
+    meal_type: str
+    photo_content_type: str | None
+    photo_base64: str | None
 
 
 @strawberry.type
@@ -71,6 +86,33 @@ class Query:
                     photo_base64=(
                         b64encode(photo["data"]).decode("ascii") if photo else None
                     ),
+                    is_private=document.get("is_private", True),
+                )
+            )
+        return recipes
+
+    @strawberry.field
+    async def public_recipes(self) -> list[PublicRecipe]:
+        cursor = get_database()["recipes"].find(
+            {"is_private": False}
+        ).sort("created_at", -1)
+        recipes = []
+        async for document in cursor:
+            photo = document["photo"]
+            recipes.append(
+                PublicRecipe(
+                    id=str(document["_id"]),
+                    title=document["title"],
+                    description=document["description"],
+                    ingredients=document["ingredients"],
+                    steps=document["steps"],
+                    prep_time_minutes=document["prep_time_minutes"],
+                    servings=document["servings"],
+                    meal_type=document["meal_type"],
+                    photo_content_type=photo["content_type"] if photo else None,
+                    photo_base64=(
+                        b64encode(photo["data"]).decode("ascii") if photo else None
+                    ),
                 )
             )
         return recipes
@@ -88,6 +130,7 @@ class CreateRecipeInput:
     photo_base64: str | None = None
     photo_content_type: str | None = None
     collection_id: str | None = None
+    publish: bool = False
 
 
 @strawberry.type
@@ -203,7 +246,7 @@ class Mutation:
                 else None
             ),
             "collection_id": collection_object_id,
-            "is_private": True,
+            "is_private": not input.publish,
             "created_at": created_at,
         }
 
@@ -221,6 +264,20 @@ class Mutation:
             collection_id=(
                 str(collection_object_id) if collection_object_id is not None else None
             ),
-            is_private=True,
+            is_private=not input.publish,
             created_at=created_at,
         )
+
+    @strawberry.mutation
+    async def publish_recipe(self, info: strawberry.Info, recipe_id: str) -> bool:
+        owner_id = require_owner_id(info)
+        if not ObjectId.is_valid(recipe_id):
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+
+        result = await get_database()["recipes"].update_one(
+            {"_id": ObjectId(recipe_id), "owner_id": owner_id},
+            {"$set": {"is_private": False}},
+        )
+        if result.matched_count == 0:
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+        return True
