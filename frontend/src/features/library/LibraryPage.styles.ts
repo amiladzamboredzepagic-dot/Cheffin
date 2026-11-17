@@ -55,17 +55,17 @@ export const RecipeGrid = styled('div')(({ theme }) => ({
 }))
 
 export const CollectionCard = styled('button')(({ theme }) => ({
-  minHeight: 150,
+  height: 150,
   width: '100%',
   boxSizing: 'border-box',
   display: 'flex',
   alignItems: 'center',
   gap: 20,
-  padding: 20,
+  padding: 0,
   borderRadius: 14,
   backgroundColor: theme.palette.background.secondary,
   color: theme.palette.text.label,
-  overflowWrap: 'anywhere',
+  overflow: 'hidden',
   border: 0,
   font: 'inherit',
   textAlign: 'left',
@@ -77,4 +77,49 @@ export const CollectionCard = styled('button')(({ theme }) => ({
     outline: `2px solid ${theme.palette.primary.main}`,
     outlineOffset: 2,
   },
+}))
+
+export const CollectionPhoto = styled('img')(({ theme }) => ({
+  width: 155,
+  height: 150,
+  flexBasis: 155,
+  flexShrink: 0,
+  objectFit: 'cover',
+  [theme.breakpoints.down('sm')]: {
+    width: 120,
+    flexBasis: 120,
+  },
+}))
+
+export const CollectionDetails = styled('span')({
+  minWidth: 0,
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: 9,
+})
+
+export const CollectionTitle = styled('span')(({ theme }) => ({
+  width: '100%',
+  color: theme.palette.text.label,
+  fontFamily: theme.typography.fontFamilySerif,
+  fontSize: 22,
+  fontWeight: 400,
+  lineHeight: 1.2,
+  overflowWrap: 'anywhere',
+}))
+
+export const CollectionMetadata = styled('span')(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontSize: 11,
+  fontWeight: 400,
+  lineHeight: '13px',
+}))
+
+export const CollectionAction = styled('span')(({ theme }) => ({
+  color: theme.palette.primary.light,
+  fontSize: 11,
+  fontWeight: 600,
+  lineHeight: '13px',
 }))

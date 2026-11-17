@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Description } from '../../../components/ui/typography/Description'
 import { matchesSearch } from '../../../utils/search'
 import type { RecipeCollection } from '../../recipes/create/hooks/useMyCollectionsQuery'
+import { useCollectionRecipeImagesQuery } from '../hooks/useCollectionRecipeImagesQuery'
 import { SectionTitle } from '../LibraryPage.styles'
 import { LibraryCollectionGrid } from './LibraryCollectionGrid'
 
@@ -22,6 +23,9 @@ export function LibraryCollectionsSection({
   onCollectionSelect,
 }: LibraryCollectionsSectionProps) {
   const { t } = useTranslation()
+  const { recipes, error: recipeImagesError } = useCollectionRecipeImagesQuery(
+    loading || collections.length === 0,
+  )
   const matchingCollections = collections.filter((collection) =>
     matchesSearch(collection.name, search),
   )
@@ -38,10 +42,18 @@ export function LibraryCollectionsSection({
           {t('library.collectionsError')}
         </Alert>
       ) : matchingCollections.length ? (
-        <LibraryCollectionGrid
-          collections={matchingCollections}
-          onCollectionSelect={onCollectionSelect}
-        />
+        <>
+          {recipeImagesError && (
+            <Alert severity="warning" sx={{ mt: 2 }}>
+              {t('library.collectionImagesError')}
+            </Alert>
+          )}
+          <LibraryCollectionGrid
+            collections={matchingCollections}
+            recipes={recipes}
+            onCollectionSelect={onCollectionSelect}
+          />
+        </>
       ) : (
         <Box sx={{ mt: 2 }}>
           <Description>

@@ -1,30 +1,40 @@
-import { Box } from '@mui/material'
-import { Folder } from 'lucide-react'
-import { CollectionCard } from '../LibraryPage.styles'
+import { useTranslation } from 'react-i18next'
+import {
+  CollectionAction,
+  CollectionCard,
+  CollectionDetails,
+  CollectionMetadata,
+  CollectionPhoto,
+  CollectionTitle,
+} from '../LibraryPage.styles'
 
 interface LibraryCollectionCardProps {
   name: string
+  recipeCount: number
+  imageUrl: string
+  imageAlt: string
   onClick: () => void
 }
 
 export function LibraryCollectionCard({
   name,
+  recipeCount,
+  imageUrl,
+  imageAlt,
   onClick,
 }: LibraryCollectionCardProps) {
+  const { t } = useTranslation()
+
   return (
     <CollectionCard type="button" onClick={onClick}>
-      <Folder size={32} aria-hidden="true" />
-      <Box
-        component="h3"
-        sx={{
-          m: 0,
-          fontFamily: '"Lora", Georgia, serif',
-          fontSize: 20,
-          fontWeight: 500,
-        }}
-      >
-        {name}
-      </Box>
+      <CollectionPhoto src={imageUrl} alt={imageAlt} loading="lazy" />
+      <CollectionDetails>
+        <CollectionTitle>{name}</CollectionTitle>
+        <CollectionMetadata>
+          {t('library.collectionRecipeCount', { count: recipeCount })}
+        </CollectionMetadata>
+        <CollectionAction>{t('library.openCollection')}</CollectionAction>
+      </CollectionDetails>
     </CollectionCard>
   )
 }
