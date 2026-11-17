@@ -19,6 +19,13 @@ export function LibraryPage() {
   const [tab, setTab] = useState<LibraryTab>(LIBRARY_TAB.SAVED)
   const [search, setSearch] = useState<string>('')
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+  const [selectedCollection, setSelectedCollection] =
+    useState<(typeof collections)[number] | null>(null)
+
+  const handleTabChange = (nextTab: LibraryTab) => {
+    setTab(nextTab)
+    if (nextTab !== LIBRARY_TAB.RECIPES) setSelectedCollection(null)
+  }
 
   return (
     <PageContainer aria-labelledby="library-title">
@@ -26,7 +33,7 @@ export function LibraryPage() {
       <LibraryTabs
         tab={tab}
         collectionCount={!loading && !error ? collections.length : null}
-        onTabChange={setTab}
+        onTabChange={handleTabChange}
       />
       <Workspace
         sx={{
@@ -47,6 +54,15 @@ export function LibraryPage() {
           loading={loading}
           hasError={Boolean(error)}
           onSearchChange={setSearch}
+          selectedCollection={selectedCollection}
+          onCollectionSelect={(collection) => {
+            setSelectedCollection(collection)
+            setTab(LIBRARY_TAB.RECIPES)
+          }}
+          onCollectionClear={() => {
+            setSelectedCollection(null)
+            setTab(LIBRARY_TAB.COLLECTIONS)
+          }}
         />
       </Workspace>
       <CreateCollectionDialog
@@ -54,6 +70,7 @@ export function LibraryPage() {
         onClose={() => setDialogOpen(false)}
         onCreated={() => {
           setSearch('')
+          setSelectedCollection(null)
           setTab(LIBRARY_TAB.COLLECTIONS)
         }}
       />

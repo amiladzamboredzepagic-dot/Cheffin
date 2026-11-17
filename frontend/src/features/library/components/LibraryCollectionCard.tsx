@@ -4,11 +4,15 @@ import { CollectionCard } from '../LibraryPage.styles'
 
 interface LibraryCollectionCardProps {
   name: string
+  onClick: () => void
 }
 
-export function LibraryCollectionCard({ name }: LibraryCollectionCardProps) {
+export function LibraryCollectionCard({
+  name,
+  onClick,
+}: LibraryCollectionCardProps) {
   return (
-    <CollectionCard>
+    <CollectionCard type="button" onClick={onClick}>
       <Folder size={32} aria-hidden="true" />
       <Box
         component="h3"

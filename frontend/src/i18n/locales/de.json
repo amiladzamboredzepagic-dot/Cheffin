@@ -22,6 +22,8 @@
     "loadingRecipes": "Rezepte werden geladen...",
     "recipesError": "Rezepte konnten nicht geladen werden. Bitte versuche es später erneut.",
     "noRecipes": "Du hast noch keine Rezepte hinzugefügt.",
+    "noCollectionRecipes": "Diese Sammlung enthält noch keine Rezepte.",
+    "backToCollections": "Zurück zu den Sammlungen",
     "recipeStatusFilter": "Rezepte nach Status filtern",
     "allRecipes": "Alle",
     "drafts": "Entwürfe",

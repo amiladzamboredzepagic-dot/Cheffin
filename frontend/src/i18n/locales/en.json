@@ -22,6 +22,8 @@
     "loadingRecipes": "Loading your recipes...",
     "recipesError": "Couldn't load your recipes. Please try again later.",
     "noRecipes": "You haven't added any recipes yet.",
+    "noCollectionRecipes": "This collection doesn't have any recipes yet.",
+    "backToCollections": "Back to collections",
     "recipeStatusFilter": "Filter recipes by status",
     "allRecipes": "All",
     "drafts": "Drafts",

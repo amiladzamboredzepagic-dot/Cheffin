@@ -11,6 +11,7 @@ interface LibraryCollectionsSectionProps {
   search: string
   loading: boolean
   hasError: boolean
+  onCollectionSelect: (collection: RecipeCollection) => void
 }
 
 export function LibraryCollectionsSection({
@@ -18,6 +19,7 @@ export function LibraryCollectionsSection({
   search,
   loading,
   hasError,
+  onCollectionSelect,
 }: LibraryCollectionsSectionProps) {
   const { t } = useTranslation()
   const matchingCollections = collections.filter((collection) =>
@@ -36,7 +38,10 @@ export function LibraryCollectionsSection({
           {t('library.collectionsError')}
         </Alert>
       ) : matchingCollections.length ? (
-        <LibraryCollectionGrid collections={matchingCollections} />
+        <LibraryCollectionGrid
+          collections={matchingCollections}
+          onCollectionSelect={onCollectionSelect}
+        />
       ) : (
         <Box sx={{ mt: 2 }}>
           <Description>

@@ -54,8 +54,9 @@ export const RecipeGrid = styled('div')(({ theme }) => ({
   },
 }))
 
-export const CollectionCard = styled('article')(({ theme }) => ({
+export const CollectionCard = styled('button')(({ theme }) => ({
   minHeight: 150,
+  width: '100%',
   boxSizing: 'border-box',
   display: 'flex',
   alignItems: 'center',
@@ -65,4 +66,15 @@ export const CollectionCard = styled('article')(({ theme }) => ({
   backgroundColor: theme.palette.background.secondary,
   color: theme.palette.text.label,
   overflowWrap: 'anywhere',
+  border: 0,
+  font: 'inherit',
+  textAlign: 'left',
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  '&:focus-visible': {
+    outline: `2px solid ${theme.palette.primary.main}`,
+    outlineOffset: 2,
+  },
 }))

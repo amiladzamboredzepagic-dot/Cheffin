@@ -1,29 +1,44 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Description } from '../../../components/ui/typography/Description'
+import type { RecipeCollection } from '../../recipes/create/hooks/useMyCollectionsQuery'
 import { SectionTitle } from '../LibraryPage.styles'
+import { LibraryCollectionHeader } from './LibraryCollectionHeader'
 import { LIBRARY_TAB, type LibraryTab } from './libraryTab'
 import { MyRecipes } from './MyRecipes'
 
 interface LibraryRecipesSectionProps {
   tab: Exclude<LibraryTab, typeof LIBRARY_TAB.COLLECTIONS>
+  selectedCollection: RecipeCollection | null
+  onCollectionClear: () => void
 }
 
-export function LibraryRecipesSection({ tab }: LibraryRecipesSectionProps) {
+export function LibraryRecipesSection({
+  tab,
+  selectedCollection,
+  onCollectionClear,
+}: LibraryRecipesSectionProps) {
   const { t } = useTranslation()
 
   return (
     <section>
-      <SectionTitle>
-        {t(
-          tab === LIBRARY_TAB.SAVED
-            ? 'library.savedRecipes'
-            : 'library.myRecipes',
-        )}
-      </SectionTitle>
+      {selectedCollection ? (
+        <LibraryCollectionHeader
+          name={selectedCollection.name}
+          onBack={onCollectionClear}
+        />
+      ) : (
+        <SectionTitle>
+          {t(
+            tab === LIBRARY_TAB.SAVED
+              ? 'library.savedRecipes'
+              : 'library.myRecipes',
+          )}
+        </SectionTitle>
+      )}
       <Box sx={{ mt: 2 }}>
         {tab === LIBRARY_TAB.RECIPES ? (
-          <MyRecipes />
+          <MyRecipes collectionId={selectedCollection?.id ?? null} />
         ) : (
           <Description>{t('library.recipesUnavailable')}</Description>
         )}

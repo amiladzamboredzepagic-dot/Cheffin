@@ -22,6 +22,8 @@
     "loadingRecipes": "Učitavanje recepata...",
     "recipesError": "Recepte nije moguće učitati. Pokušaj ponovo kasnije.",
     "noRecipes": "Još nisi dodao/la nijedan recept.",
+    "noCollectionRecipes": "Ova kolekcija još nema recepata.",
+    "backToCollections": "Nazad na kolekcije",
     "recipeStatusFilter": "Filtriraj recepte po statusu",
     "allRecipes": "Svi",
     "drafts": "Skice",

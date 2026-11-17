@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { MouseEventHandler, ReactNode } from 'react'
 import type { SxProps, Theme } from '@mui/material/styles'
 import {
   InteractiveLinkRoot,
@@ -11,6 +11,7 @@ interface InteractiveLinkProps {
   icon?: ReactNode
   iconPosition?: 'start' | 'end'
   sx?: SxProps<Theme>
+  onClick?: MouseEventHandler<HTMLAnchorElement>
 }
 
 export function InteractiveLink({
@@ -19,9 +20,16 @@ export function InteractiveLink({
   icon,
   iconPosition = 'end',
   sx,
+  onClick,
 }: InteractiveLinkProps) {
   return (
-    <InteractiveLinkRoot href={href} underline="none" variant="button" sx={sx}>
+    <InteractiveLinkRoot
+      href={href}
+      underline="none"
+      variant="button"
+      sx={sx}
+      onClick={onClick}
+    >
       {iconPosition === 'start' && icon && (
         <LinkIconContainer aria-hidden="true">{icon}</LinkIconContainer>
       )}

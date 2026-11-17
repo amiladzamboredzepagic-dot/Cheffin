@@ -13,6 +13,9 @@ interface LibraryContentProps {
   loading: boolean
   hasError: boolean
   onSearchChange: (search: string) => void
+  selectedCollection: RecipeCollection | null
+  onCollectionSelect: (collection: RecipeCollection) => void
+  onCollectionClear: () => void
 }
 
 export function LibraryContent({
@@ -22,6 +25,9 @@ export function LibraryContent({
   loading,
   hasError,
   onSearchChange,
+  selectedCollection,
+  onCollectionSelect,
+  onCollectionClear,
 }: LibraryContentProps) {
   const { t } = useTranslation()
 
@@ -43,10 +49,17 @@ export function LibraryContent({
             search={search}
             loading={loading}
             hasError={hasError}
+            onCollectionSelect={onCollectionSelect}
           />
         </>
       )}
-      {tab !== LIBRARY_TAB.COLLECTIONS && <LibraryRecipesSection tab={tab} />}
+      {tab !== LIBRARY_TAB.COLLECTIONS && (
+        <LibraryRecipesSection
+          tab={tab}
+          selectedCollection={selectedCollection}
+          onCollectionClear={onCollectionClear}
+        />
+      )}
     </Content>
   )
 }

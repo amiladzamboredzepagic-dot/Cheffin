@@ -23,6 +23,7 @@ export interface MyRecipe {
   photoContentType: string | null
   photoBase64: string | null
   isPrivate: boolean
+  collectionId: string | null
 }
 
 const MY_RECIPES = gql`
@@ -36,11 +37,16 @@ const MY_RECIPES = gql`
       photoContentType
       photoBase64
       isPrivate
+      collectionId
     }
   }
 ` as TypedDocumentNode<{ myRecipes: MyRecipe[] }>
 
-export function MyRecipes() {
+interface MyRecipesProps {
+  collectionId: string | null
+}
+
+export function MyRecipes({ collectionId }: MyRecipesProps) {
   const { t } = useTranslation()
   const [filter, setFilter] = useState<RecipeStatusFilter>(
     RECIPE_STATUS_FILTER.ALL,
@@ -66,7 +72,10 @@ export function MyRecipes() {
   if (loading) return <Description>{t('library.loadingRecipes')}</Description>
   if (error) return <Alert severity="error">{t('library.recipesError')}</Alert>
   if (!data) return <Alert severity="error">{t('library.recipesError')}</Alert>
-  const recipes = data.myRecipes.filter((recipe) =>
+  const collectionRecipes = data.myRecipes.filter(
+    (recipe) => !collectionId || recipe.collectionId === collectionId,
+  )
+  const recipes = collectionRecipes.filter((recipe) =>
     filter === RECIPE_STATUS_FILTER.ALL
       ? true
       : filter === RECIPE_STATUS_FILTER.DRAFTS
@@ -81,9 +90,11 @@ export function MyRecipes() {
         <Box sx={{ mt: 2 }}>
           <Description>
             {t(
-              data.myRecipes.length === 0
-                ? 'library.noRecipes'
-                : 'library.noStatusRecipes',
+              collectionId && collectionRecipes.length === 0
+                ? 'library.noCollectionRecipes'
+                : data.myRecipes.length === 0
+                  ? 'library.noRecipes'
+                  : 'library.noStatusRecipes',
             )}
           </Description>
         </Box>
