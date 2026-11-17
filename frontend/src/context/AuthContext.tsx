@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from 'react'
-import { setAccessTokenGetter } from '../apolloClient'
+import { apolloClient, setAccessTokenGetter } from '../apolloClient'
 import { API_ENDPOINTS } from '../constants/apiEndpoints'
 import {
   AuthContext,
@@ -48,6 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (response.ok) {
           const data = await readAuthResponse(response)
+          await apolloClient.clearStore()
           setAccessToken(data.access_token)
           setFirstName(data.first_name || null)
           setLastName(data.last_name || null)
@@ -132,6 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new AuthRequestError(response.status)
     }
 
+    await apolloClient.clearStore()
     setAccessToken(null)
     setFirstName(null)
     setLastName(null)

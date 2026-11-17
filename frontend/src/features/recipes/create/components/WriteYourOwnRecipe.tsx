@@ -53,7 +53,9 @@ export function WriteYourOwnRecipe({
   const { createRecipe, loading } = useCreateRecipeMutation()
   const {
     dietaryPreferences: supportedDietaryPreferences,
+    customDietaryPreferences,
     cuisines: supportedCuisines,
+    customCuisines,
     difficulties: supportedDifficulties,
     loading: metadataLoading,
     error: metadataError,
@@ -164,7 +166,9 @@ export function WriteYourOwnRecipe({
             <RecipePreferencesSection
               dietaryPreferences={dietaryPreferences}
               supportedDietaryPreferences={supportedDietaryPreferences}
+              customDietaryPreferences={customDietaryPreferences}
               supportedCuisines={supportedCuisines}
+              customCuisines={customCuisines}
               supportedDifficulties={supportedDifficulties}
               metadataLoading={metadataLoading}
               metadataError={Boolean(metadataError)}

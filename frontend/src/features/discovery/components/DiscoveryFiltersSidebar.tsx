@@ -5,7 +5,9 @@ import { DiscoveryPantryCard } from './DiscoveryPantryCard'
 
 interface DiscoveryFiltersSidebarProps {
   dietaryPreferences: string[]
+  customDietaryPreferences: string[]
   cuisines: string[]
+  customCuisines: string[]
   difficulties: string[]
   filters: DiscoveryFilters
   onFiltersChange: Dispatch<SetStateAction<DiscoveryFilters>>
@@ -13,7 +15,9 @@ interface DiscoveryFiltersSidebarProps {
 
 export function DiscoveryFiltersSidebar({
   dietaryPreferences,
+  customDietaryPreferences,
   cuisines,
+  customCuisines,
   difficulties,
   filters,
   onFiltersChange,
@@ -22,7 +26,9 @@ export function DiscoveryFiltersSidebar({
     <aside aria-labelledby="discovery-filters">
       <DiscoveryFilterPanel
         dietaryPreferences={dietaryPreferences}
+        customDietaryPreferences={customDietaryPreferences}
         cuisines={cuisines}
+        customCuisines={customCuisines}
         difficulties={difficulties}
         filters={filters}
         onFiltersChange={onFiltersChange}

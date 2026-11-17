@@ -1,60 +1,42 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Check } from 'lucide-react'
-import { CustomSelectMenu } from '../../../../../components/ui/menus/CustomSelectMenu'
+import { Alert } from '@mui/material'
+import { Description } from '../../../../../components/ui/typography/Description'
+import type { RecipeDifficulty } from '../../../recipeMetadata'
+import { useRecipePreferences } from '../../hooks/useRecipePreferences'
+import { CuisineField } from './CuisineField'
+import { DietaryPreferencesField } from './DietaryPreferencesField'
+import { DifficultyField } from './DifficultyField'
 import {
-  RECIPE_CUISINES,
-  RECIPE_DIETARY_PREFERENCES,
-  RECIPE_DIFFICULTIES,
-  type RecipeCuisine,
-  type RecipeDifficulty,
-  type RecipeDietaryPreference,
-} from '../../../recipeMetadata'
-import {
-  ManualFieldLabel,
-  ManualMealTypeButton,
-  ManualMealTypes,
   ManualRecipePanel,
   ManualSectionTitle,
 } from '../WriteYourOwnRecipe.styles'
 
-const CUISINE_OPTIONS = [
-  {
-    id: '',
-    label: 'recipeCreate.notSpecified',
-    translationKey: true,
-  },
-  ...RECIPE_CUISINES.map((cuisine) => ({
-    id: cuisine,
-    label: `discovery.cuisines.${cuisine}`,
-    translationKey: true,
-  })),
-]
-
-const DIFFICULTY_OPTIONS = [
-  {
-    id: '',
-    label: 'recipeCreate.notSpecified',
-    translationKey: true,
-  },
-  ...RECIPE_DIFFICULTIES.map((difficulty) => ({
-    id: difficulty,
-    label: `discovery.difficulties.${difficulty}`,
-    translationKey: true,
-  })),
-]
-
 interface RecipePreferencesSectionProps {
-  dietaryPreferences: RecipeDietaryPreference[]
-  cuisine: RecipeCuisine | null
+  dietaryPreferences: string[]
+  supportedDietaryPreferences: string[]
+  customDietaryPreferences: string[]
+  supportedCuisines: string[]
+  customCuisines: string[]
+  supportedDifficulties: string[]
+  metadataLoading: boolean
+  metadataError: boolean
+  cuisine: string | null
   difficulty: RecipeDifficulty | null
-  onDietaryPreferencesChange: (value: RecipeDietaryPreference[]) => void
-  onCuisineChange: (value: RecipeCuisine | null) => void
+  onDietaryPreferencesChange: (value: string[]) => void
+  onCuisineChange: (value: string | null) => void
   onDifficultyChange: (value: RecipeDifficulty | null) => void
 }
 
 function RecipePreferencesSectionView({
   dietaryPreferences,
+  supportedDietaryPreferences,
+  customDietaryPreferences,
+  supportedCuisines,
+  customCuisines,
+  supportedDifficulties,
+  metadataLoading,
+  metadataError,
   cuisine,
   difficulty,
   onDietaryPreferencesChange,
@@ -62,14 +44,20 @@ function RecipePreferencesSectionView({
   onDifficultyChange,
 }: RecipePreferencesSectionProps) {
   const { t } = useTranslation()
-
-  const toggleDietaryPreference = (preference: RecipeDietaryPreference) => {
-    onDietaryPreferencesChange(
-      dietaryPreferences.includes(preference)
-        ? dietaryPreferences.filter((value) => value !== preference)
-        : [...dietaryPreferences, preference],
-    )
-  }
+  const {
+    addingPreference,
+    addCustomPreference,
+    customPreferenceError,
+    customPreferenceInput,
+    customPreferences,
+    setCustomPreferenceInput,
+    toggleDietaryPreference,
+  } = useRecipePreferences({
+    dietaryPreferences,
+    supportedDietaryPreferences,
+    customDietaryPreferences,
+    onDietaryPreferencesChange,
+  })
 
   return (
     <ManualRecipePanel direction="column" align="stretch" gap={1.75}>
@@ -77,52 +65,35 @@ function RecipePreferencesSectionView({
         {t('recipeCreate.preferencesTitle')}
       </ManualSectionTitle>
 
-      <ManualFieldLabel>
-        {t('recipeCreate.dietaryPreferencesLabel')}
-      </ManualFieldLabel>
-      <ManualMealTypes
-        role="group"
-        aria-label={t('recipeCreate.dietaryPreferencesLabel')}
-      >
-        {RECIPE_DIETARY_PREFERENCES.map((preference) => {
-          const selected = dietaryPreferences.includes(preference)
-          return (
-            <ManualMealTypeButton
-              key={preference}
-              type="button"
-              selected={selected}
-              aria-pressed={selected}
-              onClick={() => toggleDietaryPreference(preference)}
-            >
-              {selected && <Check size={11} aria-hidden="true" />}
-              {t(`discovery.diets.${preference}`)}
-            </ManualMealTypeButton>
-          )
-        })}
-      </ManualMealTypes>
-
-      <CustomSelectMenu
-        label={t('recipeCreate.cuisineLabel')}
-        options={CUISINE_OPTIONS}
-        value={cuisine ?? ''}
-        onChange={(value) =>
-          onCuisineChange(
-            RECIPE_CUISINES.find((option) => option === value) ?? null,
-          )
-        }
-        searchable={false}
+      {metadataLoading && (
+        <Description>{t('recipeCreate.loadingDietaryPreferences')}</Description>
+      )}
+      {metadataError && (
+        <Alert severity="error">
+          {t('recipeCreate.dietaryPreferencesUnavailable')}
+        </Alert>
+      )}
+      <DietaryPreferencesField
+        dietaryPreferences={dietaryPreferences}
+        supportedDietaryPreferences={supportedDietaryPreferences}
+        customPreferences={customPreferences}
+        customPreferenceInput={customPreferenceInput}
+        addingPreference={addingPreference}
+        customPreferenceError={customPreferenceError}
+        onCustomPreferenceInputChange={setCustomPreferenceInput}
+        onAddCustomPreference={addCustomPreference}
+        onTogglePreference={toggleDietaryPreference}
       />
-
-      <CustomSelectMenu
-        label={t('recipeCreate.difficultyLabel')}
-        options={DIFFICULTY_OPTIONS}
-        value={difficulty ?? ''}
-        onChange={(value) =>
-          onDifficultyChange(
-            RECIPE_DIFFICULTIES.find((option) => option === value) ?? null,
-          )
-        }
-        searchable={false}
+      <CuisineField
+        cuisine={cuisine}
+        supportedCuisines={supportedCuisines}
+        customCuisines={customCuisines}
+        onCuisineChange={onCuisineChange}
+      />
+      <DifficultyField
+        difficulty={difficulty}
+        supportedDifficulties={supportedDifficulties}
+        onDifficultyChange={onDifficultyChange}
       />
     </ManualRecipePanel>
   )

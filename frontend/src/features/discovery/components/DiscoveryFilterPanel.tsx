@@ -15,7 +15,9 @@ type FilterGroup = {
 
 interface DiscoveryFilterPanelProps {
   dietaryPreferences: string[]
+  customDietaryPreferences: string[]
   cuisines: string[]
+  customCuisines: string[]
   difficulties: string[]
   filters: DiscoveryFilters
   onFiltersChange: Dispatch<SetStateAction<DiscoveryFilters>>
@@ -61,17 +63,22 @@ function DiscoveryFilterGroup({
 
 export function DiscoveryFilterPanel({
   dietaryPreferences,
+  customDietaryPreferences,
   cuisines,
+  customCuisines,
   difficulties,
   filters,
   onFiltersChange,
 }: DiscoveryFilterPanelProps) {
   const { t } = useTranslation()
   const filterGroups: FilterGroup[] = [
-    { key: 'diets', values: dietaryPreferences },
+    {
+      key: 'diets',
+      values: [...dietaryPreferences, ...customDietaryPreferences],
+    },
     { key: 'times', values: times },
     { key: 'difficulties', values: difficulties },
-    { key: 'cuisines', values: cuisines },
+    { key: 'cuisines', values: [...cuisines, ...customCuisines] },
   ]
 
   return (

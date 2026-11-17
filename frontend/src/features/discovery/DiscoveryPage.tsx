@@ -30,7 +30,9 @@ export function DiscoveryPage() {
   const { recipes: publishedRecipes, loading, error } = usePublicRecipes()
   const {
     dietaryPreferences,
+    customDietaryPreferences,
     cuisines,
+    customCuisines,
     difficulties,
     loading: metadataLoading,
     error: metadataError,
@@ -82,7 +84,9 @@ export function DiscoveryPage() {
       <Workspace>
         <DiscoveryFiltersSidebar
           dietaryPreferences={dietaryPreferences}
+          customDietaryPreferences={customDietaryPreferences}
           cuisines={cuisines}
+          customCuisines={customCuisines}
           difficulties={difficulties}
           filters={filters}
           onFiltersChange={setFilters}
