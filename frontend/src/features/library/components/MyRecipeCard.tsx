@@ -4,7 +4,7 @@ import { RecipeCard } from '../../../components/RecipeCard'
 import { ActionButton } from '../../../components/ui/actions/ActionButton'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { Description } from '../../../components/ui/typography/Description'
-import type { MyRecipe } from './MyRecipes'
+import type { MyRecipe } from '../hooks/useMyRecipesQuery'
 
 interface MyRecipeCardProps {
   recipe: MyRecipe

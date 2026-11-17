@@ -1,11 +1,10 @@
-import { gql, type TypedDocumentNode } from '@apollo/client'
-import { useQuery } from '@apollo/client/react'
 import { Alert, Box } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FeedbackSnackbar } from '../../../components/ui/feedback/FeedbackSnackbar'
 import { Description } from '../../../components/ui/typography/Description'
 import { RecipeGrid } from '../LibraryPage.styles'
+import { useMyRecipesQuery } from '../hooks/useMyRecipesQuery'
 import { usePublishRecipeMutation } from '../hooks/usePublishRecipeMutation'
 import { MyRecipeCard } from './MyRecipeCard'
 import { MyRecipesFilter } from './MyRecipesFilter'
@@ -26,22 +25,6 @@ export interface MyRecipe {
   collectionId: string | null
 }
 
-const MY_RECIPES = gql`
-  query MyRecipes {
-    myRecipes {
-      id
-      title
-      description
-      prepTimeMinutes
-      servings
-      photoContentType
-      photoBase64
-      isPrivate
-      collectionId
-    }
-  }
-` as TypedDocumentNode<{ myRecipes: MyRecipe[] }>
-
 interface MyRecipesProps {
   collectionId: string | null
 }
@@ -54,9 +37,7 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
   const [feedback, setFeedback] = useState<'success' | 'error' | null>(null)
 
   const { publishRecipe, loading: publishing } = usePublishRecipeMutation()
-  const { data, loading, error, refetch } = useQuery(MY_RECIPES, {
-    fetchPolicy: 'network-only',
-  })
+  const { recipes: allRecipes, loading, error, refetch } = useMyRecipesQuery()
 
   const handlePublish = async (recipeId: string) => {
     try {
@@ -71,8 +52,8 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
 
   if (loading) return <Description>{t('library.loadingRecipes')}</Description>
   if (error) return <Alert severity="error">{t('library.recipesError')}</Alert>
-  if (!data) return <Alert severity="error">{t('library.recipesError')}</Alert>
-  const collectionRecipes = data.myRecipes.filter(
+  if (!allRecipes) return <Alert severity="error">{t('library.recipesError')}</Alert>
+  const collectionRecipes = allRecipes.filter(
     (recipe) => !collectionId || recipe.collectionId === collectionId,
   )
   const recipes = collectionRecipes.filter((recipe) =>
@@ -92,7 +73,7 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
             {t(
               collectionId && collectionRecipes.length === 0
                 ? 'library.noCollectionRecipes'
-                : data.myRecipes.length === 0
+                : allRecipes.length === 0
                   ? 'library.noRecipes'
                   : 'library.noStatusRecipes',
             )}
