@@ -2,7 +2,6 @@ import { Benefits } from './Benefits'
 import { CommunityInvitation } from './CommunityInvitation'
 import { CreateAccount } from './CreateAccount'
 import { Hero } from './Hero'
-import { PantryIdeas } from './PantryIdeas'
 import { RecipeInspiration } from './RecipeInspiration'
 import { WeeklyPlan } from './WeeklyPlan'
 
@@ -24,7 +23,6 @@ export function LandingPage({
       />
       <Benefits />
       <RecipeInspiration />
-      <PantryIdeas />
       <WeeklyPlan />
       <CommunityInvitation />
       {!isAuthenticated && (

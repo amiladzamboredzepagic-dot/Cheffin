@@ -25,7 +25,7 @@ export function DiscoverySearch({
         value={query}
         onChange={onQueryChange}
         placeholder={t('discovery.search')}
-        showPantryButton
+        showPantryButton={false}
       />
       <Categories role="group" aria-label={t('discovery.categories')}>
         {(['all', ...meals] as const).map((value) => (

@@ -1,7 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react'
 import type { DiscoveryFilters } from '../discovery.data'
 import { DiscoveryFilterPanel } from './DiscoveryFilterPanel'
-import { DiscoveryPantryCard } from './DiscoveryPantryCard'
 
 interface DiscoveryFiltersSidebarProps {
   dietaryPreferences: string[]
@@ -33,7 +32,6 @@ export function DiscoveryFiltersSidebar({
         filters={filters}
         onFiltersChange={onFiltersChange}
       />
-      <DiscoveryPantryCard />
     </aside>
   )
 }
