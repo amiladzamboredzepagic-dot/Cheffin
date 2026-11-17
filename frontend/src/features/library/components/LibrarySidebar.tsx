@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Description } from '../../../components/ui/typography/Description'
+import { RECIPE_CREATE_ROUTES } from '../../recipes/create/components/recipeEntryMode'
 import { Sidebar, SidebarCard } from '../LibraryPage.styles'
 
 export function LibrarySidebar() {
@@ -38,7 +39,7 @@ export function LibrarySidebar() {
         <Description>{t('library.addYourRecipe')}</Description>
         <Button
           component={Link}
-          to="/recipe/create"
+          to={RECIPE_CREATE_ROUTES.BASE}
           sx={{ alignSelf: 'flex-start', p: 0 }}
         >
           {t('navigation.addRecipe')} →

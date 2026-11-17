@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { ActionButton } from '../../../components/ui/actions/ActionButton'
+import { RECIPE_CREATE_ROUTES } from '../../recipes/create/components/recipeEntryMode'
 
 export function NavbarAddRecipe() {
   const theme = useTheme()
@@ -11,7 +12,7 @@ export function NavbarAddRecipe() {
   return (
     <ActionButton
       component={Link}
-      to="/recipe/create"
+      to={RECIPE_CREATE_ROUTES.BASE}
       aria-label={t('navigation.addRecipe')}
       text={
         <>

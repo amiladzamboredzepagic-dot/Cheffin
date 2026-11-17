@@ -9,7 +9,10 @@ import {
   RecipeWorkspace,
 } from './RecipeCreatePage.styles'
 import { RecipeEntrySection } from './components/RecipeEntrySection'
-import { ENTRY_MODE, type EntryMode } from './components/recipeEntryMode'
+import {
+  ENTRY_MODE,
+  type EntryMode,
+} from './components/recipeEntryMode'
 import { RecipePreviewCard } from './components/RecipePreviewCard'
 
 const PAGE_INTRO_KEYS: Record<
@@ -28,10 +31,16 @@ const PAGE_INTRO_KEYS: Record<
   },
 }
 
-export function RecipeCreatePage() {
-  const { t } = useTranslation()
+interface RecipeCreatePageProps {
+  entryMode: EntryMode
+  onEntryModeChange: (mode: EntryMode) => void
+}
 
-  const [entryMode, setEntryMode] = useState<EntryMode>(ENTRY_MODE.IMPORT)
+export function RecipeCreatePage({
+  entryMode,
+  onEntryModeChange,
+}: RecipeCreatePageProps) {
+  const { t } = useTranslation()
   const [feedbackOpen, setFeedbackOpen] = useState(false)
   const isManualEntry = entryMode === ENTRY_MODE.MANUAL
   const introKeys = PAGE_INTRO_KEYS[entryMode]
@@ -64,12 +73,12 @@ export function RecipeCreatePage() {
       >
         <RecipeEntrySection
           entryMode={entryMode}
-          onEntryModeChange={setEntryMode}
+          onEntryModeChange={onEntryModeChange}
           onShowUnavailable={() => setFeedbackOpen(true)}
         />
         {!isManualEntry && (
           <RecipePreviewCard
-            onRequestManual={() => setEntryMode(ENTRY_MODE.MANUAL)}
+            onRequestManual={() => onEntryModeChange(ENTRY_MODE.MANUAL)}
           />
         )}
       </RecipeWorkspace>

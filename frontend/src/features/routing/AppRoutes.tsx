@@ -1,8 +1,8 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Routes, Route } from 'react-router-dom'
 import { LandingPage } from '../landing/LandingPage'
 import { LibraryPage } from '../library/LibraryPage'
 import { getLibraryRouteElements } from '../library/LibraryRoutes'
-import { RecipeCreatePage } from '../recipes/create/RecipeCreatePage'
+import { getRecipeCreateRouteElements } from '../recipes/create/RecipeCreateRoutes'
 import { ProtectedRoute } from './ProtectedRoute'
 import { DiscoveryPage } from '../discovery/DiscoveryPage'
 
@@ -38,17 +38,10 @@ export function AppRoutes({
       />
       <Route path="/explore" element={<DiscoveryPage />} />
       {getLibraryRouteElements(libraryPage)}
-      <Route
-        path="/recipe/create"
-        element={
-          <ProtectedRoute
-            isAuthenticated={isAuthenticated}
-            onAuthenticationRequired={onAuthenticationRequired}
-          >
-            <RecipeCreatePage />
-          </ProtectedRoute>
-        }
-      />
+      {getRecipeCreateRouteElements({
+        isAuthenticated,
+        onAuthenticationRequired,
+      })}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
