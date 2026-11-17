@@ -8,7 +8,7 @@ import { MyRecipes } from './MyRecipes'
 import { SavedRecipes } from './SavedRecipes'
 
 interface LibraryRecipesSectionProps {
-  tab: Exclude<LibraryTab, typeof LIBRARY_TAB.COLLECTIONS>
+  tab: LibraryTab
   selectedCollection: RecipeCollection | null
   onCollectionClear: () => void
 }
@@ -37,7 +37,7 @@ export function LibraryRecipesSection({
         </SectionTitle>
       )}
       <Box sx={{ mt: 2 }}>
-        {tab === LIBRARY_TAB.RECIPES ? (
+        {selectedCollection || tab === LIBRARY_TAB.RECIPES ? (
           <MyRecipes collectionId={selectedCollection?.id ?? null} />
         ) : (
           <SavedRecipes />

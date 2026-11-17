@@ -47,7 +47,7 @@ export function getLibraryTabFromPath(
   isCollectionRoute: boolean,
 ): LibraryTab {
   return isCollectionRoute
-    ? LIBRARY_TAB.RECIPES
+    ? LIBRARY_TAB.COLLECTIONS
     : routeTabs[pathname] ?? LIBRARY_TAB.SAVED
 }
 

@@ -37,7 +37,7 @@ export function LibraryContent({
       id="library-panel"
       aria-labelledby={`library-tab-${tab}`}
     >
-      {tab !== LIBRARY_TAB.RECIPES && (
+      {tab !== LIBRARY_TAB.RECIPES && !selectedCollection && (
         <>
           <SearchField
             value={search}
@@ -53,7 +53,7 @@ export function LibraryContent({
           />
         </>
       )}
-      {tab !== LIBRARY_TAB.COLLECTIONS && (
+      {(tab !== LIBRARY_TAB.COLLECTIONS || selectedCollection) && (
         <LibraryRecipesSection
           tab={tab}
           selectedCollection={selectedCollection}
