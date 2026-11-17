@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { BookmarkPlus } from 'lucide-react'
 import { ActionButton } from '../../../../components/ui/actions/ActionButton'
 import { FeedbackSnackbar } from '../../../../components/ui/feedback/FeedbackSnackbar'
+import { Flex } from '../../../../components/ui/layout/Flex'
 import {
   ManualRecipeColumn,
   ManualRecipeGrid,
@@ -23,6 +24,22 @@ interface WriteYourOwnRecipeProps {
   onCollectionChange: (collectionId: string) => void
 }
 
+const DEFAULT_MEAL_TYPE: RecipeMealType = 'lunch'
+
+const RECIPE_ACTION = {
+  SAVE: 'save',
+  PUBLISH: 'publish',
+} as const
+
+const RECIPE_FEEDBACK = {
+  SAVED: 'saved',
+  PUBLISHED: 'published',
+  ERROR: 'error',
+} as const
+
+type RecipeAction = (typeof RECIPE_ACTION)[keyof typeof RECIPE_ACTION]
+type RecipeFeedback = (typeof RECIPE_FEEDBACK)[keyof typeof RECIPE_FEEDBACK]
+
 export function WriteYourOwnRecipe({
   selectedCollectionId,
   onCollectionChange,
@@ -36,10 +53,11 @@ export function WriteYourOwnRecipe({
   const [steps, setSteps] = useState<string[]>([''])
   const [prepTime, setPrepTime] = useState<string>('')
   const [servings, setServings] = useState<string>('')
-  const [mealType, setMealType] = useState<RecipeMealType>('lunch')
+  const [mealType, setMealType] = useState<RecipeMealType>(DEFAULT_MEAL_TYPE)
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoResetKey, setPhotoResetKey] = useState(0)
-  const [feedback, setFeedback] = useState<'success' | 'error' | null>(null)
+  const [feedback, setFeedback] = useState<RecipeFeedback | null>(null)
+  const [submitting, setSubmitting] = useState<RecipeAction | null>(null)
 
   const resetForm = () => {
     setTitle('')
@@ -48,7 +66,7 @@ export function WriteYourOwnRecipe({
     setSteps([''])
     setPrepTime('')
     setServings('')
-    setMealType('lunch')
+    setMealType(DEFAULT_MEAL_TYPE)
     setPhoto(null)
     setPhotoResetKey((current) => current + 1)
     onCollectionChange('')
@@ -56,7 +74,10 @@ export function WriteYourOwnRecipe({
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
-
+    const publish =
+      event.nativeEvent.submitter instanceof HTMLButtonElement &&
+      event.nativeEvent.submitter.value === RECIPE_ACTION.PUBLISH
+    setSubmitting(publish ? RECIPE_ACTION.PUBLISH : RECIPE_ACTION.SAVE)
     try {
       await createRecipe({
         title,
@@ -69,12 +90,15 @@ export function WriteYourOwnRecipe({
         photoBase64: photo ? await encodePhoto(photo) : null,
         photoContentType: photo?.type ?? null,
         collectionId: selectedCollectionId || null,
+        publish,
       })
       resetForm()
-      setFeedback('success')
+      setFeedback(publish ? RECIPE_FEEDBACK.PUBLISHED : RECIPE_FEEDBACK.SAVED)
     } catch (error) {
       console.error('Failed to save recipe:', error)
-      setFeedback('error')
+      setFeedback(RECIPE_FEEDBACK.ERROR)
+    } finally {
+      setSubmitting(null)
     }
   }
 
@@ -123,27 +147,46 @@ export function WriteYourOwnRecipe({
           </ManualRecipeColumn>
         </ManualRecipeGrid>
 
-        <ActionButton
-          type="submit"
-          disabled={loading}
-          text={
-            <>
-              <BookmarkPlus size={18} aria-hidden="true" />
-              {t(loading ? 'recipeCreate.saving' : 'recipeCreate.saveAction')}
-            </>
-          }
-          sx={{ gap: 1, alignSelf: 'flex-start' }}
-        />
+        <Flex align="stretch" wrap="wrap" gap={2}>
+          <ActionButton
+            type="submit"
+            value={RECIPE_ACTION.SAVE}
+            disabled={loading || submitting !== null}
+            text={
+              <>
+                <BookmarkPlus size={18} aria-hidden="true" />
+                {t(
+                  submitting === RECIPE_ACTION.SAVE
+                    ? 'recipeCreate.saving'
+                    : 'recipeCreate.saveAction',
+                )}
+              </>
+            }
+            sx={{ gap: 1 }}
+          />
+          <ActionButton
+            type="submit"
+            value={RECIPE_ACTION.PUBLISH}
+            disabled={loading || submitting !== null}
+            text={t(
+              submitting === RECIPE_ACTION.PUBLISH
+                ? 'recipeCreate.publishing'
+                : 'recipeCreate.publishAction',
+            )}
+          />
+        </Flex>
       </ManualRecipeLayout>
 
       {feedback && (
         <FeedbackSnackbar
           open
-          severity={feedback}
+          severity={feedback === RECIPE_FEEDBACK.ERROR ? 'error' : 'success'}
           message={t(
-            feedback === 'success'
-              ? 'recipeCreate.saveSuccess'
-              : 'recipeCreate.saveFailed',
+            feedback === RECIPE_FEEDBACK.PUBLISHED
+              ? 'recipeCreate.publishSuccess'
+              : feedback === RECIPE_FEEDBACK.SAVED
+                ? 'recipeCreate.saveSuccess'
+                : 'recipeCreate.saveFailed',
           )}
           onClose={() => setFeedback(null)}
         />
