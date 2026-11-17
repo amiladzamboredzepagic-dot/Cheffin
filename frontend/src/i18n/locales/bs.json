@@ -34,6 +34,7 @@
     "drafts": "Skice",
     "draft": "Skica",
     "published": "Objavljeno",
+    "yourRecipe": "Tvoj recept",
     "recipeActions": "Akcije za {{title}}",
     "noStatusRecipes": "Još nema recepata s ovim statusom.",
     "publish": "Objavi",

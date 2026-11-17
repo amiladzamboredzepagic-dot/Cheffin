@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { RecipeCard } from '../../../components/RecipeCard'
+import { RecipeSourceChip } from '../../../components/ui/chips/RecipeSourceChip'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { Description } from '../../../components/ui/typography/Description'
 import type { MyRecipe } from '../hooks/useMyRecipesQuery'
@@ -8,12 +9,14 @@ import { MyRecipeActionsMenu } from './MyRecipeActionsMenu'
 
 interface MyRecipeCardProps {
   recipe: MyRecipe
+  isInCollection: boolean
   publishing: boolean
   onPublish: (recipeId: string) => void
 }
 
 export function MyRecipeCard({
   recipe,
+  isInCollection,
   publishing,
   onPublish,
 }: MyRecipeCardProps) {
@@ -37,9 +40,14 @@ export function MyRecipeCard({
         showSaveButton={false}
       />
       <Flex align="center" justify="space-between" gap={1} sx={{ mt: 1 }}>
-        <Description>
-          {t(recipe.isPrivate ? 'library.draft' : 'library.published')}
-        </Description>
+        <Flex align="center" gap={1}>
+          <Description>
+            {t(recipe.isPrivate ? 'library.draft' : 'library.published')}
+          </Description>
+          {isInCollection && (
+            <RecipeSourceChip label={t('library.yourRecipe')} />
+          )}
+        </Flex>
         {recipe.isPrivate && (
           <MyRecipeActionsMenu
             recipe={recipe}

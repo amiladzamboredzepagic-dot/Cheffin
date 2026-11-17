@@ -95,6 +95,7 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
             <MyRecipeCard
               key={recipe.id}
               recipe={recipe}
+              isInCollection={Boolean(collectionId)}
               publishing={publishing}
               onPublish={handlePublish}
             />
