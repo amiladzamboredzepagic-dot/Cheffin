@@ -34,6 +34,9 @@ class MyRecipe:
     description: str
     prep_time_minutes: int
     servings: int
+    dietary_preferences: list[str]
+    cuisine: str | None
+    difficulty: str | None
     photo_content_type: str | None
     photo_base64: str | None
     is_private: bool
@@ -50,6 +53,9 @@ class PublicRecipe:
     prep_time_minutes: int
     servings: int
     meal_type: str
+    dietary_preferences: list[str]
+    cuisine: str | None
+    difficulty: str | None
     photo_content_type: str | None
     photo_base64: str | None
 
@@ -83,6 +89,9 @@ class Query:
                     description=document["description"],
                     prep_time_minutes=document["prep_time_minutes"],
                     servings=document["servings"],
+                    dietary_preferences=document.get("dietary_preferences") or [],
+                    cuisine=document.get("cuisine"),
+                    difficulty=document.get("difficulty"),
                     photo_content_type=photo["content_type"] if photo else None,
                     photo_base64=(
                         b64encode(photo["data"]).decode("ascii") if photo else None
@@ -115,6 +124,9 @@ class Query:
                     prep_time_minutes=document["prep_time_minutes"],
                     servings=document["servings"],
                     meal_type=document["meal_type"],
+                    dietary_preferences=document.get("dietary_preferences") or [],
+                    cuisine=document.get("cuisine"),
+                    difficulty=document.get("difficulty"),
                     photo_content_type=photo["content_type"] if photo else None,
                     photo_base64=(
                         b64encode(photo["data"]).decode("ascii") if photo else None
@@ -133,6 +145,9 @@ class CreateRecipeInput:
     meal_type: str
     description: str | None = None
     steps: list[str] = strawberry.field(default_factory=list)
+    dietary_preferences: list[str] = strawberry.field(default_factory=list)
+    cuisine: str | None = None
+    difficulty: str | None = None
     photo_base64: str | None = None
     photo_content_type: str | None = None
     collection_id: str | None = None
@@ -149,6 +164,9 @@ class Recipe:
     prep_time_minutes: int
     servings: int
     meal_type: str
+    dietary_preferences: list[str]
+    cuisine: str | None
+    difficulty: str | None
     photo_content_type: str | None
     collection_id: str | None
     is_private: bool
@@ -205,6 +223,9 @@ class Mutation:
                     "prep_time_minutes": input.prep_time_minutes,
                     "servings": input.servings,
                     "meal_type": input.meal_type,
+                    "dietary_preferences": input.dietary_preferences,
+                    "cuisine": input.cuisine,
+                    "difficulty": input.difficulty,
                     "photo_base64": input.photo_base64,
                     "photo_content_type": input.photo_content_type,
                 }
@@ -243,6 +264,9 @@ class Mutation:
             "prep_time_minutes": recipe_data.prep_time_minutes,
             "servings": recipe_data.servings,
             "meal_type": recipe_data.meal_type,
+            "dietary_preferences": recipe_data.dietary_preferences,
+            "cuisine": recipe_data.cuisine,
+            "difficulty": recipe_data.difficulty,
             "photo": (
                 {
                     "content_type": recipe_data.photo_content_type,
@@ -266,6 +290,9 @@ class Mutation:
             prep_time_minutes=recipe_data.prep_time_minutes,
             servings=recipe_data.servings,
             meal_type=recipe_data.meal_type,
+            dietary_preferences=recipe_data.dietary_preferences,
+            cuisine=recipe_data.cuisine,
+            difficulty=recipe_data.difficulty,
             photo_content_type=recipe_data.photo_content_type,
             collection_id=(
                 str(collection_object_id) if collection_object_id is not None else None

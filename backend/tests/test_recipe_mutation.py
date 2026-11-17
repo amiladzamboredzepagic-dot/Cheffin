@@ -64,6 +64,86 @@ class FakeDatabase:
 
 
 class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
+    async def test_persists_and_returns_recipe_taxonomy(self) -> None:
+        database = FakeDatabase()
+        create = """
+            mutation CreateRecipe($input: CreateRecipeInput!) {
+              createRecipe(input: $input) {
+                mealType
+                dietaryPreferences
+                cuisine
+                difficulty
+              }
+            }
+        """
+        recipe_input = {
+            "title": "Berry tart",
+            "ingredients": ["berries"],
+            "prepTimeMinutes": 40,
+            "servings": 6,
+            "mealType": "dessert",
+            "dietaryPreferences": ["vegetarian", "glutenFree"],
+            "cuisine": "mediterranean",
+            "difficulty": "medium",
+            "publish": True,
+        }
+
+        with patch("app.recipes.schema.get_database", return_value=database):
+            created = await schema.execute(
+                create,
+                variable_values={"input": recipe_input},
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            mine = await schema.execute(
+                """
+                { myRecipes {
+                    dietaryPreferences cuisine difficulty
+                } }
+                """,
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+            public = await schema.execute(
+                """
+                { publicRecipes {
+                    mealType dietaryPreferences cuisine difficulty
+                } }
+                """,
+                context_value=SimpleNamespace(user=None),
+            )
+
+        self.assertIsNone(created.errors)
+        self.assertEqual(
+            created.data["createRecipe"],
+            {
+                "mealType": "dessert",
+                "dietaryPreferences": ["vegetarian", "glutenFree"],
+                "cuisine": "mediterranean",
+                "difficulty": "medium",
+            },
+        )
+        self.assertEqual(database.recipes.document["dietary_preferences"], ["vegetarian", "glutenFree"])
+        self.assertEqual(database.recipes.document["cuisine"], "mediterranean")
+        self.assertEqual(database.recipes.document["difficulty"], "medium")
+        self.assertIsNone(mine.errors)
+        self.assertEqual(
+            mine.data["myRecipes"][0],
+            {
+                "dietaryPreferences": ["vegetarian", "glutenFree"],
+                "cuisine": "mediterranean",
+                "difficulty": "medium",
+            },
+        )
+        self.assertIsNone(public.errors)
+        self.assertEqual(
+            public.data["publicRecipes"][0],
+            {
+                "mealType": "dessert",
+                "dietaryPreferences": ["vegetarian", "glutenFree"],
+                "cuisine": "mediterranean",
+                "difficulty": "medium",
+            },
+        )
+
     async def test_publishing_is_owner_only_and_public_listing_excludes_drafts(self) -> None:
         database = FakeDatabase()
         create = """
@@ -210,7 +290,7 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         ]
         query = """
             { myRecipes {
-                id title description prepTimeMinutes servings photoContentType photoBase64 isPrivate collectionId
+                id title description prepTimeMinutes servings dietaryPreferences cuisine difficulty photoContentType photoBase64 isPrivate collectionId
             } }
         """
 
@@ -237,6 +317,9 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(recipes[1]["photoContentType"])
         self.assertEqual(recipes[0]["prepTimeMinutes"], 20)
         self.assertEqual(recipes[0]["servings"], 2)
+        self.assertEqual(recipes[0]["dietaryPreferences"], [])
+        self.assertIsNone(recipes[0]["cuisine"])
+        self.assertIsNone(recipes[0]["difficulty"])
         self.assertTrue(all(recipe["isPrivate"] for recipe in recipes))
         self.assertTrue(all(recipe["collectionId"] is None for recipe in recipes))
         self.assertIsNotNone(unauthenticated.errors)

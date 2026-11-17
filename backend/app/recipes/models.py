@@ -5,7 +5,12 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 
 MAX_RECIPE_PHOTO_SIZE_BYTES = 10 * 1024 * 1024
-MealType = Literal["breakfast", "lunch", "dinner", "snack"]
+MealType = Literal["breakfast", "lunch", "dinner", "snack", "dessert", "drink"]
+DietaryPreference = Literal[
+    "vegetarian", "vegan", "glutenFree", "dairyFree", "highProtein"
+]
+Cuisine = Literal["italian", "mediterranean", "asian", "mexican"]
+Difficulty = Literal["easy", "medium", "project"]
 
 
 class RecipeCreateData(BaseModel):
@@ -18,6 +23,9 @@ class RecipeCreateData(BaseModel):
     prep_time_minutes: StrictInt = Field(gt=0)
     servings: StrictInt = Field(gt=0)
     meal_type: MealType
+    dietary_preferences: list[DietaryPreference] = Field(default_factory=list)
+    cuisine: Cuisine | None = None
+    difficulty: Difficulty | None = None
     photo_base64: str | None = None
     photo_content_type: Literal["image/jpeg", "image/png"] | None = None
 

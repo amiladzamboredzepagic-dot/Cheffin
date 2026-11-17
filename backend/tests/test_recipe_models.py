@@ -40,6 +40,37 @@ class RecipeCreateDataTests(unittest.TestCase):
                         {**self.valid_recipe, **invalid_fields}
                     )
 
+    def test_validates_recipe_taxonomy_and_defaults(self) -> None:
+        defaults = RecipeCreateData.model_validate(self.valid_recipe)
+        self.assertEqual(defaults.dietary_preferences, [])
+        self.assertIsNone(defaults.cuisine)
+        self.assertIsNone(defaults.difficulty)
+
+        recipe = RecipeCreateData.model_validate(
+            {
+                **self.valid_recipe,
+                "meal_type": "dessert",
+                "dietary_preferences": ["vegan", "glutenFree"],
+                "cuisine": "mediterranean",
+                "difficulty": "easy",
+            }
+        )
+        self.assertEqual(recipe.meal_type, "dessert")
+        self.assertEqual(recipe.dietary_preferences, ["vegan", "glutenFree"])
+        self.assertEqual(recipe.cuisine, "mediterranean")
+        self.assertEqual(recipe.difficulty, "easy")
+
+        for invalid_fields in (
+            {"dietary_preferences": ["keto"]},
+            {"cuisine": "unknown"},
+            {"difficulty": "expert"},
+        ):
+            with self.subTest(invalid_fields=invalid_fields):
+                with self.assertRaises(ValidationError):
+                    RecipeCreateData.model_validate(
+                        {**self.valid_recipe, **invalid_fields}
+                    )
+
     def test_validates_photo_encoding_and_content_signature(self) -> None:
         photo = base64.b64encode(b"\x89PNG\r\n\x1a\nimage").decode("ascii")
         recipe = RecipeCreateData.model_validate(
