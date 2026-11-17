@@ -20,7 +20,7 @@ import {
 } from './Hero.styles'
 
 interface HeroProps {
-  onCreateAccount: () => void
+  onCreateAccount?: () => void
 }
 
 export function Hero({ onCreateAccount }: HeroProps) {
@@ -39,15 +39,17 @@ export function Hero({ onCreateAccount }: HeroProps) {
           </Heading>
           <Description>{t('hero.description')}</Description>
           <HeroActions direction="row" wrap="wrap">
-            <CreateAccountButton
-              onClick={onCreateAccount}
-              sx={{
-                width: { xs: 'auto', sm: 238 },
-                height: { xs: 46, sm: 48 },
-                px: { xs: 2, sm: 1.25 },
-                fontSize: { xs: 12, sm: 14 },
-              }}
-            />
+            {onCreateAccount && (
+              <CreateAccountButton
+                onClick={onCreateAccount}
+                sx={{
+                  width: { xs: 'auto', sm: 238 },
+                  height: { xs: 46, sm: 48 },
+                  px: { xs: 2, sm: 1.25 },
+                  fontSize: { xs: 12, sm: 14 },
+                }}
+              />
+            )}
             <ExploreButton
               onClick={() => navigate('/explore')}
               variant="outlined"

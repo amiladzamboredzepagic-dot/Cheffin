@@ -33,7 +33,11 @@ export function AppRoutes({
       <Route
         path="/"
         element={
-          <LandingPage onCreateAccount={onCreateAccount} onLogin={onLogin} />
+          <LandingPage
+            isAuthenticated={isAuthenticated}
+            onCreateAccount={onCreateAccount}
+            onLogin={onLogin}
+          />
         }
       />
       <Route path="/explore" element={<DiscoveryPage />} />

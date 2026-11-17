@@ -7,20 +7,29 @@ import { RecipeInspiration } from './RecipeInspiration'
 import { WeeklyPlan } from './WeeklyPlan'
 
 interface LandingPageProps {
+  isAuthenticated: boolean
   onCreateAccount: () => void
   onLogin: () => void
 }
 
-export function LandingPage({ onCreateAccount, onLogin }: LandingPageProps) {
+export function LandingPage({
+  isAuthenticated,
+  onCreateAccount,
+  onLogin,
+}: LandingPageProps) {
   return (
     <>
-      <Hero onCreateAccount={onCreateAccount} />
+      <Hero
+        onCreateAccount={isAuthenticated ? undefined : onCreateAccount}
+      />
       <Benefits />
       <RecipeInspiration />
       <PantryIdeas />
       <WeeklyPlan />
       <CommunityInvitation />
-      <CreateAccount onCreateAccount={onCreateAccount} onLogin={onLogin} />
+      {!isAuthenticated && (
+        <CreateAccount onCreateAccount={onCreateAccount} onLogin={onLogin} />
+      )}
     </>
   )
 }
