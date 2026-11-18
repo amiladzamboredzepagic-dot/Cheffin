@@ -46,12 +46,19 @@ export function ProfileEditDialog({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const trimmedFirstName = firstName.trim()
+    const trimmedLastName = lastName.trim()
+    if (!trimmedFirstName || !trimmedLastName) {
+      setError(t('auth.missingNames'))
+      return
+    }
+
     setSaving(true)
     setError('')
     try {
       await onSave({
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
+        firstName: trimmedFirstName,
+        lastName: trimmedLastName,
         description: description.trim(),
         image,
       })
