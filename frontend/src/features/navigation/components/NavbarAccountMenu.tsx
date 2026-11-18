@@ -30,6 +30,7 @@ export function NavbarAccountMenu({
       open={Boolean(anchorEl)}
       onClose={onClose}
       ariaLabel={t('auth.account')}
+      minWidth={240}
     >
       <AppMenuItem onClick={onProfile}>
         <AccountCircle fontSize="small" sx={{ mr: 1 }} />

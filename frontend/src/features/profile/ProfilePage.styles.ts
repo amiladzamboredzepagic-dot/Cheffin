@@ -100,7 +100,9 @@ export const ProfileStatLabel = styled('span')(({ theme }) => ({
   fontSize: theme.typography.pxToRem(11),
 }))
 
-export const ProfileTabPanel = styled('section')({
+export const ProfileTabPanel = styled('section')(({ theme }) => ({
   minWidth: 0,
-})
-
+  '& > [role="tabpanel"]': {
+    marginTop: theme.spacing(3),
+  },
+}))

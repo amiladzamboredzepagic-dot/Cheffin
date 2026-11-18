@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material'
 import { LogIn } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { ActionButton } from '../../../components/ui/actions/ActionButton'
@@ -12,12 +11,12 @@ export function NavbarGuestActions({
   onLogin,
   onCreateAccount,
 }: NavbarGuestActionsProps) {
-  const theme = useTheme()
   const { t } = useTranslation()
 
   return (
     <>
       <ActionButton
+        kind="secondary"
         text={
           <>
             <span className="navbar-login-label">{t('auth.login')}</span>
@@ -25,10 +24,6 @@ export function NavbarGuestActions({
           </>
         }
         aria-label={t('auth.login')}
-        backgroundColor="transparent"
-        textColor={theme.palette.primary.main}
-        border="none"
-        hoverShadow={false}
         onClick={onLogin}
         sx={{
           minWidth: { xs: 40, sm: 0, md: 186 },

@@ -2,6 +2,7 @@ import { Alert } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Description } from '../../../components/ui/typography/Description'
+import { Loading } from '../../../components/ui/feedback/Loading'
 import { useMySavedRecipesQuery } from '../../recipes/hooks/useMySavedRecipesQuery'
 import { useRemoveSavedRecipeMutation } from '../../recipes/hooks/useRemoveSavedRecipeMutation'
 import { useMyRecipesQuery } from '../hooks/useMyRecipesQuery'
@@ -31,7 +32,7 @@ export function SavedRecipes() {
   }
 
   if (loading || myRecipesLoading) {
-    return <Description>{t('library.loadingSavedRecipes')}</Description>
+    return <Loading label={t('library.loadingSavedRecipes')} />
   }
   if (error) {
     return <Alert severity="error">{t('library.savedRecipesError')}</Alert>
@@ -42,7 +43,11 @@ export function SavedRecipes() {
   if (recipes.length === 0) {
     return (
       <Description>
-        {t(myRecipes.length === 0 ? 'library.noRecipes' : 'library.noSavedRecipes')}
+        {t(
+          myRecipes.length === 0
+            ? 'library.noRecipes'
+            : 'library.noSavedRecipes',
+        )}
       </Description>
     )
   }

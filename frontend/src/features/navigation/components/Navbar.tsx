@@ -5,9 +5,7 @@ import CheffinLogo from '../../../components/brand/CheffinLogo'
 import { NavigationLink } from '../../../components/ui/links/NavigationLink'
 import { useAuth } from '../../../context/useAuth'
 import Header from '../../layout/components/Header'
-import { LanguageToggle } from './LanguageToggle'
 import { NavbarAuth } from './NavbarAuth'
-import { ThemeToggle } from './ThemeToggle'
 
 interface NavbarProps {
   onLogin: () => void
@@ -45,8 +43,6 @@ export function Navbar({ onLogin, onCreateAccount }: NavbarProps) {
         )}
       </Flex>
       <Flex gap={{ xs: 0.5, sm: 1 }}>
-        <ThemeToggle />
-        <LanguageToggle />
         <NavbarAuth onLogin={onLogin} onCreateAccount={onCreateAccount} />
       </Flex>
     </Header>

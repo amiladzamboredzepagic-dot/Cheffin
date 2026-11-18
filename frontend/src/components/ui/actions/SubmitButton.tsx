@@ -39,7 +39,7 @@ export function SubmitButton({
       text={
         <Flex gap="9px" justify="center">
           {loading ? (
-            <Loading />
+            <Loading inline size={18} />
           ) : showArrow ? (
             <ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
           ) : null}

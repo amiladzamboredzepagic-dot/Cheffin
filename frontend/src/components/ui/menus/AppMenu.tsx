@@ -1,7 +1,4 @@
-import {
-  Menu,
-  type MenuProps,
-} from '@mui/material'
+import { Menu, type MenuProps } from '@mui/material'
 import type { ReactNode } from 'react'
 
 export { AppMenuItem } from './AppMenu.styles'
@@ -40,9 +37,9 @@ export function AppMenu({
             minWidth,
             overflow: 'hidden',
             border: `1px solid ${theme.palette.divider}`,
-            borderRadius: theme.spacing(1.5),
+            borderRadius: '10px',
             backgroundColor: theme.palette.background.input,
-            boxShadow: '0px 12px 32px rgba(20, 38, 26, 0.14)',
+            boxShadow: '0px 10px 28px rgba(41, 62, 48, 0.14)',
           }),
         },
         list: {

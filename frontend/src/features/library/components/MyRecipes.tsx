@@ -3,17 +3,14 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { FeedbackSnackbar } from '../../../components/ui/feedback/FeedbackSnackbar'
-import { Description } from '../../../components/ui/typography/Description'
+import { Loading } from '../../../components/ui/feedback/Loading'
 import { getRecipeEditPath } from '../../recipes/edit/RecipeEditRoutes'
 import {
   getLibraryRecipeStatusFromPath,
   libraryRecipeStatusPath,
 } from '../LibraryRoutes'
 import { useDeleteRecipeMutation } from '../hooks/useDeleteRecipeMutation'
-import {
-  useMyRecipesQuery,
-  type MyRecipe,
-} from '../hooks/useMyRecipesQuery'
+import { useMyRecipesQuery, type MyRecipe } from '../hooks/useMyRecipesQuery'
 import { usePublishRecipeMutation } from '../hooks/usePublishRecipeMutation'
 import { useMySavedRecipesQuery } from '../../recipes/hooks/useMySavedRecipesQuery'
 import { useRemoveSavedRecipeMutation } from '../../recipes/hooks/useRemoveSavedRecipeMutation'
@@ -92,9 +89,10 @@ export function MyRecipes({ collectionId }: MyRecipesProps) {
     }
   }
 
-  if (loading) return <Description>{t('library.loadingRecipes')}</Description>
+  if (loading) return <Loading label={t('library.loadingRecipes')} />
   if (error) return <Alert severity="error">{t('library.recipesError')}</Alert>
-  if (!allRecipes) return <Alert severity="error">{t('library.recipesError')}</Alert>
+  if (!allRecipes)
+    return <Alert severity="error">{t('library.recipesError')}</Alert>
 
   return (
     <>

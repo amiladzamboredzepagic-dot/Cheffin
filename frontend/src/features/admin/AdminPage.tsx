@@ -1,6 +1,6 @@
 import { Alert } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { Description } from '../../components/ui/typography/Description'
+import { Loading } from '../../components/ui/feedback/Loading'
 import { PageContainer } from '../../components/ui/layout/PageContainer'
 import { SectionIntroduction } from '../../components/ui/layout/SectionIntroduction'
 import { AdminStatsGrid } from './components/AdminStatsGrid'
@@ -22,7 +22,7 @@ export function AdminPage() {
       />
 
       {loading ? (
-        <Description sx={{ mt: 4 }}>{t('admin.loading')}</Description>
+        <Loading label={t('admin.loading')} sx={{ mt: 4 }} />
       ) : error ? (
         <Alert severity="error" sx={{ mt: 4 }}>
           {t('admin.loadError')}

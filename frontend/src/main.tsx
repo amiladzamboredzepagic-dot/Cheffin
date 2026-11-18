@@ -12,11 +12,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
       <BrowserRouter>
-        <AuthProvider>
-          <ColorModeProvider>
+        <ColorModeProvider>
+          <AuthProvider>
             <App />
-          </ColorModeProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </ColorModeProvider>
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,

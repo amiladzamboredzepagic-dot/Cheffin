@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { PageContainer } from '../../components/ui/layout/PageContainer'
 import { useAuth } from '../../context/useAuth'
 import { useCollectionRecipeImagesQuery } from '../library/hooks/useCollectionRecipeImagesQuery'
@@ -12,7 +12,8 @@ import { ProfileEditDialog } from './components/ProfileEditDialog'
 import { ProfileHeroSection } from './components/ProfileHeroSection'
 import { ProfileIdentityCard } from './components/ProfileIdentityCard'
 import { ProfileLayout } from './ProfilePage.styles'
-import type { ProfileTab, SavedProfile } from './profile.types'
+import { getProfileTabFromPath, profileTabPath } from './ProfileRoutes'
+import type { ProfileEditValues, SavedProfile } from './profile.types'
 
 const PROFILE_STORAGE_KEY = 'cheffin.profile'
 
@@ -38,13 +39,13 @@ function readSavedProfile(): SavedProfile {
 export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { firstName, lastName } = useAuth()
-  const [savedProfile, setSavedProfile] = useState<SavedProfile>(
-    readSavedProfile,
-  )
+  const { pathname } = useLocation()
+  const { firstName, lastName, updateProfileNames } = useAuth()
+  const [savedProfile, setSavedProfile] =
+    useState<SavedProfile>(readSavedProfile)
   const [editOpen, setEditOpen] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
-  const [activeTab, setActiveTab] = useState<ProfileTab>('recipes')
+  const activeTab = getProfileTabFromPath(pathname)
   const {
     recipes: allRecipes,
     loading: recipesLoading,
@@ -55,23 +56,25 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
     loading: collectionsLoading,
     error: collectionsError,
   } = useMyCollectionsQuery()
-  const {
-    recipes: collectionRecipes,
-    error: collectionRecipesError,
-  } = useCollectionRecipeImagesQuery(
-    activeTab !== 'collections' ||
-      collectionsLoading ||
-      collections.length === 0,
-  )
+  const { recipes: collectionRecipes, error: collectionRecipesError } =
+    useCollectionRecipeImagesQuery(
+      activeTab !== 'collections' ||
+        collectionsLoading ||
+        collections.length === 0,
+    )
 
   const displayName =
-    [firstName, lastName].filter(Boolean).join(' ') ||
-    t('profile.defaultName')
+    [firstName, lastName].filter(Boolean).join(' ') || t('profile.defaultName')
   const publishedRecipes = (allRecipes ?? []).filter(
     (recipe) => !recipe.isPrivate,
   )
 
-  const handleProfileSave = (profile: SavedProfile) => {
+  const handleProfileSave = async ({
+    firstName: nextFirstName,
+    lastName: nextLastName,
+    ...profile
+  }: ProfileEditValues) => {
+    await updateProfileNames(nextFirstName, nextLastName)
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile))
     setSavedProfile(profile)
     setEditOpen(false)
@@ -95,7 +98,8 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
         />
         <ProfileContent
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          isOwnProfile={isOwnProfile}
+          onTabChange={(tab) => navigate(profileTabPath(tab))}
           publishedRecipes={publishedRecipes}
           recipesLoading={recipesLoading}
           recipesError={recipesError}
@@ -113,6 +117,8 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
         <ProfileEditDialog
           open
           profile={savedProfile}
+          firstName={firstName}
+          lastName={lastName}
           onClose={() => setEditOpen(false)}
           onSave={handleProfileSave}
         />
