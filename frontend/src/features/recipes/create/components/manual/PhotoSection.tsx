@@ -22,18 +22,44 @@ import {
 
 const MAX_PHOTO_SIZE_BYTES = 10 * 1024 * 1024
 
+export interface PhotoSectionCopy {
+  title: string
+  hint: string
+  drop: string
+  formats: string
+  choosePhoto: string
+  tooLarge: string
+  invalidType: string
+  chooseFile: string
+  useCamera: string
+}
+
 interface PhotoSectionProps {
   photo: File | null
   existingPhotoUrl?: string | null
   onPhotoChange: (photo: File) => void
+  copy?: Partial<PhotoSectionCopy>
 }
 
 function PhotoSectionView({
   photo,
   existingPhotoUrl,
   onPhotoChange,
+  copy,
 }: PhotoSectionProps) {
   const { t } = useTranslation()
+  const photoCopy: PhotoSectionCopy = {
+    title: t('recipeCreate.photoTitle'),
+    hint: t('recipeCreate.photoHint'),
+    drop: t('recipeCreate.photoDrop'),
+    formats: t('recipeCreate.photoFormats'),
+    choosePhoto: t('recipeCreate.choosePhoto'),
+    tooLarge: t('recipeCreate.photoTooLarge'),
+    invalidType: t('recipeCreate.photoInvalidType'),
+    chooseFile: t('recipeCreate.chooseFile'),
+    useCamera: t('recipeCreate.useCamera'),
+    ...copy,
+  }
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [error, setError] = useState('')
@@ -60,7 +86,7 @@ function PhotoSectionView({
     }
 
     if (selectedPhoto.size > MAX_PHOTO_SIZE_BYTES) {
-      setError(t('recipeCreate.photoTooLarge'))
+      setError(photoCopy.tooLarge)
       if (input) {
         input.value = ''
       }
@@ -68,7 +94,7 @@ function PhotoSectionView({
     }
 
     if (!['image/jpeg', 'image/png'].includes(selectedPhoto.type)) {
-      setError(t('recipeCreate.photoInvalidType'))
+      setError(photoCopy.invalidType)
       if (input) {
         input.value = ''
       }
@@ -91,9 +117,9 @@ function PhotoSectionView({
 
   return (
     <ManualRecipePanel direction="column" align="stretch" gap={1.75}>
-      <ManualSectionTitle>{t('recipeCreate.photoTitle')}</ManualSectionTitle>
+      <ManualSectionTitle>{photoCopy.title}</ManualSectionTitle>
 
-      <ManualSectionHint>{t('recipeCreate.photoHint')}</ManualSectionHint>
+      <ManualSectionHint>{photoCopy.hint}</ManualSectionHint>
 
       <ManualPhotoDrop
         component="label"
@@ -110,20 +136,20 @@ function PhotoSectionView({
           ref={fileInputRef}
           type="file"
           accept="image/jpeg,image/png"
-          aria-label={t('recipeCreate.choosePhoto')}
+          aria-label={photoCopy.choosePhoto}
           onChange={handlePhotoChange}
         />
         {photoPreviewUrl ? (
           <ManualPhotoPreview
             src={photoPreviewUrl}
-            alt={photo?.name ?? t('recipeCreate.photoTitle')}
+            alt={photo?.name ?? photoCopy.title}
           />
         ) : (
           <>
             <ArrowUpFromLine size={25} aria-hidden="true" />
-            <ManualNoteTitle>{t('recipeCreate.photoDrop')}</ManualNoteTitle>
+            <ManualNoteTitle>{photoCopy.drop}</ManualNoteTitle>
             <ManualSectionHint>
-              {t('recipeCreate.photoFormats')}
+              {photoCopy.formats}
             </ManualSectionHint>
           </>
         )}
@@ -137,7 +163,7 @@ function PhotoSectionView({
         type="file"
         accept="image/jpeg,image/png"
         capture="environment"
-        aria-label={t('recipeCreate.useCamera')}
+        aria-label={photoCopy.useCamera}
         onChange={handlePhotoChange}
       />
 
@@ -151,7 +177,7 @@ function PhotoSectionView({
           type="button"
           onClick={() => fileInputRef.current?.click()}
         >
-          {t('recipeCreate.chooseFile')}
+          {photoCopy.chooseFile}
         </ManualPhotoAction>
         <ManualPhotoAction
           component="button"
@@ -163,7 +189,7 @@ function PhotoSectionView({
           onClick={() => cameraInputRef.current?.click()}
         >
           <Camera size={14} aria-hidden="true" />
-          {t('recipeCreate.useCamera')}
+          {photoCopy.useCamera}
         </ManualPhotoAction>
       </ManualPhotoActions>
     </ManualRecipePanel>

@@ -4,9 +4,14 @@ import { Avatar as MuiAvatar, useTheme } from '@mui/material'
 interface UserAvatarProps {
   firstName?: string | null
   lastName?: string | null
+  size?: number
 }
 
-export function UserAvatar({ firstName, lastName }: UserAvatarProps) {
+export function UserAvatar({
+  firstName,
+  lastName,
+  size = 38,
+}: UserAvatarProps) {
   const theme = useTheme()
   const initials = [firstName, lastName]
     .map((name) => name?.trim().charAt(0))
@@ -17,10 +22,11 @@ export function UserAvatar({ firstName, lastName }: UserAvatarProps) {
   return (
     <MuiAvatar
       sx={{
-        width: 38,
-        height: 38,
+        width: size,
+        height: size,
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.background.secondary,
+        fontSize: size >= 64 ? '1.75rem' : undefined,
       }}
     >
       {initials || <AccountCircle />}

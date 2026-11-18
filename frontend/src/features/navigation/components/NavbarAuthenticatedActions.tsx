@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { NavbarAccountButton } from './NavbarAccountButton'
 import { NavbarAccountMenu } from './NavbarAccountMenu'
@@ -15,6 +16,7 @@ export function NavbarAuthenticatedActions({
   lastName,
   onLogout,
 }: NavbarAuthenticatedActionsProps) {
+  const navigate = useNavigate()
   const [accountMenuAnchor, setAccountMenuAnchor] =
     useState<HTMLButtonElement | null>(null)
 
@@ -45,6 +47,10 @@ export function NavbarAuthenticatedActions({
       <NavbarAccountMenu
         anchorEl={accountMenuAnchor}
         onClose={() => setAccountMenuAnchor(null)}
+        onProfile={() => {
+          setAccountMenuAnchor(null)
+          navigate('/profile')
+        }}
         onLogout={handleLogout}
       />
     </>
