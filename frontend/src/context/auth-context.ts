@@ -23,6 +23,7 @@ export interface AuthContextValue {
     firstName: string,
     lastName: string,
   ) => Promise<AuthResponse>
+  updateProfileNames: (firstName: string, lastName: string) => Promise<void>
   loginLoading: boolean
   registerLoading: boolean
   logout: () => Promise<void>

@@ -138,6 +138,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const updateProfileNames = async (firstName: string, lastName: string) => {
+    if (!accessToken) {
+      throw new Error('Cannot update profile names without authentication')
+    }
+
+    const response = await fetch(API_ENDPOINTS.auth.profile, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        first_name: firstName,
+        last_name: lastName,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new AuthRequestError(response.status)
+    }
+
+    const data = await readAuthResponse(response)
+    setAccessToken(data.access_token)
+    setFirstName(data.first_name || null)
+    setLastName(data.last_name || null)
+    setRole(data.role)
+  }
+
   const logout = async () => {
     const response = await fetch(API_ENDPOINTS.auth.logout, {
       method: 'POST',
@@ -184,6 +213,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAdmin: role === USER_ROLES.ADMIN,
         login,
         register,
+        updateProfileNames,
         loginLoading,
         registerLoading,
         logout,

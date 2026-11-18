@@ -4,3 +4,8 @@ export type SavedProfile = {
   description: string
   image: string | null
 }
+
+export type ProfileEditValues = SavedProfile & {
+  firstName: string
+  lastName: string
+}

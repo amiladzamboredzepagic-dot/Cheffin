@@ -13,7 +13,7 @@ import { ProfileHeroSection } from './components/ProfileHeroSection'
 import { ProfileIdentityCard } from './components/ProfileIdentityCard'
 import { ProfileLayout } from './ProfilePage.styles'
 import { getProfileTabFromPath, profileTabPath } from './ProfileRoutes'
-import type { SavedProfile } from './profile.types'
+import type { ProfileEditValues, SavedProfile } from './profile.types'
 
 const PROFILE_STORAGE_KEY = 'cheffin.profile'
 
@@ -40,7 +40,7 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { firstName, lastName } = useAuth()
+  const { firstName, lastName, updateProfileNames } = useAuth()
   const [savedProfile, setSavedProfile] =
     useState<SavedProfile>(readSavedProfile)
   const [editOpen, setEditOpen] = useState(false)
@@ -69,7 +69,12 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
     (recipe) => !recipe.isPrivate,
   )
 
-  const handleProfileSave = (profile: SavedProfile) => {
+  const handleProfileSave = async ({
+    firstName: nextFirstName,
+    lastName: nextLastName,
+    ...profile
+  }: ProfileEditValues) => {
+    await updateProfileNames(nextFirstName, nextLastName)
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile))
     setSavedProfile(profile)
     setEditOpen(false)
@@ -112,6 +117,8 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
         <ProfileEditDialog
           open
           profile={savedProfile}
+          firstName={firstName}
+          lastName={lastName}
           onClose={() => setEditOpen(false)}
           onSave={handleProfileSave}
         />

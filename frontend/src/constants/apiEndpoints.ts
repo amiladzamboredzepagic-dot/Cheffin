@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
     register: `${API_BASE_URL}/auth/register`,
     refresh: `${API_BASE_URL}/auth/refresh`,
     logout: `${API_BASE_URL}/auth/logout`,
+    profile: `${API_BASE_URL}/auth/profile`,
   },
   graphql: `${API_BASE_URL}/graphql`,
 } as const

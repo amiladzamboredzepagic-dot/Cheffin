@@ -433,6 +433,7 @@
     "imageTooLarge": "Slika mora biti manja od 5 MB.",
     "invalidImage": "Odaberi datoteku slike.",
     "imageSaveError": "Profil nije moguće sačuvati. Odaberi manju sliku.",
+    "profileSaveError": "Profil nije moguće sačuvati. Pokušaj ponovo.",
     "saveProfile": "Sačuvaj profil",
     "follow": "Prati",
     "following": "Pratiš",

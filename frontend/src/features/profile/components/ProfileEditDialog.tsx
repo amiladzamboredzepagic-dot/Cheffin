@@ -6,25 +6,32 @@ import { FormTextField } from '../../../components/ui/forms/FormTextField'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { GenericModal } from '../../../components/ui/modals/GenericModal'
 import { PhotoSection } from '../../recipes/create/components/manual/PhotoSection'
-import type { SavedProfile } from '../profile.types'
+import type { ProfileEditValues, SavedProfile } from '../profile.types'
 
 interface ProfileEditDialogProps {
   open: boolean
   profile: SavedProfile
+  firstName: string | null
+  lastName: string | null
   onClose: () => void
-  onSave: (profile: SavedProfile) => void
+  onSave: (profile: ProfileEditValues) => Promise<void>
 }
 
 export function ProfileEditDialog({
   open,
   profile,
+  firstName: initialFirstName,
+  lastName: initialLastName,
   onClose,
   onSave,
 }: ProfileEditDialogProps) {
   const { t } = useTranslation()
+  const [firstName, setFirstName] = useState(initialFirstName ?? '')
+  const [lastName, setLastName] = useState(initialLastName ?? '')
   const [description, setDescription] = useState(profile.description)
   const [image, setImage] = useState<string | null>(profile.image)
   const [error, setError] = useState('')
+  const [saving, setSaving] = useState(false)
 
   const handleImageChange = (selectedFile: File) => {
     const reader = new FileReader()
@@ -37,12 +44,22 @@ export function ProfileEditDialog({
     reader.readAsDataURL(selectedFile)
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setSaving(true)
+    setError('')
     try {
-      onSave({ description: description.trim(), image })
-    } catch {
-      setError(t('profile.imageSaveError'))
+      await onSave({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        description: description.trim(),
+        image,
+      })
+    } catch (saveError) {
+      console.error('Failed to save profile:', saveError)
+      setError(t('profile.profileSaveError'))
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -63,6 +80,30 @@ export function ProfileEditDialog({
           align="stretch"
           gap={1.75}
         >
+          <FormTextField
+            id="profile-first-name"
+            name="first_name"
+            type="text"
+            required
+            label={t('auth.firstName')}
+            placeholder={t('auth.firstNamePlaceholder')}
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+            autoComplete="given-name"
+            slotProps={{ htmlInput: { maxLength: 80 } }}
+          />
+          <FormTextField
+            id="profile-last-name"
+            name="last_name"
+            type="text"
+            required
+            label={t('auth.lastName')}
+            placeholder={t('auth.lastNamePlaceholder')}
+            value={lastName}
+            onChange={(event) => setLastName(event.target.value)}
+            autoComplete="family-name"
+            slotProps={{ htmlInput: { maxLength: 80 } }}
+          />
           <FormTextField
             label={t('profile.descriptionLabel')}
             placeholder={t('profile.descriptionPlaceholder')}
@@ -95,8 +136,13 @@ export function ProfileEditDialog({
               kind="secondary"
               text={t('common.cancel')}
               onClick={onClose}
+              disabled={saving}
             />
-            <ActionButton type="submit" text={t('profile.saveProfile')} />
+            <ActionButton
+              type="submit"
+              text={t('profile.saveProfile')}
+              disabled={saving}
+            />
           </Flex>
         </Flex>
       }
