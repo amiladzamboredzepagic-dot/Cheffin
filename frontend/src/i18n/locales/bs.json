@@ -396,8 +396,6 @@
     "saveSuccess": "Vaš recept je sačuvan.",
     "saveFailed": "Recept nije moguće sačuvati ili objaviti. Pokušajte ponovo.",
     "privacy": "Vaši recepti su privatni.",
-    "manualAlternativeTitle": "Radije biste sami unijeli recept?",
-    "manualAlternativeAction": "Unesite recept od početka",
     "manualTitleLabel": "Naziv recepta",
     "manualTitlePlaceholder": "Nazovite svoj recept",
     "manualNotesLabel": "Sastojci i priprema",
@@ -420,7 +418,7 @@
     "doneEditing": "Završi uređivanje",
     "draftReady": "Nacrt recepta je spreman. Pregledajte ga prije čuvanja.",
     "importFailed": "Nije moguće napraviti nacrt recepta. Pokušajte ponovo.",
-    "saveFailed": "Nije moguće sačuvati recept. Pokušajte ponovo.",
+    "importSaveFailed": "Nije moguće sačuvati recept. Pokušajte ponovo.",
     "manualUnavailable": "Ručno čuvanje recepata još nije povezano."
   },
   "myLibrary": {

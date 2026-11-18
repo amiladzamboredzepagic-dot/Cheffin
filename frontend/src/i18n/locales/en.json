@@ -393,8 +393,6 @@
     "saveSuccess": "Your recipe has been saved.",
     "saveFailed": "Could not save or publish your recipe. Please try again.",
     "privacy": "Your recipes are private to you.",
-    "manualAlternativeTitle": "Something from you own kitchen?",
-    "manualAlternativeAction": "Write your recipe & upload a photo →",
     "manualTitleLabel": "Recipe name",
     "manualTitlePlaceholder": "Give your recipe a name",
     "manualNotesLabel": "Ingredients and method",
@@ -417,7 +415,7 @@
     "doneEditing": "Done editing",
     "draftReady": "Recipe draft created. Review it before saving.",
     "importFailed": "Could not create a recipe draft. Please try again.",
-    "saveFailed": "Could not save this recipe. Please try again.",
+    "importSaveFailed": "Could not save this recipe. Please try again.",
     "manualUnavailable": "Manual recipe saving is not connected yet."
   },
   "myLibrary": {

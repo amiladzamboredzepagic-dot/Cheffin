@@ -108,12 +108,14 @@ export function RecipeEntrySection({
         publish: false,
       })
       if (!data?.createRecipe) {
-        throw new Error(t('recipeCreate.saveFailed'))
+        throw new Error(t('recipeCreate.importSaveFailed'))
       }
       onRecipeSaved()
     } catch (error) {
       onFeedback(
-        error instanceof Error ? error.message : t('recipeCreate.saveFailed'),
+        error instanceof Error
+          ? error.message
+          : t('recipeCreate.importSaveFailed'),
         'error',
       )
     }
@@ -138,7 +140,6 @@ export function RecipeEntrySection({
           onRecipeUrlChange={setRecipeUrl}
           onImport={handleImport}
           onSave={handleSave}
-          onRequestPencilMode={() => onEntryModeChange(ENTRY_MODE.MANUAL)}
         />
       ) : (
         <WriteYourOwnRecipe

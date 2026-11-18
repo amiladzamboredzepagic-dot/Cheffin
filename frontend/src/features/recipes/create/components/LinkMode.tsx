@@ -8,7 +8,6 @@ import { FormDivider } from '../../../../components/ui/forms/FormDivider'
 import { FormTextField } from '../../../../components/ui/forms/FormTextField'
 import { FormSectionTitle, RecipeEntryForm } from '../RecipeEntryForm.styles'
 import { ImportGuidance } from '../RecipeCreatePage.styles'
-import { WriteYourOwnRecipePrompt } from './WriteYourOwnRecipePrompt'
 import { RecipeCollectionField } from './RecipeEntryFields'
 
 interface LinkModeProps {
@@ -22,7 +21,6 @@ interface LinkModeProps {
   onRecipeUrlChange: (value: string) => void
   onImport: (url: string) => void
   onSave: () => void
-  onRequestPencilMode: () => void
 }
 
 interface ActionButtonConfig {
@@ -71,7 +69,6 @@ export function LinkMode({
   onRecipeUrlChange,
   onImport,
   onSave,
-  onRequestPencilMode,
 }: LinkModeProps) {
   const theme = useTheme()
   const { t } = useTranslation()
@@ -134,7 +131,6 @@ export function LinkMode({
       </Flex>
 
       {getActionButton(saveButtonConfig)}
-      <WriteYourOwnRecipePrompt onClick={onRequestPencilMode} />
     </RecipeEntryForm>
   )
 }

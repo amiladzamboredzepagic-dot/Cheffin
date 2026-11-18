@@ -393,8 +393,6 @@
     "saveSuccess": "Dein Rezept wurde gespeichert.",
     "saveFailed": "Dein Rezept konnte nicht gespeichert oder veröffentlicht werden. Bitte versuche es erneut.",
     "privacy": "Deine Rezepte sind privat.",
-    "manualAlternativeTitle": "Möchtest du es lieber selbst schreiben?",
-    "manualAlternativeAction": "Rezept von Grund auf hinzufügen",
     "manualTitleLabel": "Rezeptname",
     "manualTitlePlaceholder": "Gib deinem Rezept einen Namen",
     "manualNotesLabel": "Zutaten und Zubereitung",
@@ -417,7 +415,7 @@
     "doneEditing": "Bearbeitung abschließen",
     "draftReady": "Rezeptentwurf erstellt. Prüfe ihn vor dem Speichern.",
     "importFailed": "Der Rezeptentwurf konnte nicht erstellt werden. Bitte versuche es erneut.",
-    "saveFailed": "Das Rezept konnte nicht gespeichert werden. Bitte versuche es erneut.",
+    "importSaveFailed": "Das Rezept konnte nicht gespeichert werden. Bitte versuche es erneut.",
     "manualUnavailable": "Das manuelle Speichern von Rezepten ist noch nicht angebunden."
   },
   "myLibrary": {
