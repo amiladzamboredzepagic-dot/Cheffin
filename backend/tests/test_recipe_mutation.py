@@ -20,6 +20,16 @@ class FakeRecipeCollection:
         self.documents.append({**document, "_id": inserted_id})
         return SimpleNamespace(inserted_id=inserted_id)
 
+    async def find_one(self, query: dict) -> dict | None:
+        return next(
+            (
+                document
+                for document in self.documents
+                if all(document.get(key) == value for key, value in query.items())
+            ),
+            None,
+        )
+
     def find(self, query: dict) -> "FakeRecipeCursor":
         return FakeRecipeCursor(
             [
@@ -35,6 +45,24 @@ class FakeRecipeCollection:
                 document.update(update["$set"])
                 return SimpleNamespace(matched_count=1)
         return SimpleNamespace(matched_count=0)
+
+    async def delete_one(self, query: dict) -> SimpleNamespace:
+        for index, document in enumerate(self.documents):
+            if all(document.get(key) == value for key, value in query.items()):
+                self.documents.pop(index)
+                return SimpleNamespace(deleted_count=1)
+        return SimpleNamespace(deleted_count=0)
+
+    async def delete_many(self, query: dict) -> SimpleNamespace:
+        matching = [
+            document
+            for document in self.documents
+            if all(document.get(key) == value for key, value in query.items())
+        ]
+        self.documents[:] = [
+            document for document in self.documents if document not in matching
+        ]
+        return SimpleNamespace(deleted_count=len(matching))
 
 
 class FakeRecipeCursor:
@@ -97,12 +125,15 @@ class FakeUserMetadataCollection:
 class FakeDatabase:
     def __init__(self) -> None:
         self.recipes = FakeRecipeCollection()
+        self.saved_recipes = FakeRecipeCollection()
         self.dietary_preferences = FakeUserMetadataCollection()
         self.cuisines = FakeUserMetadataCollection()
 
     def __getitem__(self, collection_name: str):
         if collection_name == "recipes":
             return self.recipes
+        if collection_name == "saved_recipes":
+            return self.saved_recipes
         if collection_name == "dietary_preferences":
             return self.dietary_preferences
         if collection_name == "cuisines":
@@ -274,6 +305,7 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
             mine = await schema.execute(
                 """
                 { myRecipes {
+                    ingredients steps mealType
                     dietaryPreferences cuisine difficulty
                 } }
                 """,
@@ -308,6 +340,9 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(
             mine.data["myRecipes"][0],
             {
+                "ingredients": ["berries"],
+                "steps": [],
+                "mealType": "dessert",
                 "dietaryPreferences": ["low carb", "whole30"],
                 "cuisine": "Korean fusion",
                 "difficulty": "medium",
@@ -405,6 +440,127 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
             direct_mine.data["myRecipes"][0]["id"], direct.data["createRecipe"]["id"]
         )
         self.assertFalse(direct_mine.data["myRecipes"][0]["isPrivate"])
+
+    async def test_update_recipe_is_owner_only_and_preserves_photo_and_visibility(
+        self,
+    ) -> None:
+        database = FakeDatabase()
+        recipe_id = ObjectId()
+        original_photo = {
+            "content_type": "image/png",
+            "data": b"\x89PNG\r\n\x1a\noriginal",
+        }
+        database.recipes.documents.append(
+            {
+                "_id": recipe_id,
+                "owner_id": "owner",
+                "title": "Original",
+                "description": "",
+                "ingredients": ["flour"],
+                "steps": [],
+                "prep_time_minutes": 20,
+                "servings": 2,
+                "meal_type": "lunch",
+                "dietary_preferences": [],
+                "cuisine": None,
+                "difficulty": None,
+                "photo": original_photo,
+                "collection_id": None,
+                "is_private": False,
+                "created_at": datetime.now(timezone.utc),
+            }
+        )
+        mutation = """
+            mutation UpdateRecipe($id: String!, $input: UpdateRecipeInput!) {
+              updateRecipe(recipeId: $id, input: $input)
+            }
+        """
+        variables = {
+            "id": str(recipe_id),
+            "input": {
+                "title": "Updated",
+                "description": "A better recipe",
+                "ingredients": ["flour", "water"],
+                "steps": ["Mix"],
+                "prepTimeMinutes": 35,
+                "servings": 4,
+                "mealType": "dinner",
+                "dietaryPreferences": ["vegan"],
+                "cuisine": "Italian",
+                "difficulty": "easy",
+                "collectionId": None,
+            },
+        }
+
+        with patch("app.recipes.schema.get_database", return_value=database):
+            rejected = await schema.execute(
+                mutation,
+                variable_values=variables,
+                context_value=SimpleNamespace(user={"sub": "other"}),
+            )
+            updated = await schema.execute(
+                mutation,
+                variable_values=variables,
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+
+        self.assertIsNotNone(rejected.errors)
+        self.assertIsNone(updated.errors)
+        self.assertTrue(updated.data["updateRecipe"])
+        recipe = database.recipes.documents[0]
+        self.assertEqual(recipe["title"], "Updated")
+        self.assertEqual(recipe["ingredients"], ["flour", "water"])
+        self.assertEqual(recipe["meal_type"], "dinner")
+        self.assertEqual(recipe["photo"], original_photo)
+        self.assertFalse(recipe["is_private"])
+
+    async def test_delete_recipe_is_owner_only_and_removes_saved_references(self) -> None:
+        database = FakeDatabase()
+        recipe_id = ObjectId()
+        other_recipe_id = ObjectId()
+        database.recipes.documents.extend(
+            [
+                {"_id": recipe_id, "owner_id": "owner"},
+                {"_id": other_recipe_id, "owner_id": "other"},
+            ]
+        )
+        database.saved_recipes.documents.extend(
+            [
+                {"owner_id": "owner", "recipe_id": recipe_id},
+                {"owner_id": "reader", "recipe_id": recipe_id},
+                {"owner_id": "owner", "recipe_id": other_recipe_id},
+            ]
+        )
+        mutation = """
+            mutation DeleteRecipe($id: String!) {
+              deleteRecipe(recipeId: $id)
+            }
+        """
+        variables = {"id": str(recipe_id)}
+
+        with patch("app.recipes.schema.get_database", return_value=database):
+            rejected = await schema.execute(
+                mutation,
+                variable_values=variables,
+                context_value=SimpleNamespace(user={"sub": "other"}),
+            )
+            deleted = await schema.execute(
+                mutation,
+                variable_values=variables,
+                context_value=SimpleNamespace(user={"sub": "owner"}),
+            )
+
+        self.assertIsNotNone(rejected.errors)
+        self.assertIsNone(deleted.errors)
+        self.assertTrue(deleted.data["deleteRecipe"])
+        self.assertEqual(
+            [document["_id"] for document in database.recipes.documents],
+            [other_recipe_id],
+        )
+        self.assertEqual(
+            [document["recipe_id"] for document in database.saved_recipes.documents],
+            [other_recipe_id],
+        )
 
     async def test_saves_recipe_as_private_to_authenticated_user(self) -> None:
         database = FakeDatabase()

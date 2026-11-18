@@ -42,8 +42,11 @@ class MyRecipe:
     id: str
     title: str
     description: str
+    ingredients: list[str]
+    steps: list[str]
     prep_time_minutes: int
     servings: int
+    meal_type: str
     dietary_preferences: list[str]
     cuisine: str | None
     difficulty: str | None
@@ -154,8 +157,11 @@ class Query:
                     id=str(document["_id"]),
                     title=document["title"],
                     description=document["description"],
+                    ingredients=document.get("ingredients") or [],
+                    steps=document.get("steps") or [],
                     prep_time_minutes=document["prep_time_minutes"],
                     servings=document["servings"],
+                    meal_type=document.get("meal_type", "lunch"),
                     dietary_preferences=document.get("dietary_preferences") or [],
                     cuisine=document.get("cuisine"),
                     difficulty=document.get("difficulty"),
@@ -269,6 +275,23 @@ class CreateRecipeInput:
     photo_content_type: str | None = None
     collection_id: str | None = None
     publish: bool = False
+
+
+@strawberry.input
+class UpdateRecipeInput:
+    title: str
+    ingredients: list[str]
+    prep_time_minutes: int
+    servings: int
+    meal_type: str
+    description: str | None = None
+    steps: list[str] = strawberry.field(default_factory=list)
+    dietary_preferences: list[str] = strawberry.field(default_factory=list)
+    cuisine: str | None = None
+    difficulty: str | None = None
+    photo_base64: str | None = None
+    photo_content_type: str | None = None
+    collection_id: str | None = None
 
 
 @strawberry.type
@@ -584,4 +607,101 @@ class Mutation:
         )
         if result.matched_count == 0:
             raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+        return True
+
+    @strawberry.mutation
+    async def update_recipe(
+        self,
+        info: strawberry.Info,
+        recipe_id: str,
+        input: UpdateRecipeInput,
+    ) -> bool:
+        owner_id = require_owner_id(info)
+        if not ObjectId.is_valid(recipe_id):
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+
+        try:
+            recipe_data = RecipeCreateData.model_validate(
+                {
+                    "title": input.title,
+                    "description": input.description or "",
+                    "ingredients": input.ingredients,
+                    "steps": input.steps,
+                    "prep_time_minutes": input.prep_time_minutes,
+                    "servings": input.servings,
+                    "meal_type": input.meal_type,
+                    "dietary_preferences": input.dietary_preferences,
+                    "cuisine": input.cuisine,
+                    "difficulty": input.difficulty,
+                    "photo_base64": input.photo_base64,
+                    "photo_content_type": input.photo_content_type,
+                }
+            )
+            photo_bytes = recipe_data.decoded_photo()
+        except (ValidationError, ValueError) as error:
+            raise GraphQLError(
+                "Invalid recipe input",
+                extensions={"code": "BAD_USER_INPUT"},
+            ) from error
+
+        collection_object_id = None
+        if input.collection_id is not None:
+            if not ObjectId.is_valid(input.collection_id):
+                raise GraphQLError(
+                    "Invalid collection",
+                    extensions={"code": "BAD_USER_INPUT"},
+                )
+            collection_object_id = ObjectId(input.collection_id)
+            collection = await get_database()["collections"].find_one(
+                {"_id": collection_object_id, "owner_id": owner_id}
+            )
+            if collection is None:
+                raise GraphQLError(
+                    "Collection not found",
+                    extensions={"code": "BAD_USER_INPUT"},
+                )
+
+        update_fields: dict[str, Any] = {
+            "title": recipe_data.title,
+            "description": recipe_data.description,
+            "ingredients": recipe_data.ingredients,
+            "steps": recipe_data.steps,
+            "prep_time_minutes": recipe_data.prep_time_minutes,
+            "servings": recipe_data.servings,
+            "meal_type": recipe_data.meal_type,
+            "dietary_preferences": recipe_data.dietary_preferences,
+            "cuisine": recipe_data.cuisine,
+            "difficulty": recipe_data.difficulty,
+            "collection_id": collection_object_id,
+        }
+        if photo_bytes is not None:
+            update_fields["photo"] = {
+                "content_type": recipe_data.photo_content_type,
+                "data": Binary(photo_bytes),
+            }
+
+        result = await get_database()["recipes"].update_one(
+            {"_id": ObjectId(recipe_id), "owner_id": owner_id},
+            {"$set": update_fields},
+        )
+        if result.matched_count == 0:
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+        return True
+
+    @strawberry.mutation
+    async def delete_recipe(self, info: strawberry.Info, recipe_id: str) -> bool:
+        owner_id = require_owner_id(info)
+        if not ObjectId.is_valid(recipe_id):
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+
+        recipe_object_id = ObjectId(recipe_id)
+        result = await get_database()["recipes"].delete_one(
+            {"_id": recipe_object_id, "owner_id": owner_id}
+        )
+        if result.deleted_count == 0:
+            raise GraphQLError("Recipe not found", extensions={"code": "NOT_FOUND"})
+
+        await get_database()["saved_recipes"].delete_many(
+            {"recipe_id": recipe_object_id}
+        )
         return True
