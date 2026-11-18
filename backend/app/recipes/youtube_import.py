@@ -4,6 +4,7 @@ import os
 import re
 import tempfile
 import time
+from typing import Literal
 from urllib.parse import parse_qs, urlsplit
 
 import yt_dlp
@@ -17,6 +18,7 @@ from youtube_transcript_api import (
 )
 
 from app.core.config import settings
+from app.recipes.models import Cuisine, DietaryPreference, MealType
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +41,13 @@ class RecipeDraftData(BaseModel):
     prep_time_minutes: int | None = Field(default=None, ge=0, le=1440)
     servings: int | None = Field(default=None, ge=1, le=100)
     calories: int | None = Field(default=None, ge=0, le=10000)
+    meal_type: MealType = "lunch"
+    dietary_preferences: list[DietaryPreference] = Field(
+        default_factory=list,
+        max_length=12,
+    )
+    cuisine: Cuisine | None = None
+    difficulty: Literal["easy", "medium", "hard"] | None = None
     tags: list[str] = Field(default_factory=list, max_length=20)
 
     @field_validator("prep_time_minutes", "servings", "calories", mode="before")
@@ -51,6 +60,43 @@ class RecipeDraftData(BaseModel):
         if isinstance(value, str) and re.fullmatch(r"\s*\d+\s*", value):
             return int(value)
         return None
+
+    @field_validator("meal_type", mode="before")
+    @classmethod
+    def normalize_meal_type(cls, value: object) -> str:
+        meal_types = {"breakfast", "lunch", "dinner", "snack", "dessert", "drink"}
+        if isinstance(value, str) and value.strip().lower() in meal_types:
+            return value.strip().lower()
+        return "lunch"
+
+    @field_validator("difficulty", mode="before")
+    @classmethod
+    def normalize_difficulty(cls, value: object) -> str | None:
+        if isinstance(value, str) and value.strip().lower() in {
+            "easy",
+            "medium",
+            "hard",
+        }:
+            return value.strip().lower()
+        return None
+
+    @field_validator("dietary_preferences", mode="before")
+    @classmethod
+    def normalize_dietary_preferences(cls, value: object) -> object:
+        if isinstance(value, list):
+            return [
+                preference.strip()
+                for preference in value
+                if isinstance(preference, str) and preference.strip()
+            ]
+        return value
+
+    @field_validator("cuisine", mode="before")
+    @classmethod
+    def normalize_cuisine(cls, value: object) -> object:
+        if isinstance(value, str):
+            return value.strip() or None
+        return value
 
     @field_validator("title")
     @classmethod
@@ -302,11 +348,17 @@ async def extract_youtube_recipe(url: str) -> tuple[str, RecipeDraftData]:
                             "that are not supported by the transcript. Return the "
                             "fields title, description, ingredients (array of "
                             "strings), instructions (array of strings), "
-                            "prep_time_minutes, servings, calories, and tags "
-                            "(array of strings). prep_time_minutes, servings, and "
-                            "calories must each be a single whole number or null "
-                            "when the transcript does not state it; never put "
-                            "text, ranges, or units in them."
+                            "prep_time_minutes, servings, calories, meal_type, "
+                            "dietary_preferences (array of strings), cuisine, "
+                            "difficulty, and tags (array of strings). "
+                            "prep_time_minutes, servings, and calories must each "
+                            "be a single whole number or null when the transcript "
+                            "does not state it; never put text, ranges, or units "
+                            "in them. Only include dietary preferences explicitly "
+                            "supported by the transcript, otherwise use []. Use "
+                            "null for cuisine or difficulty if unclear. meal_type "
+                            "must be breakfast, lunch, dinner, snack, dessert, or "
+                            "drink; difficulty must be easy, medium, hard, or null."
                         ),
                     },
                     {

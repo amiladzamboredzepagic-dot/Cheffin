@@ -73,6 +73,25 @@ class ParseYouTubeVideoIdTests(unittest.TestCase):
         self.assertEqual(draft.prep_time_minutes, 15)
         self.assertIsNone(draft.servings)
         self.assertIsNone(draft.calories)
+
+    def test_draft_normalizes_editable_recipe_metadata(self) -> None:
+        draft = RecipeDraftData.model_validate(
+            {
+                "title": "Pancakes",
+                "description": "",
+                "ingredients": ["flour"],
+                "instructions": ["Mix"],
+                "meal_type": " BRUNCH ",
+                "dietary_preferences": [" vegan ", " ", "glutenFree"],
+                "cuisine": " ",
+                "difficulty": "Very easy",
+            }
+        )
+
+        self.assertEqual(draft.meal_type, "lunch")
+        self.assertEqual(draft.dietary_preferences, ["vegan", "glutenFree"])
+        self.assertIsNone(draft.cuisine)
+        self.assertIsNone(draft.difficulty)
     def test_extracts_ids_from_supported_video_urls(self) -> None:
         urls = [
             "https://www.youtube.com/watch?v=abcdefghijk",
@@ -206,6 +225,8 @@ class RecipeLibraryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(video_id, "abcdefghijk")
         self.assertEqual(draft.title, "Tomato rice")
         self.assertEqual(draft.ingredients, ["1 cup rice", "2 tomatoes"])
+        self.assertEqual(draft.meal_type, "lunch")
+        self.assertEqual(draft.dietary_preferences, [])
 
     async def test_youtube_import_rejects_transcripts_over_limit(self) -> None:
         with (
@@ -257,6 +278,10 @@ class RecipeLibraryTests(unittest.IsolatedAsyncioTestCase):
             result.image_url, "https://img.youtube.com/vi/abcdefghijk/hqdefault.jpg"
         )
         self.assertEqual(result.servings, 2)
+        self.assertEqual(result.meal_type, "lunch")
+        self.assertEqual(result.dietary_preferences, [])
+        self.assertIsNone(result.cuisine)
+        self.assertIsNone(result.difficulty)
 
     async def test_extract_mutation_requires_authentication(self) -> None:
         info = SimpleNamespace(context=SimpleNamespace(user=None))

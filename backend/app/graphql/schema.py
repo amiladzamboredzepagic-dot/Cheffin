@@ -34,6 +34,10 @@ class YoutubeRecipeDraft:
     prep_time_minutes: int | None
     servings: int | None
     calories: int | None
+    meal_type: str
+    dietary_preferences: list[str]
+    cuisine: str | None
+    difficulty: str | None
     tags: list[str]
 
 
@@ -178,6 +182,10 @@ class Mutation(RecipeMutation):
             prep_time_minutes=draft.prep_time_minutes,
             servings=draft.servings,
             calories=draft.calories,
+            meal_type=draft.meal_type,
+            dietary_preferences=draft.dietary_preferences,
+            cuisine=draft.cuisine,
+            difficulty=draft.difficulty,
             tags=draft.tags,
         )
 
