@@ -1,3 +1,4 @@
+from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -73,7 +74,6 @@ def create_auth_response(
         "role": role,
         "first_name": first_name,
         "last_name": last_name,
-        "role": role,
     }
     access_token = create_access_token(token_payload)
     refresh_token = create_refresh_token(token_payload)
@@ -92,6 +92,7 @@ def create_auth_response(
         "token_type": "bearer",
         "first_name": first_name,
         "last_name": last_name,
+        "role": role,
     }
 
 
@@ -142,7 +143,10 @@ async def register(
 
 
 @router.post("/refresh")
-async def refresh_token(request: Request):
+async def refresh_token(
+    request: Request,
+    db: AsyncIOMotorDatabase = Depends(get_database),
+):
     token = request.cookies.get("refresh_token")
     if not token:
         raise HTTPException(status_code=401, detail="Refresh token missing")
@@ -151,19 +155,29 @@ async def refresh_token(request: Request):
     if not payload:
         raise HTTPException(status_code=401, detail="Invalid refresh token")
 
+    subject = payload.get("sub")
+    if not isinstance(subject, str) or not ObjectId.is_valid(subject):
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+    user = await db["users"].find_one({"_id": ObjectId(subject)})
+    if user is None:
+        raise HTTPException(status_code=401, detail="Account no longer exists")
+
+    role = user.get("role", "user")
+    first_name = user.get("first_name", "")
+    last_name = user.get("last_name", "")
     new_access_token = create_access_token(
         {
-            "sub": payload["sub"],
-            "role": payload.get("role", "user"),
-            "first_name": payload.get("first_name", ""),
-            "last_name": payload.get("last_name", ""),
-            "role": payload.get("role", "user"),
+            "sub": subject,
+            "role": role,
+            "first_name": first_name,
+            "last_name": last_name,
         }
     )
     return {
         "access_token": new_access_token,
-        "first_name": payload.get("first_name", ""),
-        "last_name": payload.get("last_name", ""),
+        "first_name": first_name,
+        "last_name": last_name,
+        "role": role,
     }
 
 
