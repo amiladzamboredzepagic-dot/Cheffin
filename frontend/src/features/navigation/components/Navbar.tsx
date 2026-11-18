@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import CheffinLogo from '../../../components/brand/CheffinLogo'
 import { NavigationLink } from '../../../components/ui/links/NavigationLink'
+import { useAuth } from '../../../context/useAuth'
 import Header from '../../layout/components/Header'
 import { LanguageToggle } from './LanguageToggle'
 import { NavbarAuth } from './NavbarAuth'
@@ -14,6 +15,7 @@ interface NavbarProps {
 
 export function Navbar({ onLogin, onCreateAccount }: NavbarProps) {
   const { t } = useTranslation()
+  const { isAuthenticated } = useAuth()
 
   return (
     <Header>
@@ -35,9 +37,11 @@ export function Navbar({ onLogin, onCreateAccount }: NavbarProps) {
         <NavigationLink to="/explore">
           {t('navigation.discover')}
         </NavigationLink>
-        <NavigationLink to="/library">
-          {t('navigation.myLibrary')}
-        </NavigationLink>
+        {isAuthenticated && (
+          <NavigationLink to="/library">
+            {t('navigation.myLibrary')}
+          </NavigationLink>
+        )}
       </Flex>
       <Flex gap={{ xs: 0, sm: 1 }}>
         <LanguageToggle />
