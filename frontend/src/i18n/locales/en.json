@@ -455,6 +455,33 @@
     "createNew": "Create new",
     "cancel": "Cancel"
   },
+  "admin": {
+    "menuLabel": "Admin panel",
+    "eyebrow": "ADMINISTRATION",
+    "title": "Cheffin overview",
+    "description": "A snapshot of the community and its recipe activity.",
+    "loading": "Loading admin statistics...",
+    "loadError": "Couldn't load admin statistics. Please try again later.",
+    "userBreakdown": "Activity by user",
+    "noUsers": "There are no users to display.",
+    "unnamedUser": "Unnamed user",
+    "stats": {
+      "users": "Total users",
+      "recipes": "Total recipes",
+      "publishedRecipes": "Published recipes",
+      "draftRecipes": "Draft recipes",
+      "collections": "Collections",
+      "savedRecipes": "Saved recipes"
+    },
+    "table": {
+      "user": "User",
+      "email": "Email",
+      "recipes": "Recipes",
+      "published": "Published",
+      "drafts": "Drafts",
+      "collections": "Collections"
+    }
+  },
   "auth": {
     "modeLabel": "Authentication mode",
     "login": "Login",

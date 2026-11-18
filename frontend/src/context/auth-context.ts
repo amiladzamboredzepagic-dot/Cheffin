@@ -4,6 +4,7 @@ export interface AuthResponse {
   access_token: string
   first_name?: string
   last_name?: string
+  role: string
 }
 
 export type AuthMode = 'login' | 'signup'
@@ -13,6 +14,8 @@ export interface AuthContextValue {
   isAuthenticated: boolean
   firstName: string | null
   lastName: string | null
+  role: string | null
+  isAdmin: boolean
   login: (email: string, password: string) => Promise<AuthResponse>
   register: (
     email: string,

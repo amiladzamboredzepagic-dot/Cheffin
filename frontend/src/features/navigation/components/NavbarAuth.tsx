@@ -12,7 +12,7 @@ interface NavbarAuthProps {
 
 export function NavbarAuth({ onLogin, onCreateAccount }: NavbarAuthProps) {
   const { t } = useTranslation()
-  const { accessToken, firstName, lastName, logout } = useAuth()
+  const { accessToken, firstName, lastName, isAdmin, logout } = useAuth()
 
   const [logoutError, setLogoutError] = useState(false)
 
@@ -31,6 +31,7 @@ export function NavbarAuth({ onLogin, onCreateAccount }: NavbarAuthProps) {
         <NavbarAuthenticatedActions
           firstName={firstName}
           lastName={lastName}
+          isAdmin={isAdmin}
           onLogout={handleLogout}
         />
       ) : (

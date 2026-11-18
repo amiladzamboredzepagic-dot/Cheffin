@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apolloClient, setAccessTokenGetter } from '../apolloClient'
 import { API_ENDPOINTS } from '../constants/apiEndpoints'
+import { USER_ROLES } from '../constants/roles'
 import {
   AuthContext,
   AuthRequestError,
@@ -16,7 +17,9 @@ function isAuthResponse(data: unknown): data is AuthResponse {
     'access_token' in data &&
     typeof data.access_token === 'string' &&
     (!('first_name' in data) || typeof data.first_name === 'string') &&
-    (!('last_name' in data) || typeof data.last_name === 'string')
+    (!('last_name' in data) || typeof data.last_name === 'string') &&
+    'role' in data &&
+    typeof data.role === 'string'
   )
 }
 
@@ -34,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [firstName, setFirstName] = useState<string | null>(null)
   const [lastName, setLastName] = useState<string | null>(null)
+  const [role, setRole] = useState<string | null>(null)
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState<AuthMode>('login')
   const [loading, setLoading] = useState(true)
@@ -58,6 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setAccessToken(data.access_token)
           setFirstName(data.first_name || null)
           setLastName(data.last_name || null)
+          setRole(data.role)
         }
       } catch (error) {
         console.error('Failed to restore auth session:', error)
@@ -97,6 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAccessToken(data.access_token)
     setFirstName(data.first_name || null)
     setLastName(data.last_name || null)
+    setRole(data.role)
     return data
   }
 
@@ -143,6 +149,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAccessToken(null)
     setFirstName(null)
     setLastName(null)
+    setRole(null)
   }
 
   const openLogin = () => {
@@ -170,6 +177,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: Boolean(accessToken),
         firstName,
         lastName,
+        role,
+        isAdmin: role === USER_ROLES.ADMIN,
         login,
         register,
         loginLoading,

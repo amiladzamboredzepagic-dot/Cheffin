@@ -8,12 +8,14 @@ import { NavbarAddRecipe } from './NavbarAddRecipe'
 interface NavbarAuthenticatedActionsProps {
   firstName: string | null
   lastName: string | null
+  isAdmin: boolean
   onLogout: () => void
 }
 
 export function NavbarAuthenticatedActions({
   firstName,
   lastName,
+  isAdmin,
   onLogout,
 }: NavbarAuthenticatedActionsProps) {
   const navigate = useNavigate()
@@ -50,6 +52,11 @@ export function NavbarAuthenticatedActions({
         onProfile={() => {
           setAccountMenuAnchor(null)
           navigate('/profile')
+        }}
+        isAdmin={isAdmin}
+        onAdmin={() => {
+          setAccountMenuAnchor(null)
+          navigate('/admin')
         }}
         onLogout={handleLogout}
       />

@@ -7,6 +7,8 @@ import { getRecipeEditRouteElements } from '../recipes/edit/RecipeEditRoutes'
 import { ProtectedRoute } from './ProtectedRoute'
 import { DiscoveryPage } from '../discovery/DiscoveryPage'
 import { ProfilePage } from '../profile/ProfilePage'
+import { AdminPage } from '../admin/AdminPage'
+import { AdminRoute } from './AdminRoute'
 
 export function AppRoutes() {
   const libraryPage = (
@@ -24,6 +26,16 @@ export function AppRoutes() {
         element={
           <ProtectedRoute>
             <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
           </ProtectedRoute>
         }
       />

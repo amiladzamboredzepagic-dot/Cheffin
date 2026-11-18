@@ -453,6 +453,33 @@
     "contactUs": "Kontakt",
     "cancel": "Abbrechen"
   },
+  "admin": {
+    "menuLabel": "Adminbereich",
+    "eyebrow": "ADMINISTRATION",
+    "title": "Cheffin-Übersicht",
+    "description": "Ein Überblick über die Community und ihre Rezeptaktivität.",
+    "loading": "Admin-Statistiken werden geladen...",
+    "loadError": "Admin-Statistiken konnten nicht geladen werden. Bitte versuche es später erneut.",
+    "userBreakdown": "Aktivität nach Benutzer",
+    "noUsers": "Es gibt keine Benutzer zum Anzeigen.",
+    "unnamedUser": "Unbenannter Benutzer",
+    "stats": {
+      "users": "Benutzer insgesamt",
+      "recipes": "Rezepte insgesamt",
+      "publishedRecipes": "Veröffentlichte Rezepte",
+      "draftRecipes": "Rezeptentwürfe",
+      "collections": "Sammlungen",
+      "savedRecipes": "Gespeicherte Rezepte"
+    },
+    "table": {
+      "user": "Benutzer",
+      "email": "E-Mail",
+      "recipes": "Rezepte",
+      "published": "Veröffentlicht",
+      "drafts": "Entwürfe",
+      "collections": "Sammlungen"
+    }
+  },
   "auth": {
     "modeLabel": "Anmeldemethode",
     "login": "Anmelden",

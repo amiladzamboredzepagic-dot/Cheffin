@@ -456,6 +456,33 @@
     "contactUs": "Kontaktirajte nas",
     "cancel": "Otkaži"
   },
+  "admin": {
+    "menuLabel": "Administratorska ploča",
+    "eyebrow": "ADMINISTRACIJA",
+    "title": "Pregled Cheffina",
+    "description": "Pregled zajednice i aktivnosti s receptima.",
+    "loading": "Učitavanje administratorske statistike...",
+    "loadError": "Nije moguće učitati statistiku. Pokušajte ponovo kasnije.",
+    "userBreakdown": "Aktivnost po korisniku",
+    "noUsers": "Nema korisnika za prikaz.",
+    "unnamedUser": "Korisnik bez imena",
+    "stats": {
+      "users": "Ukupno korisnika",
+      "recipes": "Ukupno recepata",
+      "publishedRecipes": "Objavljeni recepti",
+      "draftRecipes": "Nacrti recepata",
+      "collections": "Kolekcije",
+      "savedRecipes": "Sačuvani recepti"
+    },
+    "table": {
+      "user": "Korisnik",
+      "email": "E-mail",
+      "recipes": "Recepti",
+      "published": "Objavljeni",
+      "drafts": "Nacrti",
+      "collections": "Kolekcije"
+    }
+  },
   "auth": {
     "modeLabel": "Način prijave",
     "login": "Prijavi se",

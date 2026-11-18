@@ -199,6 +199,43 @@ export function createAppTheme(mode: PaletteMode = 'light') {
         }),
       },
     },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          minWidth: 760,
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: theme.spacing(2, 2.5),
+          borderColor: theme.palette.divider,
+        }),
+        head: ({ theme }) => ({
+          paddingTop: theme.spacing(1.75),
+          paddingBottom: theme.spacing(1.75),
+          color: theme.palette.text.secondary,
+          backgroundColor: theme.palette.background.secondary,
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: '0.04em',
+          textTransform: 'uppercase',
+        }),
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          '&:last-child td, &:last-child th': {
+            borderBottom: 0,
+          },
+          '&:hover': {
+            backgroundColor: theme.palette.background.input,
+          },
+        }),
+      },
+    },
     // --- Input Design System Overrides ---
     MuiInputLabel: {
       styleOverrides: {
