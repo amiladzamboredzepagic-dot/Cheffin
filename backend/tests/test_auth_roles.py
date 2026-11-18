@@ -18,6 +18,22 @@ class FakeUsersCollection:
 
 
 class AuthRoleResponseTests(unittest.IsolatedAsyncioTestCase):
+    def test_missing_role_defaults_to_chef(self) -> None:
+        user = {
+            "_id": ObjectId(),
+            "first_name": "Ava",
+            "last_name": "Cook",
+        }
+        request = SimpleNamespace(url=SimpleNamespace(scheme="https"))
+
+        with (
+            patch("app.api.auth_routes.create_access_token", return_value="access"),
+            patch("app.api.auth_routes.create_refresh_token", return_value="refresh"),
+        ):
+            result = create_auth_response(user, request, Response())
+
+        self.assertEqual(result["role"], ROLE_CHEF)
+
     def test_login_response_includes_account_role(self) -> None:
         user = {
             "_id": ObjectId(),
