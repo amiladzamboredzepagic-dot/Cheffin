@@ -67,11 +67,13 @@ def create_auth_response(
 ) -> dict[str, str]:
     first_name = user.get("first_name", "")
     last_name = user.get("last_name", "")
+    role = user.get("role", "user")
     token_payload = {
         "sub": str(user["_id"]),
-        "role": user.get("role", "user"),
+        "role": role,
         "first_name": first_name,
         "last_name": last_name,
+        "role": role,
     }
     access_token = create_access_token(token_payload)
     refresh_token = create_refresh_token(token_payload)
@@ -155,6 +157,7 @@ async def refresh_token(request: Request):
             "role": payload.get("role", "user"),
             "first_name": payload.get("first_name", ""),
             "last_name": payload.get("last_name", ""),
+            "role": payload.get("role", "user"),
         }
     )
     return {
