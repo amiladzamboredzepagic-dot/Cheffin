@@ -411,6 +411,8 @@
   },
   "common": {
     "language": "Sprache",
+    "switchToDarkMode": "Dunkelmodus aktivieren",
+    "switchToLightMode": "Hellmodus aktivieren",
     "close": "Schließen",
     "loading": "Wird geladen",
     "motto": "Für Hobbyköche ausgewählt und am ganzen Tisch geschätzt.",

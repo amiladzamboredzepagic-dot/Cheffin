@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, type PaletteMode } from '@mui/material/styles'
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -28,53 +28,60 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const theme = createTheme({
+export function createAppTheme(mode: PaletteMode = 'light') {
+  const isDark = mode === 'dark'
+
+  return createTheme({
   palette: {
+    mode,
     primary: {
-      main: '#54233A',
-      light: '#78354F',
-      dark: '#321421',
-      contrastText: '#ffffff',
+      main: isDark ? '#D28A9D' : '#54233A',
+      light: isDark ? '#E6B2BF' : '#78354F',
+      dark: isDark ? '#A95A73' : '#321421',
+      contrastText: isDark ? '#321421' : '#ffffff',
     },
     secondary: {
-      main: '#D28A9D',
-      light: '#E6B2BF',
-      dark: '#A95A73',
-      contrastText: '#321421',
+      main: isDark ? '#78354F' : '#D28A9D',
+      light: isDark ? '#A95A73' : '#E6B2BF',
+      dark: isDark ? '#54233A' : '#A95A73',
+      contrastText: isDark ? '#FFFFFF' : '#321421',
     },
     error: {
-      main: '#B42318',
-      light: '#FDECEA',
-      dark: '#7A271A',
+      main: isDark ? '#F28B82' : '#B42318',
+      light: isDark ? '#442422' : '#FDECEA',
+      dark: isDark ? '#FFB4AB' : '#7A271A',
+      contrastText: isDark ? '#241315' : '#ffffff',
     },
     warning: {
-      main: '#946200',
-      light: '#FFF4CC',
-      dark: '#704B00',
+      main: isDark ? '#F2C66D' : '#946200',
+      light: isDark ? '#3A3020' : '#FFF4CC',
+      dark: isDark ? '#FFE0A3' : '#704B00',
+      contrastText: isDark ? '#241D11' : '#ffffff',
     },
     success: {
-      main: '#356B4B',
-      light: '#E8ECEA',
-      dark: '#1B4332',
+      main: isDark ? '#8DC9A1' : '#356B4B',
+      light: isDark ? '#23352A' : '#E8ECEA',
+      dark: isDark ? '#B7E2C3' : '#1B4332',
+      contrastText: isDark ? '#142219' : '#ffffff',
     },
-    highlight: '#A34867',
+    highlight: isDark ? '#E6A0B4' : '#A34867',
     background: {
-      default: '#F8F5EE',
-      paper: '#FFFFFF',
-      input: '#FFFDF8',
-      inputActive: '#E8ECEA',
-      secondary: '#F1EADC',
-      accent: '#F5E5EA',
-      planner: '#E7ECDD',
-      mealSlot: '#F5F1E8',
+      default: isDark ? '#171316' : '#F8F5EE',
+      paper: isDark ? '#211A1E' : '#FFFFFF',
+      input: isDark ? '#2B2227' : '#FFFDF8',
+      inputActive: isDark ? '#382A31' : '#E8ECEA',
+      secondary: isDark ? '#30232A' : '#F1EADC',
+      accent: isDark ? '#3D2731' : '#F5E5EA',
+      planner: isDark ? '#28312B' : '#E7ECDD',
+      mealSlot: isDark ? '#2A2420' : '#F5F1E8',
     },
-    divider: '#DEDCCE',
+    divider: isDark ? '#493942' : '#DEDCCE',
     text: {
-      primary: '#2C2025',
-      secondary: '#787A6B',
-      detail: '#686D5D',
-      label: '#3E2530',
-      placeholder: '#666D5A',
+      primary: isDark ? '#F5EBEF' : '#2C2025',
+      secondary: isDark ? '#C6B7BE' : '#787A6B',
+      detail: isDark ? '#B7A7AE' : '#686D5D',
+      label: isDark ? '#F1E2E8' : '#3E2530',
+      placeholder: isDark ? '#B9AAB0' : '#666D5A',
     },
   },
   typography: {
@@ -175,17 +182,21 @@ export const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: '#F8F5EE',
+          backgroundColor: isDark ? '#171316' : '#F8F5EE',
+          color: isDark ? '#F5EBEF' : '#2C2025',
         },
       },
     },
     MuiCard: {
       styleOverrides: {
-        root: {
-          backgroundColor: '#FFFFFF',
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.background.paper,
           borderRadius: 16,
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.04)',
-        },
+          boxShadow:
+            theme.palette.mode === 'dark'
+              ? '0px 4px 20px rgba(0, 0, 0, 0.2)'
+              : '0px 4px 20px rgba(0, 0, 0, 0.04)',
+        }),
       },
     },
     // --- Input Design System Overrides ---
@@ -217,7 +228,7 @@ export const theme = createTheme({
           fontSize: '13px',
           fontWeight: 400,
           lineHeight: '16px',
-          color: theme.palette.text.secondary, // #787A6B
+          color: theme.palette.text.secondary,
           '&.MuiInputBase-multiline': {
             height: 'auto',
             alignItems: 'flex-start',
@@ -288,3 +299,4 @@ export const theme = createTheme({
     },
   },
 })
+}

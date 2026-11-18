@@ -411,6 +411,8 @@
   },
   "common": {
     "language": "Language",
+    "switchToDarkMode": "Switch to dark mode",
+    "switchToLightMode": "Switch to light mode",
     "close": "Close",
     "loading": "Loading",
     "motto": "Curated for home chefs, cherished by the whole table.",

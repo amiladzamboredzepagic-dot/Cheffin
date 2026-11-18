@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom/client'
 import { apolloClient } from './apolloClient'
 import App from './App'
 import { ApolloProvider } from '@apollo/client/react'
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import { theme } from './theme'
 import { AuthProvider } from './context/AuthContext'
 import { BrowserRouter } from 'react-router-dom'
+import { ColorModeProvider } from './theme/ColorModeProvider'
 import './i18n'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -14,10 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ApolloProvider client={apolloClient}>
       <BrowserRouter>
         <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
+          <ColorModeProvider>
             <App />
-          </ThemeProvider>
+          </ColorModeProvider>
         </AuthProvider>
       </BrowserRouter>
     </ApolloProvider>

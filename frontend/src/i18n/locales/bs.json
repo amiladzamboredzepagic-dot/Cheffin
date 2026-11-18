@@ -414,6 +414,8 @@
   },
   "common": {
     "language": "Jezik",
+    "switchToDarkMode": "Uključi tamni način",
+    "switchToLightMode": "Uključi svijetli način",
     "close": "Zatvori",
     "loading": "Učitavanje",
     "motto": "Pažljivo odabrano za kućne kuhare, za cijelu trpezu.",
