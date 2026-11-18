@@ -24,10 +24,15 @@ const MAX_PHOTO_SIZE_BYTES = 10 * 1024 * 1024
 
 interface PhotoSectionProps {
   photo: File | null
+  existingPhotoUrl?: string | null
   onPhotoChange: (photo: File) => void
 }
 
-function PhotoSectionView({ photo, onPhotoChange }: PhotoSectionProps) {
+function PhotoSectionView({
+  photo,
+  existingPhotoUrl,
+  onPhotoChange,
+}: PhotoSectionProps) {
   const { t } = useTranslation()
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
@@ -35,6 +40,7 @@ function PhotoSectionView({ photo, onPhotoChange }: PhotoSectionProps) {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
+  const photoPreviewUrl = previewUrl ?? existingPhotoUrl
 
   useEffect(
     () => () => {
@@ -107,8 +113,11 @@ function PhotoSectionView({ photo, onPhotoChange }: PhotoSectionProps) {
           aria-label={t('recipeCreate.choosePhoto')}
           onChange={handlePhotoChange}
         />
-        {previewUrl ? (
-          <ManualPhotoPreview src={previewUrl} alt={photo?.name ?? ''} />
+        {photoPreviewUrl ? (
+          <ManualPhotoPreview
+            src={photoPreviewUrl}
+            alt={photo?.name ?? t('recipeCreate.photoTitle')}
+          />
         ) : (
           <>
             <ArrowUpFromLine size={25} aria-hidden="true" />

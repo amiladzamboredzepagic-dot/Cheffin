@@ -19,9 +19,11 @@ interface MyRecipesResultsProps {
   savedLoading: boolean
   savedError: boolean
   removeSavedError: boolean
-  publishing: boolean
+  actionsDisabled: boolean
   removingSaved: boolean
   onPublish: (recipeId: string) => void
+  onEdit: (recipeId: string) => void
+  onDelete: (recipe: MyRecipe) => void
   onRemoveSaved: (recipeId: string) => void
 }
 
@@ -33,9 +35,11 @@ export function MyRecipesResults({
   savedLoading,
   savedError,
   removeSavedError,
-  publishing,
+  actionsDisabled,
   removingSaved,
   onPublish,
+  onEdit,
+  onDelete,
   onRemoveSaved,
 }: MyRecipesResultsProps) {
   const { t } = useTranslation()
@@ -94,8 +98,10 @@ export function MyRecipesResults({
                   key={recipe.id}
                   recipe={recipe}
                   isInCollection={Boolean(collectionId)}
-                  publishing={publishing}
+                  actionsDisabled={actionsDisabled}
                   onPublish={onPublish}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
                 />
               ))}
             </RecipeGrid>

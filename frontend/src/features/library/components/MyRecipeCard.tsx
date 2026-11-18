@@ -11,15 +11,19 @@ import { MyRecipeActionsMenu } from './MyRecipeActionsMenu'
 interface MyRecipeCardProps {
   recipe: MyRecipe
   isInCollection: boolean
-  publishing: boolean
+  actionsDisabled: boolean
   onPublish: (recipeId: string) => void
+  onEdit: (recipeId: string) => void
+  onDelete: (recipe: MyRecipe) => void
 }
 
 export function MyRecipeCard({
   recipe,
   isInCollection,
-  publishing,
+  actionsDisabled,
   onPublish,
+  onEdit,
+  onDelete,
 }: MyRecipeCardProps) {
   const { t } = useTranslation()
 
@@ -53,13 +57,13 @@ export function MyRecipeCard({
             <RecipeSourceChip label={t('library.yourRecipe')} />
           )}
         </Flex>
-        {recipe.isPrivate && (
-          <MyRecipeActionsMenu
-            recipe={recipe}
-            disabled={publishing}
-            onPublish={onPublish}
-          />
-        )}
+        <MyRecipeActionsMenu
+          recipe={recipe}
+          disabled={actionsDisabled}
+          onPublish={onPublish}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       </Flex>
     </Box>
   )

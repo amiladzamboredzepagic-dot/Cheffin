@@ -1,5 +1,6 @@
 import { useId, type ReactNode } from 'react'
 import { Modal as MuiModal, type ModalProps } from '@mui/material'
+import type { SxProps, Theme } from '@mui/material/styles'
 import { X } from 'lucide-react'
 import {
   ModalCloseButton,
@@ -22,6 +23,7 @@ export interface GenericModalProps extends Omit<
   eyebrow?: ReactNode
   description?: ReactNode
   closeLabel?: string
+  panelSx?: SxProps<Theme>
 }
 
 export function GenericModal({
@@ -32,6 +34,7 @@ export function GenericModal({
   eyebrow,
   description,
   closeLabel = 'Close dialog',
+  panelSx,
   ...modalProps
 }: GenericModalProps) {
   const titleId = useId()
@@ -46,6 +49,7 @@ export function GenericModal({
       aria-describedby={contentId}
     >
       <ModalPanel
+        sx={panelSx}
         direction="column"
         align="stretch"
         justify="space-between"

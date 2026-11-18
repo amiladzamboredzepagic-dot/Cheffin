@@ -1,13 +1,19 @@
 import { gql, type TypedDocumentNode } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
-import type { RecipeDifficulty } from '../../recipes/recipeMetadata'
+import type {
+  RecipeDifficulty,
+  RecipeMealType,
+} from '../../recipes/recipeMetadata'
 
 export interface MyRecipe {
   id: string
   title: string
   description: string
+  ingredients: string[]
+  steps: string[]
   prepTimeMinutes: number
   servings: number
+  mealType: RecipeMealType
   dietaryPreferences: string[]
   cuisine: string | null
   difficulty: RecipeDifficulty | null
@@ -23,8 +29,11 @@ const MY_RECIPES = gql`
       id
       title
       description
+      ingredients
+      steps
       prepTimeMinutes
       servings
+      mealType
       dietaryPreferences
       cuisine
       difficulty

@@ -3,6 +3,7 @@ import { LandingPage } from '../landing/LandingPage'
 import { LibraryPage } from '../library/LibraryPage'
 import { getLibraryRouteElements } from '../library/LibraryRoutes'
 import { getRecipeCreateRouteElements } from '../recipes/create/RecipeCreateRoutes'
+import { getRecipeEditRouteElements } from '../recipes/edit/RecipeEditRoutes'
 import { ProtectedRoute } from './ProtectedRoute'
 import { DiscoveryPage } from '../discovery/DiscoveryPage'
 
@@ -19,6 +20,7 @@ export function AppRoutes() {
       <Route path="/explore" element={<DiscoveryPage />} />
       {getLibraryRouteElements(libraryPage)}
       {getRecipeCreateRouteElements()}
+      {getRecipeEditRouteElements()}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

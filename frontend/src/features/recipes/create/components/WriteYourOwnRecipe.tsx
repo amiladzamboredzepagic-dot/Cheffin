@@ -23,11 +23,30 @@ import type {
   RecipeMealType,
 } from '../../recipeMetadata'
 import { useCreateRecipeMutation } from '../hooks/useCreateRecipeMutation'
+import { useUpdateRecipeMutation } from '../hooks/useUpdateRecipeMutation'
 import { encodePhoto } from '../utils/encodePhoto'
 
 interface WriteYourOwnRecipeProps {
   selectedCollectionId: string
   onCollectionChange: (collectionId: string) => void
+  initialRecipe?: RecipeToEdit
+  onEditComplete?: () => void
+}
+
+export interface RecipeToEdit {
+  id: string
+  title: string
+  description: string
+  ingredients: string[]
+  steps: string[]
+  prepTimeMinutes: number
+  servings: number
+  mealType: RecipeMealType
+  dietaryPreferences: string[]
+  cuisine: string | null
+  difficulty: RecipeDifficulty | null
+  photoContentType: string | null
+  photoBase64: string | null
 }
 
 const DEFAULT_MEAL_TYPE: RecipeMealType = 'lunch'
@@ -49,9 +68,13 @@ type RecipeFeedback = (typeof RECIPE_FEEDBACK)[keyof typeof RECIPE_FEEDBACK]
 export function WriteYourOwnRecipe({
   selectedCollectionId,
   onCollectionChange,
+  initialRecipe,
+  onEditComplete,
 }: WriteYourOwnRecipeProps) {
   const { t } = useTranslation()
   const { createRecipe, loading } = useCreateRecipeMutation()
+  const { updateRecipe, loading: updating } = useUpdateRecipeMutation()
+  const isEditing = initialRecipe !== undefined
   const {
     dietaryPreferences: supportedDietaryPreferences,
     customDietaryPreferences,
@@ -62,16 +85,32 @@ export function WriteYourOwnRecipe({
     error: metadataError,
   } = useRecipeMetadataQuery()
 
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
-  const [ingredients, setIngredients] = useState<string[]>([''])
-  const [steps, setSteps] = useState<string[]>([''])
-  const [prepTime, setPrepTime] = useState<string>('')
-  const [servings, setServings] = useState<string>('')
-  const [mealType, setMealType] = useState<RecipeMealType>(DEFAULT_MEAL_TYPE)
-  const [dietaryPreferences, setDietaryPreferences] = useState<string[]>([])
-  const [cuisine, setCuisine] = useState<string | null>(null)
-  const [difficulty, setDifficulty] = useState<RecipeDifficulty | null>(null)
+  const [title, setTitle] = useState<string>(initialRecipe?.title ?? '')
+  const [description, setDescription] = useState<string>(
+    initialRecipe?.description ?? '',
+  )
+  const [ingredients, setIngredients] = useState<string[]>(
+    initialRecipe?.ingredients ?? [''],
+  )
+  const [steps, setSteps] = useState<string[]>(initialRecipe?.steps ?? [''])
+  const [prepTime, setPrepTime] = useState<string>(
+    initialRecipe ? String(initialRecipe.prepTimeMinutes) : '',
+  )
+  const [servings, setServings] = useState<string>(
+    initialRecipe ? String(initialRecipe.servings) : '',
+  )
+  const [mealType, setMealType] = useState<RecipeMealType>(
+    initialRecipe?.mealType ?? DEFAULT_MEAL_TYPE,
+  )
+  const [dietaryPreferences, setDietaryPreferences] = useState<string[]>(
+    initialRecipe?.dietaryPreferences ?? [],
+  )
+  const [cuisine, setCuisine] = useState<string | null>(
+    initialRecipe?.cuisine ?? null,
+  )
+  const [difficulty, setDifficulty] = useState<RecipeDifficulty | null>(
+    initialRecipe?.difficulty ?? null,
+  )
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoResetKey, setPhotoResetKey] = useState(0)
   const [feedback, setFeedback] = useState<RecipeFeedback | null>(null)
@@ -81,7 +120,7 @@ export function WriteYourOwnRecipe({
     const number = Number(value)
     return value.trim() !== '' && Number.isSafeInteger(number) && number > 0
   }
-  const canCreateRecipe =
+  const canSubmitRecipe =
     title.trim() !== '' &&
     ingredients.some((ingredient) => ingredient.trim() !== '') &&
     isPositiveInteger(prepTime) &&
@@ -106,14 +145,14 @@ export function WriteYourOwnRecipe({
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!canCreateRecipe) return
+    if (!canSubmitRecipe) return
 
     const publish =
       event.nativeEvent.submitter instanceof HTMLButtonElement &&
       event.nativeEvent.submitter.value === RECIPE_ACTION.PUBLISH
     setSubmitting(publish ? RECIPE_ACTION.PUBLISH : RECIPE_ACTION.SAVE)
     try {
-      await createRecipe({
+      const recipeInput = {
         title,
         description,
         ingredients,
@@ -127,12 +166,23 @@ export function WriteYourOwnRecipe({
         photoBase64: photo ? await encodePhoto(photo) : null,
         photoContentType: photo?.type ?? null,
         collectionId: selectedCollectionId || null,
-        publish,
-      })
-      resetForm()
-      setFeedback(publish ? RECIPE_FEEDBACK.PUBLISHED : RECIPE_FEEDBACK.SAVED)
+      }
+
+      if (initialRecipe) {
+        await updateRecipe(initialRecipe.id, recipeInput)
+        onEditComplete?.()
+      } else {
+        await createRecipe({ ...recipeInput, publish })
+        resetForm()
+        setFeedback(
+          publish ? RECIPE_FEEDBACK.PUBLISHED : RECIPE_FEEDBACK.SAVED,
+        )
+      }
     } catch (error) {
-      console.error('Failed to save recipe:', error)
+      console.error(
+        isEditing ? 'Failed to update recipe:' : 'Failed to save recipe:',
+        error,
+      )
       setFeedback(RECIPE_FEEDBACK.ERROR)
     } finally {
       setSubmitting(null)
@@ -167,6 +217,11 @@ export function WriteYourOwnRecipe({
             <PhotoSection
               key={photoResetKey}
               photo={photo}
+              existingPhotoUrl={
+                initialRecipe?.photoBase64 && initialRecipe.photoContentType
+                  ? `data:${initialRecipe.photoContentType};base64,${initialRecipe.photoBase64}`
+                  : null
+              }
               onPhotoChange={setPhoto}
             />
             <RecipeDetailsSection
@@ -203,29 +258,37 @@ export function WriteYourOwnRecipe({
           <ActionButton
             type="submit"
             value={RECIPE_ACTION.SAVE}
-            disabled={!canCreateRecipe || loading || submitting !== null}
+            disabled={
+              !canSubmitRecipe || loading || updating || submitting !== null
+            }
             text={
               <>
                 <BookmarkPlus size={18} aria-hidden="true" />
                 {t(
-                  submitting === RECIPE_ACTION.SAVE
-                    ? 'recipeCreate.saving'
-                    : 'recipeCreate.saveAction',
+                  isEditing
+                    ? submitting === RECIPE_ACTION.SAVE
+                      ? 'recipeCreate.updating'
+                      : 'recipeCreate.updateAction'
+                    : submitting === RECIPE_ACTION.SAVE
+                      ? 'recipeCreate.saving'
+                      : 'recipeCreate.saveAction',
                 )}
               </>
             }
             sx={{ gap: 1 }}
           />
-          <ActionButton
-            type="submit"
-            value={RECIPE_ACTION.PUBLISH}
-            disabled={!canCreateRecipe || loading || submitting !== null}
-            text={t(
-              submitting === RECIPE_ACTION.PUBLISH
-                ? 'recipeCreate.publishing'
-                : 'recipeCreate.publishAction',
-            )}
-          />
+          {!isEditing && (
+            <ActionButton
+              type="submit"
+              value={RECIPE_ACTION.PUBLISH}
+              disabled={!canSubmitRecipe || loading || submitting !== null}
+              text={t(
+                submitting === RECIPE_ACTION.PUBLISH
+                  ? 'recipeCreate.publishing'
+                  : 'recipeCreate.publishAction',
+              )}
+            />
+          )}
         </Flex>
       </ManualRecipeLayout>
 
