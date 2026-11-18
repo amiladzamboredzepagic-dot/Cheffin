@@ -1,4 +1,4 @@
-import { CircleCheck } from 'lucide-react'
+import { CircleCheck, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Loading } from '../../../../components/ui/feedback/Loading'
@@ -70,7 +70,11 @@ export function RecipePreviewCard({
     <RecipePreview direction="column" align="stretch">
       {isImporting ? (
         <PreviewLoading direction="column" align="stretch" justify="center">
-          <Loading label={t('recipeCreate.importing')} size={36} />
+          <Loading
+            label={t('recipeCreate.importing')}
+            icon={<Sparkles size={16} aria-hidden="true" />}
+            size={36}
+          />
         </PreviewLoading>
       ) : (
         <>

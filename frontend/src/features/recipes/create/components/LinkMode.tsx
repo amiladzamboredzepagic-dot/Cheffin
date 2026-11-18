@@ -1,4 +1,4 @@
-import { ArrowDownToLine, BookmarkPlus, Link } from 'lucide-react'
+import { ArrowDownToLine, BookmarkPlus, Link, Sparkles } from 'lucide-react'
 import { useTheme } from '@mui/material'
 import type { SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -74,7 +74,11 @@ export function LinkMode({
   const { t } = useTranslation()
 
   const importButtonConfig: ActionButtonConfig = {
-    icon: <ArrowDownToLine size={18} aria-hidden="true" />,
+    icon: isImporting ? (
+      <Sparkles size={18} aria-hidden="true" />
+    ) : (
+      <ArrowDownToLine size={18} aria-hidden="true" />
+    ),
     label: isImporting
       ? t('recipeCreate.importing')
       : t('recipeCreate.importAction'),

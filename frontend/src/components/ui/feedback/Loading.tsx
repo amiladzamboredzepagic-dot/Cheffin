@@ -1,9 +1,11 @@
 import { CircularProgress, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material/styles'
+import type { ReactNode } from 'react'
 import { Flex } from '../layout/Flex'
 
 export interface LoadingProps {
   label?: string
+  icon?: ReactNode
   size?: number
   inline?: boolean
   sx?: SxProps<Theme>
@@ -11,6 +13,7 @@ export interface LoadingProps {
 
 export function Loading({
   label = 'Loading',
+  icon,
   size = 24,
   inline = false,
   sx,
@@ -52,7 +55,13 @@ export function Loading({
         aria-hidden="true"
         sx={{ color: 'primary.main' }}
       />
-      <Typography variant="body2">{label}</Typography>
+      <Typography
+        variant="body2"
+        sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}
+      >
+        {icon}
+        {label}
+      </Typography>
     </Flex>
   )
 }
