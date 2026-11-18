@@ -1,7 +1,5 @@
 import { AccountCircle, AdminPanelSettings, Logout } from '@mui/icons-material'
-import { BookOpen } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { AppMenu, AppMenuItem } from '../../../components/ui/menus/AppMenu'
 
 interface NavbarAccountMenuProps {
@@ -22,7 +20,6 @@ export function NavbarAccountMenu({
   onLogout,
 }: NavbarAccountMenuProps) {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   return (
     <AppMenu
@@ -42,15 +39,6 @@ export function NavbarAccountMenu({
           {t('admin.menuLabel')}
         </AppMenuItem>
       )}
-      <AppMenuItem
-        onClick={() => {
-          onClose()
-          navigate('/library')
-        }}
-      >
-        <BookOpen size={18} aria-hidden="true" style={{ marginRight: 8 }} />
-        {t('navigation.myLibrary')}
-      </AppMenuItem>
       <AppMenuItem onClick={onLogout}>
         <Logout fontSize="small" sx={{ mr: 1 }} />
         {t('auth.logout')}
