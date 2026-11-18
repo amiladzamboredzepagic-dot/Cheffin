@@ -570,6 +570,7 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
                 id
                 title
                 isPrivate
+                imageUrl
               }
             }
         """
@@ -586,12 +587,13 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
                         "prepTimeMinutes": 20,
                         "servings": 2,
                         "mealType": "lunch",
+                        "imageUrl": "https://img.youtube.com/vi/abcdefghijk/hqdefault.jpg",
                     }
                 },
                 context_value=SimpleNamespace(user={"sub": "user-123"}),
             )
             listed = await schema.execute(
-                "{ myRecipes { id title } }",
+                "{ myRecipes { id title imageUrl } }",
                 context_value=SimpleNamespace(user={"sub": "user-123"}),
             )
 
@@ -600,9 +602,17 @@ class CreateRecipeMutationTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(result.data["createRecipe"]["isPrivate"])
         self.assertEqual(database.recipes.document["owner_id"], "user-123")
         self.assertTrue(database.recipes.document["is_private"])
+        self.assertEqual(
+            database.recipes.document["image_url"],
+            "https://img.youtube.com/vi/abcdefghijk/hqdefault.jpg",
+        )
         self.assertIsNone(database.recipes.document["collection_id"])
         self.assertIsNone(listed.errors)
         self.assertEqual(listed.data["myRecipes"][0]["id"], result.data["createRecipe"]["id"])
+        self.assertEqual(
+            listed.data["myRecipes"][0]["imageUrl"],
+            "https://img.youtube.com/vi/abcdefghijk/hqdefault.jpg",
+        )
 
     async def test_lists_only_current_users_recipes_newest_first(self) -> None:
         database = FakeDatabase()

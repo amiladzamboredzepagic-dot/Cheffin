@@ -28,6 +28,24 @@ class RecipeCreateDataTests(unittest.TestCase):
         self.assertEqual(recipe.ingredients, ["2 tomatoes", "salt"])
         self.assertEqual(recipe.steps, ["Simmer the tomatoes."])
 
+    def test_validates_youtube_thumbnail_url(self) -> None:
+        image_url = "https://img.youtube.com/vi/abcdefghijk/hqdefault.jpg"
+        recipe = RecipeCreateData.model_validate(
+            {**self.valid_recipe, "image_url": image_url}
+        )
+        self.assertEqual(recipe.image_url, image_url)
+
+        for invalid_url in (
+            "http://img.youtube.com/vi/abcdefghijk/hqdefault.jpg",
+            "https://example.com/vi/abcdefghijk/hqdefault.jpg",
+            "https://img.youtube.com/vi/short/hqdefault.jpg",
+        ):
+            with self.subTest(invalid_url=invalid_url):
+                with self.assertRaises(ValidationError):
+                    RecipeCreateData.model_validate(
+                        {**self.valid_recipe, "image_url": invalid_url}
+                    )
+
     def test_requires_title_ingredient_and_positive_integer_details(self) -> None:
         for invalid_fields in (
             {"title": "   "},

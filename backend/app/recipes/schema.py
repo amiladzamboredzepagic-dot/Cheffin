@@ -50,6 +50,7 @@ class MyRecipe:
     dietary_preferences: list[str]
     cuisine: str | None
     difficulty: str | None
+    image_url: str | None
     photo_content_type: str | None
     photo_base64: str | None
     is_private: bool
@@ -69,6 +70,7 @@ class PublicRecipe:
     dietary_preferences: list[str]
     cuisine: str | None
     difficulty: str | None
+    image_url: str | None
     photo_content_type: str | None
     photo_base64: str | None
 
@@ -86,6 +88,7 @@ class SavedPublicRecipe:
     dietary_preferences: list[str]
     cuisine: str | None
     difficulty: str | None
+    image_url: str | None
     photo_content_type: str | None
     photo_base64: str | None
     collection_id: str | None
@@ -165,6 +168,7 @@ class Query:
                     dietary_preferences=document.get("dietary_preferences") or [],
                     cuisine=document.get("cuisine"),
                     difficulty=document.get("difficulty"),
+                    image_url=document.get("image_url"),
                     photo_content_type=photo["content_type"] if photo else None,
                     photo_base64=(
                         b64encode(photo["data"]).decode("ascii") if photo else None
@@ -200,6 +204,7 @@ class Query:
                     dietary_preferences=document.get("dietary_preferences") or [],
                     cuisine=document.get("cuisine"),
                     difficulty=document.get("difficulty"),
+                    image_url=document.get("image_url"),
                     photo_content_type=photo["content_type"] if photo else None,
                     photo_base64=(
                         b64encode(photo["data"]).decode("ascii") if photo else None
@@ -245,6 +250,7 @@ class Query:
                     ),
                     cuisine=recipe_document.get("cuisine"),
                     difficulty=recipe_document.get("difficulty"),
+                    image_url=recipe_document.get("image_url"),
                     photo_content_type=(
                         photo["content_type"] if photo else None
                     ),
@@ -271,6 +277,7 @@ class CreateRecipeInput:
     dietary_preferences: list[str] = strawberry.field(default_factory=list)
     cuisine: str | None = None
     difficulty: str | None = None
+    image_url: str | None = None
     photo_base64: str | None = None
     photo_content_type: str | None = None
     collection_id: str | None = None
@@ -289,6 +296,7 @@ class UpdateRecipeInput:
     dietary_preferences: list[str] = strawberry.field(default_factory=list)
     cuisine: str | None = None
     difficulty: str | None = None
+    image_url: str | None = None
     photo_base64: str | None = None
     photo_content_type: str | None = None
     collection_id: str | None = None
@@ -307,6 +315,7 @@ class Recipe:
     dietary_preferences: list[str]
     cuisine: str | None
     difficulty: str | None
+    image_url: str | None
     photo_content_type: str | None
     collection_id: str | None
     is_private: bool
@@ -520,6 +529,7 @@ class Mutation:
                     "dietary_preferences": input.dietary_preferences,
                     "cuisine": input.cuisine,
                     "difficulty": input.difficulty,
+                    "image_url": input.image_url,
                     "photo_base64": input.photo_base64,
                     "photo_content_type": input.photo_content_type,
                 }
@@ -561,6 +571,7 @@ class Mutation:
             "dietary_preferences": recipe_data.dietary_preferences,
             "cuisine": recipe_data.cuisine,
             "difficulty": recipe_data.difficulty,
+            "image_url": recipe_data.image_url,
             "photo": (
                 {
                     "content_type": recipe_data.photo_content_type,
@@ -587,6 +598,7 @@ class Mutation:
             dietary_preferences=recipe_data.dietary_preferences,
             cuisine=recipe_data.cuisine,
             difficulty=recipe_data.difficulty,
+            image_url=recipe_data.image_url,
             photo_content_type=recipe_data.photo_content_type,
             collection_id=(
                 str(collection_object_id) if collection_object_id is not None else None
@@ -633,6 +645,7 @@ class Mutation:
                     "dietary_preferences": input.dietary_preferences,
                     "cuisine": input.cuisine,
                     "difficulty": input.difficulty,
+                    "image_url": input.image_url,
                     "photo_base64": input.photo_base64,
                     "photo_content_type": input.photo_content_type,
                 }
@@ -674,6 +687,8 @@ class Mutation:
             "difficulty": recipe_data.difficulty,
             "collection_id": collection_object_id,
         }
+        if recipe_data.image_url is not None:
+            update_fields["image_url"] = recipe_data.image_url
         if photo_bytes is not None:
             update_fields["photo"] = {
                 "content_type": recipe_data.photo_content_type,

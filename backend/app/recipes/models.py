@@ -1,6 +1,8 @@
 import base64
 import binascii
+import re
 from typing import Annotated, Literal
+from urllib.parse import urlsplit
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 
@@ -37,8 +39,26 @@ class RecipeCreateData(BaseModel):
     )
     cuisine: Cuisine | None = None
     difficulty: Difficulty | None = None
+    image_url: str | None = Field(default=None, max_length=2048)
     photo_base64: str | None = None
     photo_content_type: Literal["image/jpeg", "image/png"] | None = None
+
+    @field_validator("image_url")
+    @classmethod
+    def validate_image_url(cls, value: str | None) -> str | None:
+        if value is None:
+            return value
+
+        parsed = urlsplit(value)
+        if (
+            parsed.scheme != "https"
+            or parsed.netloc != "img.youtube.com"
+            or not re.fullmatch(r"/vi/[A-Za-z0-9_-]{11}/hqdefault\.jpg", parsed.path)
+            or parsed.query
+            or parsed.fragment
+        ):
+            raise ValueError("Image URL must be a YouTube thumbnail URL")
+        return value
 
     @field_validator("ingredients", mode="before")
     @classmethod
