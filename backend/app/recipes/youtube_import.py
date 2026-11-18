@@ -138,7 +138,14 @@ def _get_local_transcription_model(model_name: str):
     return model
 
 
-def _transcribe_audio_file(audio_file_path: str) -> str:
+def _check_deadline(deadline: float) -> None:
+    if time.monotonic() > deadline:
+        raise RecipeImportError(
+            "Processing this video took too long. Try a shorter video."
+        )
+
+
+def _transcribe_audio_file(audio_file_path: str, deadline: float | None = None) -> str:
     model = _get_local_transcription_model(settings.local_transcription_model)
     started_at = time.perf_counter()
     logger.info("Local audio transcription started")
@@ -146,6 +153,8 @@ def _transcribe_audio_file(audio_file_path: str) -> str:
     transcript_segments = []
     last_progress_at = started_at
     for segment in segments:
+        if deadline is not None:
+            _check_deadline(deadline)
         text = segment.text.strip()
         if text:
             transcript_segments.append(text)
@@ -174,6 +183,13 @@ def _download_audio_and_transcribe(video_id: str) -> str:
     """Download YouTube audio and transcribe it with a local Whisper model."""
     cookies_path = os.path.join(os.getcwd(), "cookies.txt")
     youtube_url = f"https://www.youtube.com/watch?v={video_id}"
+    deadline = (
+        time.monotonic() + settings.youtube_audio_fallback_timeout_seconds
+    )
+    max_bytes = settings.youtube_max_audio_bytes
+
+    def abort_when_expired(_: dict) -> None:
+        _check_deadline(deadline)
 
     with tempfile.TemporaryDirectory() as temp_dir:
         output_template = os.path.join(temp_dir, "audio.%(ext)s")
@@ -182,6 +198,10 @@ def _download_audio_and_transcribe(video_id: str) -> str:
             "outtmpl": output_template,
             "quiet": True,
             "no_warnings": True,
+            "noplaylist": True,
+            "max_filesize": max_bytes,
+            "socket_timeout": 30,
+            "progress_hooks": [abort_when_expired],
             "http_headers": {
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -199,7 +219,17 @@ def _download_audio_and_transcribe(video_id: str) -> str:
             download_started_at = time.perf_counter()
             logger.info("YouTube audio download started", extra={"video_id": video_id})
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([youtube_url])
+                info = ydl.extract_info(youtube_url, download=False)
+                duration = info.get("duration")
+                if (
+                    duration is not None
+                    and duration > settings.youtube_max_duration_seconds
+                ):
+                    raise RecipeImportError(
+                        "This video is too long to import without captions "
+                        f"(limit: {settings.youtube_max_duration_seconds // 60} minutes)."
+                    )
+                ydl.process_ie_result(info, download=True)
             logger.info(
                 "YouTube audio download completed",
                 extra={
@@ -221,9 +251,13 @@ def _download_audio_and_transcribe(video_id: str) -> str:
             raise RecipeImportError("Could not download video audio for processing.")
 
         audio_file_path = os.path.join(temp_dir, downloaded_files[0])
+        if os.path.getsize(audio_file_path) > max_bytes:
+            raise RecipeImportError(
+                "The video audio is too large to import without captions."
+            )
 
         try:
-            return _transcribe_audio_file(audio_file_path)
+            return _transcribe_audio_file(audio_file_path, deadline)
         except RecipeImportError:
             raise
         except Exception as error:
@@ -264,6 +298,11 @@ async def extract_youtube_recipe(url: str) -> tuple[str, RecipeDraftData]:
     if not transcript or not transcript.strip():
         raise RecipeImportError("This video does not contain any readable text or speech.")
 
+    if len(transcript) > MAX_TRANSCRIPT_CHARACTERS:
+        raise RecipeImportError(
+            "This video is too long to import. Try a shorter video."
+        )
+
     # 3. Create and validate a JSON recipe draft with the configured OpenAI-compatible LLM.
     recipe_started_at = time.perf_counter()
     logger.info("Local recipe draft generation started", extra={"video_id": video_id})
@@ -290,7 +329,7 @@ async def extract_youtube_recipe(url: str) -> tuple[str, RecipeDraftData]:
                     },
                     {
                         "role": "user",
-                        "content": transcript[:MAX_TRANSCRIPT_CHARACTERS],
+                        "content": transcript,
                     },
                 ],
                 response_format={"type": "json_object"},
