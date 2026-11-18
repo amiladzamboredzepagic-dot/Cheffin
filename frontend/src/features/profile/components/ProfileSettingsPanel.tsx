@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { SectionIntroduction } from '../../../components/ui/layout/SectionIntroduction'
 import { Flex } from '../../../components/ui/layout/Flex'
 import { LanguageToggle } from './LanguageToggle'
 import { ThemeToggle } from './ThemeToggle'
@@ -8,27 +9,13 @@ export function ProfileSettingsPanel() {
   const { t } = useTranslation()
 
   return (
-    <Box
-      component="section"
-      aria-labelledby="profile-settings-title"
-      sx={{
-        mt: 2,
-        p: { xs: 2, sm: 3 },
-        border: 1,
-        borderColor: 'divider',
-        borderRadius: 2,
-        backgroundColor: 'background.paper',
-      }}
-    >
+    <Flex component="section" direction="column" align="stretch" gap={3}>
+      <SectionIntroduction
+        eyebrow={t('profile.eyebrow')}
+        title={t('profile.settingsTitle')}
+        variant="compact"
+      />
       <Flex direction="column" align="stretch" gap={1.5}>
-        <Typography
-          id="profile-settings-title"
-          component="h2"
-          variant="h4"
-          sx={{ m: 0 }}
-        >
-          {t('profile.settingsTitle')}
-        </Typography>
         <Flex
           align="center"
           justify="space-between"
@@ -48,6 +35,6 @@ export function ProfileSettingsPanel() {
           <LanguageToggle />
         </Flex>
       </Flex>
-    </Box>
+    </Flex>
   )
 }
