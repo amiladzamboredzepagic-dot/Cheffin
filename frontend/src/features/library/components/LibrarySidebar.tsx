@@ -10,21 +10,6 @@ export function LibrarySidebar() {
 
   return (
     <Sidebar>
-      <Box>
-        <Box
-          component="h2"
-          sx={{
-            fontSize: 'body2.fontSize',
-            fontWeight: 'fontWeightMedium',
-            m: 0,
-            mb: 2,
-          }}
-        >
-          {t('library.yourTags')}
-        </Box>
-        <Description>{t('library.tagsUnavailable')}</Description>
-      </Box>
-      <Box sx={{ borderTop: 1, borderColor: 'divider' }} />
       <SidebarCard>
         <Box
           component="h2"
