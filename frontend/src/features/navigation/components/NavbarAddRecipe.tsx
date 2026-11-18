@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material'
+import { Box } from '@mui/material'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -6,7 +6,6 @@ import { ActionButton } from '../../../components/ui/actions/ActionButton'
 import { RECIPE_CREATE_ROUTES } from '../../recipes/create/components/recipeEntryMode'
 
 export function NavbarAddRecipe() {
-  const theme = useTheme()
   const { t } = useTranslation()
 
   return (
@@ -22,10 +21,7 @@ export function NavbarAddRecipe() {
           </Box>
         </>
       }
-      backgroundColor={theme.palette.background.input}
-      textColor={theme.palette.primary.main}
-      border={`1px solid ${theme.palette.divider}`}
-      hoverShadow={false}
+      kind="secondary"
       sx={{
         minWidth: { xs: 40, sm: 144 },
         width: { xs: 40, sm: 144 },

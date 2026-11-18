@@ -1,6 +1,5 @@
 import {
   Alert,
-  Button,
 } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -87,9 +86,13 @@ export function SavePublicRecipeDialog({
           )}
             </Flex>
             <Flex direction="column" align="stretch" gap={1.5}>
-              <Button onClick={onClose} disabled={loading}>
-                {t('recipeCreate.cancelCollection')}
-              </Button>
+              <ActionButton
+                type="button"
+                kind="secondary"
+                onClick={onClose}
+                disabled={loading}
+                text={t('recipeCreate.cancelCollection')}
+              />
               <ActionButton
                 onClick={() =>
                   void onSave(

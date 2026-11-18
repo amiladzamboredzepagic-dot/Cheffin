@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -7,6 +6,7 @@ import {
 } from '@mui/material'
 import type { DialogProps } from '@mui/material'
 import type { ReactNode, SubmitEvent } from 'react'
+import { ActionButton } from '../actions/ActionButton'
 
 interface FormDialogProps {
   open: boolean
@@ -52,12 +52,14 @@ export function FormDialog({
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>{children}</DialogContent>
         <DialogActions>
-          <Button type="button" onClick={handleClose} disabled={loading}>
-            {cancelLabel}
-          </Button>
-          <Button type="submit" disabled={loading}>
-            {submitLabel}
-          </Button>
+          <ActionButton
+            type="button"
+            kind="secondary"
+            text={cancelLabel}
+            onClick={handleClose}
+            disabled={loading}
+          />
+          <ActionButton type="submit" text={submitLabel} disabled={loading} />
         </DialogActions>
       </form>
     </Dialog>

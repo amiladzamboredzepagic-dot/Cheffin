@@ -1,7 +1,4 @@
-import {
-  Button,
-  useTheme,
-} from '@mui/material'
+import { useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ActionButton } from '../../../components/ui/actions/ActionButton'
 import { StatusAlert } from '../../../components/ui/feedback/StatusAlert'
@@ -61,9 +58,13 @@ export function DeleteMyRecipeDialog({
             justify="flex-end"
             gap={1.5}
           >
-            <Button onClick={handleClose} disabled={loading}>
-              {t('recipeCreate.cancelCollection')}
-            </Button>
+            <ActionButton
+              type="button"
+              kind="secondary"
+              onClick={handleClose}
+              disabled={loading}
+              text={t('recipeCreate.cancelCollection')}
+            />
             <ActionButton
               onClick={onConfirm}
               disabled={loading || recipe === null}

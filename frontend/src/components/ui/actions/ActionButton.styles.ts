@@ -1,6 +1,7 @@
 import { Button, styled } from '@mui/material'
 
 interface ActionButtonStyleProps {
+  kind?: 'primary' | 'secondary'
   backgroundColor?: string
   textColor?: string
   border?: string
@@ -9,6 +10,7 @@ interface ActionButtonStyleProps {
 
 export const ActionButtonRoot = styled(Button, {
   shouldForwardProp: (prop) =>
+    prop !== 'kind' &&
     prop !== 'backgroundColor' &&
     prop !== 'textColor' &&
     prop !== 'border' &&
@@ -16,32 +18,50 @@ export const ActionButtonRoot = styled(Button, {
 })<ActionButtonStyleProps>(
   ({
     theme,
+    kind = 'primary',
     backgroundColor,
     textColor,
-    border = 'none',
-    hoverShadow = true,
-  }) => ({
+    border,
+    hoverShadow,
+  }) => {
+    const isSecondary = kind === 'secondary'
+    const resolvedBackgroundColor =
+      backgroundColor ??
+      (isSecondary
+        ? theme.palette.background.input
+        : theme.palette.primary.light)
+    const resolvedTextColor =
+      textColor ??
+      (isSecondary
+        ? theme.palette.primary.main
+        : theme.palette.primary.contrastText)
+    const resolvedBorder =
+      border ?? (isSecondary ? `1px solid ${theme.palette.divider}` : 'none')
+    const resolvedHoverShadow = hoverShadow ?? !isSecondary
+
+    return {
     boxSizing: 'border-box',
     minWidth: 0,
     height: 46,
-    border,
+    border: resolvedBorder,
     boxShadow: 'none',
     borderRadius: theme.spacing(1.25),
-    color: textColor ?? theme.palette.primary.contrastText,
-    backgroundColor: backgroundColor ?? theme.palette.primary.light,
+    color: resolvedTextColor,
+    backgroundColor: resolvedBackgroundColor,
     ...theme.typography.button,
     transition: theme.transitions.create(['background-color', 'box-shadow'], {
       duration: theme.transitions.duration.short,
     }),
     '&:hover': {
-      color: textColor ?? theme.palette.primary.contrastText,
-      backgroundColor: backgroundColor ?? theme.palette.primary.light,
-      boxShadow: hoverShadow ? theme.shadows[4] : 'none',
+      color: resolvedTextColor,
+      backgroundColor: resolvedBackgroundColor,
+      boxShadow: resolvedHoverShadow ? theme.shadows[4] : 'none',
     },
     '&.Mui-disabled': {
-      color: textColor ?? theme.palette.primary.contrastText,
-      backgroundColor: backgroundColor ?? theme.palette.primary.light,
+      color: resolvedTextColor,
+      backgroundColor: resolvedBackgroundColor,
       opacity: 0.65,
     },
-  }),
+  }
+  },
 )

@@ -7,6 +7,7 @@ export interface ActionButtonProps extends Omit<
   'children' | 'color' | 'variant'
 > {
   text: ReactNode
+  kind?: 'primary' | 'secondary'
   backgroundColor?: string
   textColor?: string
   border?: string
@@ -17,6 +18,7 @@ export interface ActionButtonProps extends Omit<
 
 export function ActionButton({
   text,
+  kind = 'primary',
   backgroundColor,
   textColor,
   border,
@@ -26,6 +28,7 @@ export function ActionButton({
   return (
     <ActionButtonRoot
       {...props}
+      kind={kind}
       backgroundColor={backgroundColor}
       textColor={textColor}
       border={border}

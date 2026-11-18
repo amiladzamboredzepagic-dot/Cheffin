@@ -92,6 +92,7 @@ export function ProfileEditDialog({
           <Flex direction="row" align="center" justify="flex-end" gap={1}>
             <ActionButton
               type="button"
+              kind="secondary"
               text={t('common.cancel')}
               onClick={onClose}
             />
