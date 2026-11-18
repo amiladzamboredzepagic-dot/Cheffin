@@ -40,8 +40,8 @@ export function DeleteMyRecipeDialog({
       })}
       closeLabel={t('common.close')}
       panelSx={{
-        height:
-          'min(480px, max(320px, 50dvh), calc(100dvh - 24px))',
+        height: 'auto',
+        maxHeight: 'calc(100dvh - 24px)',
       }}
       content={
         <Flex
