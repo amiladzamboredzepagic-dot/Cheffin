@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { PageContainer } from '../../components/ui/layout/PageContainer'
 import { useAuth } from '../../context/useAuth'
 import { useCollectionRecipeImagesQuery } from '../library/hooks/useCollectionRecipeImagesQuery'
@@ -12,7 +12,8 @@ import { ProfileEditDialog } from './components/ProfileEditDialog'
 import { ProfileHeroSection } from './components/ProfileHeroSection'
 import { ProfileIdentityCard } from './components/ProfileIdentityCard'
 import { ProfileLayout } from './ProfilePage.styles'
-import type { ProfileTab, SavedProfile } from './profile.types'
+import { getProfileTabFromPath, profileTabPath } from './ProfileRoutes'
+import type { SavedProfile } from './profile.types'
 
 const PROFILE_STORAGE_KEY = 'cheffin.profile'
 
@@ -38,12 +39,13 @@ function readSavedProfile(): SavedProfile {
 export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const { firstName, lastName } = useAuth()
   const [savedProfile, setSavedProfile] =
     useState<SavedProfile>(readSavedProfile)
   const [editOpen, setEditOpen] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
-  const [activeTab, setActiveTab] = useState<ProfileTab>('recipes')
+  const activeTab = getProfileTabFromPath(pathname)
   const {
     recipes: allRecipes,
     loading: recipesLoading,
@@ -92,7 +94,7 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
         <ProfileContent
           activeTab={activeTab}
           isOwnProfile={isOwnProfile}
-          onTabChange={setActiveTab}
+          onTabChange={(tab) => navigate(profileTabPath(tab))}
           publishedRecipes={publishedRecipes}
           recipesLoading={recipesLoading}
           recipesError={recipesError}
