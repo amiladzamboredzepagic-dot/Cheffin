@@ -12,6 +12,7 @@ from app.core.security import (
     hash_password,
     verify_password,
 )
+from app.core.roles import ROLE_CHEF, ROLE_USER
 from app.db.database import get_database
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -68,7 +69,7 @@ def create_auth_response(
 ) -> dict[str, str]:
     first_name = user.get("first_name", "")
     last_name = user.get("last_name", "")
-    role = user.get("role", "user")
+    role = user.get("role", ROLE_USER)
     token_payload = {
         "sub": str(user["_id"]),
         "role": role,
@@ -127,7 +128,7 @@ async def register(
         "last_name": credentials.last_name,
         "email": email,
         "password": hash_password(credentials.password),
-        "role": "chef",
+        "role": ROLE_CHEF,
     }
 
     try:
@@ -162,7 +163,7 @@ async def refresh_token(
     if user is None:
         raise HTTPException(status_code=401, detail="Account no longer exists")
 
-    role = user.get("role", "user")
+    role = user.get("role", ROLE_USER)
     first_name = user.get("first_name", "")
     last_name = user.get("last_name", "")
     new_access_token = create_access_token(

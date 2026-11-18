@@ -1,6 +1,7 @@
 import strawberry
 from app.graphql.auth import require_role
 from app.db.database import get_database
+from app.core.roles import ROLE_ADMIN
 from app.recipes.schema import Mutation as RecipeMutation
 from app.recipes.schema import Query as RecipeQuery
 
@@ -32,14 +33,14 @@ class AdminDashboardStats:
 class Query(RecipeQuery):
     @strawberry.field
     def admin_data(self, info: strawberry.Info) -> str:
-        require_role(info, "admin")
+        require_role(info, ROLE_ADMIN)
         return "Confidential Admin System Metrics"
 
     @strawberry.field
     async def admin_dashboard_stats(
         self, info: strawberry.Info
     ) -> AdminDashboardStats:
-        require_role(info, "admin")
+        require_role(info, ROLE_ADMIN)
         database = get_database()
         users_collection = database["users"]
         recipe_collection = database["recipes"]

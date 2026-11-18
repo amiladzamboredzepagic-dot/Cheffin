@@ -6,6 +6,7 @@ from bson import ObjectId
 from starlette.responses import Response
 
 from app.api.auth_routes import create_auth_response, refresh_token
+from app.core.roles import ROLE_ADMIN, ROLE_CHEF
 
 
 class FakeUsersCollection:
@@ -22,7 +23,7 @@ class AuthRoleResponseTests(unittest.IsolatedAsyncioTestCase):
             "_id": ObjectId(),
             "first_name": "Ava",
             "last_name": "Cook",
-            "role": "admin",
+            "role": ROLE_ADMIN,
         }
         request = SimpleNamespace(url=SimpleNamespace(scheme="https"))
 
@@ -32,7 +33,7 @@ class AuthRoleResponseTests(unittest.IsolatedAsyncioTestCase):
         ):
             result = create_auth_response(user, request, Response())
 
-        self.assertEqual(result["role"], "admin")
+        self.assertEqual(result["role"], ROLE_ADMIN)
 
     async def test_refresh_returns_current_database_role(self) -> None:
         user_id = ObjectId()
@@ -40,7 +41,7 @@ class AuthRoleResponseTests(unittest.IsolatedAsyncioTestCase):
             "_id": user_id,
             "first_name": "Ava",
             "last_name": "Cook",
-            "role": "admin",
+            "role": ROLE_ADMIN,
         }
         database = {"users": FakeUsersCollection(database_user)}
         request = SimpleNamespace(cookies={"refresh_token": "refresh"})
@@ -48,7 +49,7 @@ class AuthRoleResponseTests(unittest.IsolatedAsyncioTestCase):
         with (
             patch(
                 "app.api.auth_routes.decode_refresh_token",
-                return_value={"sub": str(user_id), "role": "chef"},
+                return_value={"sub": str(user_id), "role": ROLE_CHEF},
             ),
             patch(
                 "app.api.auth_routes.create_access_token",
@@ -57,11 +58,11 @@ class AuthRoleResponseTests(unittest.IsolatedAsyncioTestCase):
         ):
             result = await refresh_token(request, database)
 
-        self.assertEqual(result["role"], "admin")
+        self.assertEqual(result["role"], ROLE_ADMIN)
         self.assertEqual(result["first_name"], "Ava")
         self.assertEqual(
             create_access_token.call_args.args[0]["role"],
-            "admin",
+            ROLE_ADMIN,
         )
 
 

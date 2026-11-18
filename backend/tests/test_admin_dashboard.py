@@ -5,6 +5,7 @@ from unittest.mock import patch
 from bson import ObjectId
 
 from app.graphql.schema import schema
+from app.core.roles import ROLE_ADMIN, ROLE_CHEF
 
 
 class FakeCursor:
@@ -104,7 +105,7 @@ class FakeDatabase:
 
 class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
     async def test_dashboard_requires_admin_role(self) -> None:
-        for user in (None, {"sub": "regular-user", "role": "chef"}):
+        for user in (None, {"sub": "regular-user", "role": ROLE_CHEF}):
             result = await schema.execute(
                 "{ adminDashboardStats { totalUsers } }",
                 context_value=SimpleNamespace(user=user),
@@ -140,7 +141,7 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
             result = await schema.execute(
                 query,
                 context_value=SimpleNamespace(
-                    user={"sub": "admin-user", "role": "admin"}
+                    user={"sub": "admin-user", "role": ROLE_ADMIN}
                 ),
             )
 
