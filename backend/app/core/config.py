@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     recipe_llm_base_url: str = "http://localhost:11434/v1"
     recipe_llm_model: str = "qwen2.5:7b"
     local_transcription_model: str = "base"
+    youtube_max_duration_seconds: int = 1800
+    youtube_max_audio_bytes: int = 50 * 1024 * 1024
+    youtube_audio_fallback_timeout_seconds: int = 600
 
     model_config = SettingsConfigDict(
         env_file=ENV_PATH,
