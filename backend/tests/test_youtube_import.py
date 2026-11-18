@@ -1,3 +1,6 @@
+import os
+import tempfile
+import time
 import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
@@ -54,6 +57,22 @@ class FakeLocalLlmClient:
 
 
 class ParseYouTubeVideoIdTests(unittest.TestCase):
+    def test_draft_drops_non_numeric_estimates(self) -> None:
+        draft = RecipeDraftData.model_validate(
+            {
+                "title": "Pancakes",
+                "description": "",
+                "ingredients": ["flour"],
+                "instructions": ["Mix"],
+                "prep_time_minutes": "15",
+                "servings": "Varies based on pancake size",
+                "calories": "Approximately 200-300 calories per serving",
+            }
+        )
+
+        self.assertEqual(draft.prep_time_minutes, 15)
+        self.assertIsNone(draft.servings)
+        self.assertIsNone(draft.calories)
     def test_extracts_ids_from_supported_video_urls(self) -> None:
         urls = [
             "https://www.youtube.com/watch?v=abcdefghijk",
@@ -81,23 +100,24 @@ class ParseYouTubeVideoIdTests(unittest.TestCase):
 
 
 class RecipeLibraryTests(unittest.IsolatedAsyncioTestCase):
-    def test_audio_transcription_uses_local_whisper(self) -> None:
-        segments = [
-            SimpleNamespace(text=" Cook the rice "),
-            SimpleNamespace(text=" Add tomatoes "),
-        ]
-        whisper_model = Mock()
-        whisper_model.transcribe.return_value = (segments, SimpleNamespace())
+    def test_audio_transcription_uses_openai_transcription_api(self) -> None:
+        audio_path = os.path.join(tempfile.mkdtemp(), "audio.m4a")
+        with open(audio_path, "wb") as audio:
+            audio.write(b"audio")
 
-        with patch(
-            "app.recipes.youtube_import._get_local_transcription_model",
-            return_value=whisper_model,
-        ) as get_model:
-            transcript = _transcribe_audio_file("audio.m4a")
+        with (
+            patch("app.recipes.youtube_import.OpenAI") as openai_client,
+            patch.object(settings, "openai_api_key", "sk-test"),
+            patch.object(settings, "transcription_model", "gpt-4o-mini-transcribe"),
+        ):
+            create = openai_client.return_value.__enter__.return_value.audio.transcriptions.create
+            create.return_value = " Cook the rice. Add tomatoes. "
+            transcript = _transcribe_audio_file(audio_path, time.monotonic() + 60)
 
-        self.assertEqual(transcript, "Cook the rice Add tomatoes")
-        get_model.assert_called_once_with("base")
-        whisper_model.transcribe.assert_called_once_with("audio.m4a", beam_size=5)
+        self.assertEqual(transcript, "Cook the rice. Add tomatoes.")
+        self.assertEqual(openai_client.call_args.kwargs["api_key"], "sk-test")
+        self.assertEqual(create.call_args.kwargs["model"], "gpt-4o-mini-transcribe")
+        self.assertEqual(create.call_args.kwargs["response_format"], "text")
 
     def test_audio_download_failure_has_specific_error(self) -> None:
         with patch("app.recipes.youtube_import.yt_dlp.YoutubeDL") as youtube_dl:
@@ -141,18 +161,11 @@ class RecipeLibraryTests(unittest.IsolatedAsyncioTestCase):
                 _download_audio_and_transcribe("abcdefghijk")
 
     def test_transcription_stops_after_deadline(self) -> None:
-        whisper_model = Mock()
-        whisper_model.transcribe.return_value = (
-            [SimpleNamespace(text="Cook the rice")],
-            SimpleNamespace(),
-        )
-
-        with patch(
-            "app.recipes.youtube_import._get_local_transcription_model",
-            return_value=whisper_model,
-        ):
+        with patch("app.recipes.youtube_import.OpenAI") as openai_client:
             with self.assertRaisesRegex(RecipeImportError, "took too long"):
                 _transcribe_audio_file("audio.m4a", deadline=0)
+
+        openai_client.assert_not_called()
 
     def test_caption_fetch_uses_supported_youtube_transcript_api(self) -> None:
         snippets = [SimpleNamespace(text="Cook rice"), SimpleNamespace(text="Add tomatoes")]

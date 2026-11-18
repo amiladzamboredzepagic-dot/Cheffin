@@ -11,9 +11,9 @@ class Settings(BaseSettings):
     jwt_secret: str | None = None
     openai_api_key: str | None = None
     recipe_llm_model: str = "gpt-4o-mini"
-    local_transcription_model: str = "base"
+    transcription_model: str = "gpt-4o-mini-transcribe"
     youtube_max_duration_seconds: int = 1800
-    youtube_max_audio_bytes: int = 50 * 1024 * 1024
+    youtube_max_audio_bytes: int = 24 * 1024 * 1024
     youtube_audio_fallback_timeout_seconds: int = 600
 
     model_config = SettingsConfigDict(

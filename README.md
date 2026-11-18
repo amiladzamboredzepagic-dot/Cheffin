@@ -46,10 +46,9 @@ Recipe drafting uses the OpenAI API. Set `OPENAI_API_KEY` in `backend/.env`;
 recipe import fails with a configuration error without it. The model defaults
 to `gpt-4o-mini`; set `RECIPE_LLM_MODEL` to use another model that supports
 JSON mode.
-Audio transcription uses the local `faster-whisper` model `base` by default.
-Its model files download the first time transcription runs. Set
-`LOCAL_TRANSCRIPTION_MODEL` in `backend/.env` to choose another supported model
-size, such as `small`.
+When captions are unavailable, audio is transcribed with the OpenAI model
+`gpt-4o-mini-transcribe` (set `TRANSCRIPTION_MODEL` in `backend/.env` to change
+it). This fallback is limited to videos up to 30 minutes and 24 MB of audio.
 
 ### Start the backend
 
@@ -104,7 +103,7 @@ The authenticated recipe editor can import YouTube videos with English,
 Bosnian, or German captions. The backend uses OpenAI to create
 a recipe draft from those captions; review it in the editor before saving it to
 your personal library. If captions are unavailable, the backend downloads the
-video audio and transcribes it locally with `faster-whisper`; YouTube may block
+video audio and transcribes it with OpenAI; YouTube may block
 caption or audio retrieval from the backend.
 
 ## Frontend commands

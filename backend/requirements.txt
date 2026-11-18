@@ -9,5 +9,3 @@ pwdlib[argon2]
 openai
 youtube-transcript-api
 yt-dlp
-faster-whisper
-av>=11,<19
