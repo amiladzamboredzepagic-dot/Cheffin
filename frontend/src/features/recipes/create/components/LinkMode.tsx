@@ -10,19 +10,16 @@ import { FormSectionTitle, RecipeEntryForm } from '../RecipeEntryForm.styles'
 import { ImportGuidance } from '../RecipeCreatePage.styles'
 import { WriteYourOwnRecipePrompt } from './WriteYourOwnRecipePrompt'
 import { RecipeCollectionField } from './RecipeEntryFields'
-import { RecipeTagsEditor } from './RecipeTagsEditor'
 
 interface LinkModeProps {
   recipeUrl: string
-  tags: string[]
   selectedCollectionId: string
   onCollectionChange: (collectionId: string) => void
   isImporting: boolean
   isSaving: boolean
   canSave: boolean
+  canImport: boolean
   onRecipeUrlChange: (value: string) => void
-  onRemoveTag: (tag: string) => void
-  onAddTag: (tag: string) => boolean
   onImport: (url: string) => void
   onSave: () => void
   onRequestPencilMode: () => void
@@ -65,15 +62,13 @@ function getActionButton(config: ActionButtonConfig) {
 
 export function LinkMode({
   recipeUrl,
-  tags,
   selectedCollectionId,
   onCollectionChange,
   isImporting,
   isSaving,
   canSave,
+  canImport,
   onRecipeUrlChange,
-  onRemoveTag,
-  onAddTag,
   onImport,
   onSave,
   onRequestPencilMode,
@@ -91,7 +86,7 @@ export function LinkMode({
     textColor: theme.palette.primary.main,
     border: `1px solid ${theme.palette.divider}`,
     hoverShadow: false,
-    disabled: isImporting,
+    disabled: isImporting || !canImport,
   }
 
   const saveButtonConfig: ActionButtonConfig = {
@@ -109,6 +104,7 @@ export function LinkMode({
       align="stretch"
       onSubmit={(event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
+        if (!canImport) return
         onImport(recipeUrl)
       }}
     >
@@ -123,6 +119,9 @@ export function LinkMode({
       />
       {getActionButton(importButtonConfig)}
       <ImportGuidance>{t('recipeCreate.importGuidance')}</ImportGuidance>
+      {!canImport && (
+        <ImportGuidance>{t('recipeCreate.finishDraftBeforeImport')}</ImportGuidance>
+      )}
 
       <FormDivider />
 
@@ -131,11 +130,6 @@ export function LinkMode({
         <RecipeCollectionField
           value={selectedCollectionId}
           onChange={onCollectionChange}
-        />
-        <RecipeTagsEditor
-          tags={tags}
-          onRemoveTag={onRemoveTag}
-          onAddTag={onAddTag}
         />
       </Flex>
 

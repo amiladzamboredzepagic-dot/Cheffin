@@ -76,6 +76,7 @@ export const RecipePreview = styled(Flex)(({ theme }) => ({
 
 export const PreviewStatus = styled(Flex)(({ theme }) => ({
   width: '100%',
+  flexWrap: 'wrap',
   gap: theme.spacing(1),
   color: theme.palette.primary.light,
   fontSize: theme.typography.body2.fontSize,
@@ -83,8 +84,16 @@ export const PreviewStatus = styled(Flex)(({ theme }) => ({
   lineHeight: '19px',
 }))
 
+export const PreviewLoading = styled(Flex)(({ theme }) => ({
+  flex: 1,
+  minHeight: 380,
+  width: '100%',
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: 14,
+  backgroundColor: theme.palette.background.paper,
+}))
+
 export const PreviewLabel = styled(Typography)(({ theme }) => ({
-  marginLeft: 'auto',
   color: theme.palette.highlight,
   fontSize: 10,
   letterSpacing: '1.4px',
@@ -125,6 +134,46 @@ export const PreviewMetadata = styled(Typography)(({ theme }) => ({
   lineHeight: '15px',
 }))
 
+export const PreviewListPanel = styled(Box)(({ theme }) => ({
+  flex: 1,
+  minWidth: 0,
+  padding: theme.spacing(2),
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: 14,
+  backgroundColor: theme.palette.background.paper,
+}))
+
+export const PreviewListHeading = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(1.25),
+  color: theme.palette.text.label,
+  fontFamily: '"Lora", Georgia, serif',
+  fontSize: theme.typography.pxToRem(18),
+  fontWeight: theme.typography.fontWeightRegular,
+}))
+
+export const PreviewIngredientRow = styled('li')(({ theme }) => ({
+  padding: theme.spacing(0.75, 0),
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  color: theme.palette.text.primary,
+  fontSize: theme.typography.body2.fontSize,
+  lineHeight: 1.55,
+  '&:last-child': {
+    borderBottom: 0,
+  },
+}))
+
+export const PreviewStepRow = styled('li')(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: '24px minmax(0, 1fr)',
+  alignItems: 'start',
+  gap: theme.spacing(1),
+  padding: theme.spacing(0.75, 0),
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  '&:last-child': {
+    borderBottom: 0,
+  },
+}))
+
 export const PreviewReview = styled(Flex)(({ theme }) => ({
   width: '100%',
   paddingTop: theme.spacing(2),
@@ -148,6 +197,7 @@ export const ReviewGuidance = styled(Typography)(({ theme }) => ({
 }))
 
 export const ReviewAction = styled('button')(({ theme }) => ({
+  marginLeft: 'auto',
   flexShrink: 0,
   padding: 0,
   border: 0,

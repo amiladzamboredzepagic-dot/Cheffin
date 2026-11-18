@@ -17,11 +17,10 @@ import { WriteYourOwnRecipe } from './WriteYourOwnRecipe'
 interface RecipeEntrySectionProps {
   entryMode: EntryMode
   draft: RecipeDraft | null
-  tags: string[]
+  onImportingChange: (isImporting: boolean) => void
   selectedCollectionId: string
   onEntryModeChange: (mode: EntryMode) => void
   onDraftChange: (draft: RecipeDraft | null) => void
-  onTagsChange: (tags: string[]) => void
   onCollectionChange: (collectionId: string) => void
   onRecipeSaved: () => void
   onFeedback: (message: string, severity: 'error' | 'success') => void
@@ -30,11 +29,10 @@ interface RecipeEntrySectionProps {
 export function RecipeEntrySection({
   entryMode,
   draft,
-  tags,
+  onImportingChange,
   selectedCollectionId,
   onEntryModeChange,
   onDraftChange,
-  onTagsChange,
   onCollectionChange,
   onRecipeSaved,
   onFeedback,
@@ -48,16 +46,20 @@ export function RecipeEntrySection({
   const { createRecipe, loading: isSaving } = useCreateRecipeMutation()
   const canSave =
     draft !== null &&
+    draft.title.trim() !== '' &&
+    draft.ingredients.some((ingredient) => ingredient.trim() !== '') &&
+    draft.instructions.some((instruction) => instruction.trim() !== '') &&
     draft.prepTimeMinutes !== null &&
     Number.isSafeInteger(draft.prepTimeMinutes) &&
     draft.prepTimeMinutes > 0 &&
     draft.servings !== null &&
     Number.isSafeInteger(draft.servings) &&
     draft.servings > 0
+  const canImport = draft === null || canSave
 
   const handleImport = async (url: string) => {
     onDraftChange(null)
-    onTagsChange([])
+    onImportingChange(true)
     try {
       const { data } = await extractRecipe({ variables: { url } })
       if (!data?.extractYoutubeRecipe) {
@@ -66,25 +68,23 @@ export function RecipeEntrySection({
 
       const extractedDraft = data.extractYoutubeRecipe
       onDraftChange(extractedDraft)
-      onTagsChange(extractedDraft.tags)
       onFeedback(t('recipeCreate.draftReady'), 'success')
     } catch (error) {
       onFeedback(
         error instanceof Error ? error.message : t('recipeCreate.importFailed'),
         'error',
       )
+    } finally {
+      onImportingChange(false)
     }
   }
 
   const handleSave = async () => {
     if (
       !draft ||
+      !canSave ||
       draft.prepTimeMinutes === null ||
-      draft.servings === null ||
-      !Number.isSafeInteger(draft.prepTimeMinutes) ||
-      draft.prepTimeMinutes <= 0 ||
-      !Number.isSafeInteger(draft.servings) ||
-      draft.servings <= 0
+      draft.servings === null
     ) {
       return
     }
@@ -97,10 +97,10 @@ export function RecipeEntrySection({
         steps: draft.instructions,
         prepTimeMinutes: draft.prepTimeMinutes,
         servings: draft.servings,
-        mealType: 'lunch',
-        dietaryPreferences: [],
-        cuisine: null,
-        difficulty: null,
+        mealType: draft.mealType,
+        dietaryPreferences: draft.dietaryPreferences,
+        cuisine: draft.cuisine,
+        difficulty: draft.difficulty,
         imageUrl: draft.imageUrl || null,
         photoBase64: null,
         photoContentType: null,
@@ -119,15 +119,6 @@ export function RecipeEntrySection({
     }
   }
 
-  const addTag = (tag: string) => {
-    if (tags.includes(tag)) {
-      return false
-    }
-
-    onTagsChange([...tags, tag])
-    return true
-  }
-
   return (
     <RecipeEntry direction="column" align="stretch">
       <RecipeEntryTabs
@@ -138,17 +129,13 @@ export function RecipeEntrySection({
       {entryMode === ENTRY_MODE.IMPORT ? (
         <LinkMode
           recipeUrl={recipeUrl}
-          tags={tags}
           selectedCollectionId={selectedCollectionId}
           onCollectionChange={onCollectionChange}
           isImporting={isImporting}
           isSaving={isSaving}
           canSave={canSave}
+          canImport={canImport}
           onRecipeUrlChange={setRecipeUrl}
-          onRemoveTag={(tag) =>
-            onTagsChange(tags.filter((currentTag) => currentTag !== tag))
-          }
-          onAddTag={addTag}
           onImport={handleImport}
           onSave={handleSave}
           onRequestPencilMode={() => onEntryModeChange(ENTRY_MODE.MANUAL)}

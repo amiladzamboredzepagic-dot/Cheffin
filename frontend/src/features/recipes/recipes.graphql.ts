@@ -1,4 +1,8 @@
 import { gql } from '@apollo/client'
+import type {
+  RecipeDifficulty,
+  RecipeMealType,
+} from './recipeMetadata'
 
 export interface RecipeDraft {
   title: string
@@ -10,6 +14,10 @@ export interface RecipeDraft {
   prepTimeMinutes: number | null
   servings: number | null
   calories: number | null
+  mealType: RecipeMealType
+  dietaryPreferences: string[]
+  cuisine: string | null
+  difficulty: RecipeDifficulty | null
   tags: string[]
 }
 
@@ -63,6 +71,10 @@ export const EXTRACT_YOUTUBE_RECIPE = gql`
       prepTimeMinutes
       servings
       calories
+      mealType
+      dietaryPreferences
+      cuisine
+      difficulty
       tags
     }
   }

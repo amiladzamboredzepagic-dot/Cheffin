@@ -359,6 +359,7 @@
     "urlPlaceholder": "Zalijepite YouTube video link",
     "importAction": "Uvezi recept",
     "importGuidance": "YouTube titlovi se šalju OpenAI-ju radi izrade nacrta recepta. Pregledajte detalje prije čuvanja.",
+    "finishDraftBeforeImport": "Dovršite detalje trenutnog recepta prije uvoza drugog videa.",
     "importing": "Tražimo detalje recepta...",
     "organizeTitle": "Organizujte recept",
     "collectionLabel": "Dodajte u kolekciju",

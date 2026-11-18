@@ -10,10 +10,7 @@ import {
   RecipeWorkspace,
 } from './RecipeCreatePage.styles'
 import { RecipeEntrySection } from './components/RecipeEntrySection'
-import {
-  ENTRY_MODE,
-  type EntryMode,
-} from './components/recipeEntryMode'
+import { ENTRY_MODE, type EntryMode } from './components/recipeEntryMode'
 import { RecipePreviewCard } from './components/RecipePreviewCard'
 import type { RecipeDraft } from '../recipes.graphql'
 
@@ -49,8 +46,8 @@ export function RecipeCreatePage({
     severity: 'error' | 'info' | 'success'
   } | null>(null)
   const [draft, setDraft] = useState<RecipeDraft | null>(null)
-  const [tags, setTags] = useState<string[]>([])
   const [selectedCollectionId, setSelectedCollectionId] = useState('')
+  const [isImporting, setIsImporting] = useState(false)
   const isManualEntry = entryMode === ENTRY_MODE.MANUAL
   const introKeys = PAGE_INTRO_KEYS[entryMode]
 
@@ -83,22 +80,19 @@ export function RecipeCreatePage({
         <RecipeEntrySection
           entryMode={entryMode}
           draft={draft}
-          tags={tags}
+          onImportingChange={setIsImporting}
           selectedCollectionId={selectedCollectionId}
           onDraftChange={setDraft}
-          onTagsChange={setTags}
           onCollectionChange={setSelectedCollectionId}
           onEntryModeChange={onEntryModeChange}
           onRecipeSaved={() => navigate('/library/my-recipes')}
-          onFeedback={(message, severity) =>
-            setFeedback({ message, severity })
-          }
+          onFeedback={(message, severity) => setFeedback({ message, severity })}
         />
         {!isManualEntry && (
           <RecipePreviewCard
             key={draft?.sourceUrl ?? 'empty-recipe-preview'}
             draft={draft}
-            tags={tags}
+            isImporting={isImporting}
             onDraftChange={setDraft}
             onRequestManual={() => onEntryModeChange(ENTRY_MODE.MANUAL)}
           />
