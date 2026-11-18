@@ -6,6 +6,7 @@ import { UserAvatar } from '../../../components/ui/UserAvatar'
 interface NavbarAccountButtonProps {
   firstName: string | null
   lastName: string | null
+  profileImage: string | null
   expanded: boolean
   onClick: MouseEventHandler<HTMLButtonElement>
 }
@@ -13,6 +14,7 @@ interface NavbarAccountButtonProps {
 export function NavbarAccountButton({
   firstName,
   lastName,
+  profileImage,
   expanded,
   onClick,
 }: NavbarAccountButtonProps) {
@@ -31,7 +33,11 @@ export function NavbarAccountButton({
         flexShrink: 0,
       }}
     >
-      <UserAvatar firstName={firstName} lastName={lastName} />
+      <UserAvatar
+        firstName={firstName}
+        lastName={lastName}
+        imageUrl={profileImage}
+      />
     </IconButton>
   )
 }

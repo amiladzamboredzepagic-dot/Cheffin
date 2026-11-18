@@ -14,26 +14,10 @@ import { ProfileIdentityCard } from './components/ProfileIdentityCard'
 import { ProfileLayout } from './ProfilePage.styles'
 import { getProfileTabFromPath, profileTabPath } from './ProfileRoutes'
 import type { ProfileEditValues, SavedProfile } from './profile.types'
-
-const PROFILE_STORAGE_KEY = 'cheffin.profile'
+import { readSavedProfile, saveProfile } from './profileStorage'
 
 interface ProfilePageProps {
   isOwnProfile?: boolean
-}
-
-function readSavedProfile(): SavedProfile {
-  try {
-    const saved = JSON.parse(
-      localStorage.getItem(PROFILE_STORAGE_KEY) ?? 'null',
-    ) as Partial<SavedProfile> | null
-    return {
-      description:
-        typeof saved?.description === 'string' ? saved.description : '',
-      image: typeof saved?.image === 'string' ? saved.image : null,
-    }
-  } catch {
-    return { description: '', image: null }
-  }
 }
 
 export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
@@ -75,7 +59,7 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
     ...profile
   }: ProfileEditValues) => {
     await updateProfileNames(nextFirstName, nextLastName)
-    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile))
+    saveProfile(profile)
     setSavedProfile(profile)
     setEditOpen(false)
   }

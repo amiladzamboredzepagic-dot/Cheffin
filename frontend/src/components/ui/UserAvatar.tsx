@@ -4,12 +4,14 @@ import { Avatar as MuiAvatar, useTheme } from '@mui/material'
 interface UserAvatarProps {
   firstName?: string | null
   lastName?: string | null
+  imageUrl?: string | null
   size?: number
 }
 
 export function UserAvatar({
   firstName,
   lastName,
+  imageUrl,
   size = 38,
 }: UserAvatarProps) {
   const theme = useTheme()
@@ -21,6 +23,8 @@ export function UserAvatar({
 
   return (
     <MuiAvatar
+      src={imageUrl ?? undefined}
+      alt={imageUrl ? '' : undefined}
       sx={{
         width: size,
         height: size,

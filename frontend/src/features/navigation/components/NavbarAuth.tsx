@@ -1,7 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FeedbackSnackbar } from '../../../components/ui/feedback/FeedbackSnackbar'
 import { useAuth } from '../../../context/useAuth'
+import {
+  PROFILE_UPDATED_EVENT,
+  readSavedProfileImage,
+} from '../../profile/profileStorage'
 import { NavbarAuthenticatedActions } from './NavbarAuthenticatedActions'
 import { NavbarGuestActions } from './NavbarGuestActions'
 
@@ -15,6 +19,19 @@ export function NavbarAuth({ onLogin, onCreateAccount }: NavbarAuthProps) {
   const { accessToken, firstName, lastName, isAdmin, logout } = useAuth()
 
   const [logoutError, setLogoutError] = useState(false)
+  const [profileImage, setProfileImage] = useState(readSavedProfileImage)
+
+  useEffect(() => {
+    const refreshProfileImage = () => {
+      setProfileImage(readSavedProfileImage())
+    }
+    window.addEventListener(PROFILE_UPDATED_EVENT, refreshProfileImage)
+    window.addEventListener('storage', refreshProfileImage)
+    return () => {
+      window.removeEventListener(PROFILE_UPDATED_EVENT, refreshProfileImage)
+      window.removeEventListener('storage', refreshProfileImage)
+    }
+  }, [])
 
   const handleLogout = async () => {
     try {
@@ -31,6 +48,7 @@ export function NavbarAuth({ onLogin, onCreateAccount }: NavbarAuthProps) {
         <NavbarAuthenticatedActions
           firstName={firstName}
           lastName={lastName}
+          profileImage={profileImage}
           isAdmin={isAdmin}
           onLogout={handleLogout}
         />

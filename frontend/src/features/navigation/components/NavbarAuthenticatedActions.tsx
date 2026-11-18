@@ -8,6 +8,7 @@ import { NavbarAddRecipe } from './NavbarAddRecipe'
 interface NavbarAuthenticatedActionsProps {
   firstName: string | null
   lastName: string | null
+  profileImage: string | null
   isAdmin: boolean
   onLogout: () => void
 }
@@ -15,6 +16,7 @@ interface NavbarAuthenticatedActionsProps {
 export function NavbarAuthenticatedActions({
   firstName,
   lastName,
+  profileImage,
   isAdmin,
   onLogout,
 }: NavbarAuthenticatedActionsProps) {
@@ -42,6 +44,7 @@ export function NavbarAuthenticatedActions({
         <NavbarAccountButton
           firstName={firstName}
           lastName={lastName}
+          profileImage={profileImage}
           expanded={Boolean(accountMenuAnchor)}
           onClick={(event) => setAccountMenuAnchor(event.currentTarget)}
         />
