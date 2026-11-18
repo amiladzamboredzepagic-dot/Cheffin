@@ -56,6 +56,8 @@ export function RecipeEntrySection({
     draft.servings > 0
 
   const handleImport = async (url: string) => {
+    onDraftChange(null)
+    onTagsChange([])
     try {
       const { data } = await extractRecipe({ variables: { url } })
       if (!data?.extractYoutubeRecipe) {
