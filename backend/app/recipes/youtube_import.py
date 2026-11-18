@@ -272,6 +272,10 @@ def _download_audio_and_transcribe(video_id: str) -> str:
 
 async def extract_youtube_recipe(url: str) -> tuple[str, RecipeDraftData]:
     video_id = parse_youtube_video_id(url)
+    if not settings.openai_api_key:
+        raise RecipeImportError(
+            "Recipe import is not configured. Set OPENAI_API_KEY on the server."
+        )
 
     # 1. Try pulling captions directly
     caption_started_at = time.perf_counter()
@@ -303,14 +307,11 @@ async def extract_youtube_recipe(url: str) -> tuple[str, RecipeDraftData]:
             "This video is too long to import. Try a shorter video."
         )
 
-    # 3. Create and validate a JSON recipe draft with the configured OpenAI-compatible LLM.
+    # 3. Create and validate a JSON recipe draft with the OpenAI API.
     recipe_started_at = time.perf_counter()
-    logger.info("Local recipe draft generation started", extra={"video_id": video_id})
+    logger.info("Recipe draft generation started", extra={"video_id": video_id})
     try:
-        async with AsyncOpenAI(
-            api_key="ollama",
-            base_url=settings.recipe_llm_base_url,
-        ) as client:
+        async with AsyncOpenAI(api_key=settings.openai_api_key) as client:
             completion = await client.chat.completions.create(
                 model=settings.recipe_llm_model,
                 messages=[
@@ -341,7 +342,7 @@ async def extract_youtube_recipe(url: str) -> tuple[str, RecipeDraftData]:
             draft = RecipeDraftData.model_validate_json(content)
 
             logger.info(
-                "Local recipe draft generation completed",
+                "Recipe draft generation completed",
                 extra={
                     "video_id": video_id,
                     "elapsed_seconds": round(time.perf_counter() - recipe_started_at, 1),
@@ -352,11 +353,11 @@ async def extract_youtube_recipe(url: str) -> tuple[str, RecipeDraftData]:
     except OpenAIError as error:
         logger.exception(
             "Recipe LLM request failed",
-            extra={"video_id": video_id, "base_url": settings.recipe_llm_base_url},
+            extra={"video_id": video_id, "model": settings.recipe_llm_model},
         )
         raise RecipeImportError(
-            "Recipe generation failed. Check that the configured local model server "
-            "is running and the model is available."
+            "Recipe generation failed. Check the OpenAI API key, model name, "
+            "and account quota."
         ) from error
     except (ValidationError, ValueError) as error:
         logger.exception(

@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 from graphql import GraphQLError
 from yt_dlp.utils import DownloadError
 
+from app.core.config import settings
 from app.graphql.schema import Mutation
 from app.recipes.youtube_import import (
     MAX_TRANSCRIPT_CHARACTERS,
@@ -176,15 +177,15 @@ class RecipeLibraryTests(unittest.IsolatedAsyncioTestCase):
                 "app.recipes.youtube_import.AsyncOpenAI",
                 return_value=fake_client,
             ) as llm_client,
+            patch.object(settings, "openai_api_key", "sk-test"),
+            patch.object(settings, "recipe_llm_model", "gpt-4o-mini"),
         ):
             video_id, draft = await extract_youtube_recipe(
                 "https://youtu.be/abcdefghijk"
             )
 
-        llm_client.assert_called_once_with(
-            api_key="ollama", base_url="http://localhost:11434/v1"
-        )
-        self.assertEqual(fake_client.create_kwargs["model"], "qwen2.5:7b")
+        llm_client.assert_called_once_with(api_key="sk-test")
+        self.assertEqual(fake_client.create_kwargs["model"], "gpt-4o-mini")
         self.assertEqual(
             fake_client.create_kwargs["response_format"],
             {"type": "json_object"},
@@ -200,11 +201,22 @@ class RecipeLibraryTests(unittest.IsolatedAsyncioTestCase):
                 return_value="a" * (MAX_TRANSCRIPT_CHARACTERS + 1),
             ),
             patch("app.recipes.youtube_import.AsyncOpenAI") as llm_client,
+            patch.object(settings, "openai_api_key", "sk-test"),
         ):
             with self.assertRaisesRegex(RecipeImportError, "too long"):
                 await extract_youtube_recipe("https://youtu.be/abcdefghijk")
 
         llm_client.assert_not_called()
+
+    async def test_youtube_import_requires_openai_api_key(self) -> None:
+        with (
+            patch("app.recipes.youtube_import._fetch_caption_transcript") as captions,
+            patch.object(settings, "openai_api_key", None),
+        ):
+            with self.assertRaisesRegex(RecipeImportError, "OPENAI_API_KEY"):
+                await extract_youtube_recipe("https://youtu.be/abcdefghijk")
+
+        captions.assert_not_called()
 
     async def test_extract_mutation_returns_canonical_video_urls(self) -> None:
         info = SimpleNamespace(context=SimpleNamespace(user={"sub": "user-123"}))

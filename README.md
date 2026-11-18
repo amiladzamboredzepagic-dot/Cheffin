@@ -42,17 +42,10 @@ JWT_SECRET=<at-least-32-random-bytes>
 ```
 
 The database name defaults to `cheffin`. Do not commit `backend/.env`.
-Recipe drafting uses a local Ollama server by default. Install Ollama, then run
-the following in a terminal to download and start the default model:
-
-```powershell
-ollama run qwen2.5:7b
-```
-
-Keep Ollama running while using recipe import. To use a different local model
-or OpenAI-compatible server, set `RECIPE_LLM_MODEL` and
-`RECIPE_LLM_BASE_URL` in `backend/.env`. The defaults are `qwen2.5:7b` and
-`http://localhost:11434/v1`.
+Recipe drafting uses the OpenAI API. Set `OPENAI_API_KEY` in `backend/.env`;
+recipe import fails with a configuration error without it. The model defaults
+to `gpt-4o-mini`; set `RECIPE_LLM_MODEL` to use another model that supports
+JSON mode.
 Audio transcription uses the local `faster-whisper` model `base` by default.
 Its model files download the first time transcription runs. Set
 `LOCAL_TRANSCRIPTION_MODEL` in `backend/.env` to choose another supported model
@@ -108,7 +101,7 @@ require a bearer access token, as provided by the existing sign-in flow.
 ## Recipe importing
 
 The authenticated recipe editor can import YouTube videos with English,
-Bosnian, or German captions. The backend uses the configured local LLM to create
+Bosnian, or German captions. The backend uses OpenAI to create
 a recipe draft from those captions; review it in the editor before saving it to
 your personal library. If captions are unavailable, the backend downloads the
 video audio and transcribes it locally with `faster-whisper`; YouTube may block

@@ -9,8 +9,8 @@ class Settings(BaseSettings):
     mongo_uri: str = Field(default="mongodb://localhost:27017")
     database_name: str = Field(default="cheffin")
     jwt_secret: str | None = None
-    recipe_llm_base_url: str = "http://localhost:11434/v1"
-    recipe_llm_model: str = "qwen2.5:7b"
+    openai_api_key: str | None = None
+    recipe_llm_model: str = "gpt-4o-mini"
     local_transcription_model: str = "base"
     youtube_max_duration_seconds: int = 1800
     youtube_max_audio_bytes: int = 50 * 1024 * 1024
