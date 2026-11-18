@@ -8,6 +8,7 @@ import {
   ModalDescription,
   ModalEyebrow,
   ModalHeader,
+  ModalFooter,
   ModalPanel,
   ModalTitle,
 } from './GenericModal.styles'
@@ -20,6 +21,7 @@ export interface GenericModalProps extends Omit<
   onClose: () => void
   title: ReactNode
   content: ReactNode
+  footer?: ReactNode
   eyebrow?: ReactNode
   description?: ReactNode
   closeLabel?: string
@@ -31,6 +33,7 @@ export function GenericModal({
   onClose,
   title,
   content,
+  footer,
   eyebrow,
   description,
   closeLabel = 'Close dialog',
@@ -52,7 +55,7 @@ export function GenericModal({
         sx={panelSx}
         direction="column"
         align="stretch"
-        justify="space-between"
+        justify="flex-start"
         gap={{ xs: 2, sm: 3 }}
       >
         <ModalCloseButton aria-label={closeLabel} onClick={onClose}>
@@ -64,6 +67,7 @@ export function GenericModal({
           {description && <ModalDescription>{description}</ModalDescription>}
         </ModalHeader>
         <ModalContent id={contentId}>{content}</ModalContent>
+        {footer != null && <ModalFooter>{footer}</ModalFooter>}
       </ModalPanel>
     </MuiModal>
   )

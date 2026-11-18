@@ -1,12 +1,8 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material'
+import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { ActionButton } from '../../../components/ui/actions/ActionButton'
+import { Flex } from '../../../components/ui/layout/Flex'
+import { GenericModal } from '../../../components/ui/modals/GenericModal'
 import { isPublishedRecipe, type DiscoveryRecipe } from '../discovery.data'
 
 interface DiscoveryRecipeDialogProps {
@@ -32,17 +28,15 @@ export function DiscoveryRecipeDialog({
     : ''
 
   return (
-    <Dialog
+    <GenericModal
       open={recipe !== null}
       onClose={onClose}
-      aria-labelledby="discovery-recipe-title"
-      fullWidth
-    >
-      {recipe && (
-        <>
-          <DialogTitle id="discovery-recipe-title">{title}</DialogTitle>
-          <DialogContent>
-            {description && <Typography>{description}</Typography>}
+      title={title}
+      description={description}
+      closeLabel={t('common.close')}
+      content={
+        recipe && (
+          <Flex direction="column" align="stretch">
             <Typography sx={{ mt: 2 }}>
               {published
                 ? t('library.recipeMetadata', {
@@ -84,12 +78,18 @@ export function DiscoveryRecipeDialog({
                 {t('discovery.sampleDetailsUnavailable')}
               </Typography>
             )}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={onClose}>{t('discovery.closeRecipe')}</Button>
-          </DialogActions>
-        </>
-      )}
-    </Dialog>
+          </Flex>
+        )
+      }
+      footer={
+        <Flex justify="flex-end">
+          <ActionButton
+            kind="secondary"
+            onClick={onClose}
+            text={t('discovery.closeRecipe')}
+          />
+        </Flex>
+      }
+    />
   )
 }

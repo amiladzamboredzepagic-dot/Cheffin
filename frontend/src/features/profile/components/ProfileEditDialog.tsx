@@ -78,9 +78,9 @@ export function ProfileEditDialog({
       title={t('profile.editProfile')}
       description={t('profile.editProfileDescription')}
       closeLabel={t('common.close')}
-      panelSx={{ height: 'auto', maxHeight: 'calc(100dvh - 32px)' }}
       content={
         <Flex
+          id="profile-edit-form"
           component="form"
           onSubmit={handleSubmit}
           direction="column"
@@ -137,20 +137,28 @@ export function ProfileEditDialog({
             }}
           />
           {error && <Alert severity="error">{error}</Alert>}
-          <Flex direction="row" align="center" justify="flex-end" gap={1}>
-            <ActionButton
-              type="button"
-              kind="secondary"
-              text={t('common.cancel')}
-              onClick={onClose}
-              disabled={saving}
-            />
-            <ActionButton
-              type="submit"
-              text={t('profile.saveProfile')}
-              disabled={saving}
-            />
-          </Flex>
+        </Flex>
+      }
+      footer={
+        <Flex
+          direction={{ xs: 'column-reverse', sm: 'row' }}
+          align="stretch"
+          justify="flex-end"
+          gap={1}
+        >
+          <ActionButton
+            type="button"
+            kind="secondary"
+            text={t('common.cancel')}
+            onClick={onClose}
+            disabled={saving}
+          />
+          <ActionButton
+            type="submit"
+            form="profile-edit-form"
+            text={t('profile.saveProfile')}
+            disabled={saving}
+          />
         </Flex>
       }
     />

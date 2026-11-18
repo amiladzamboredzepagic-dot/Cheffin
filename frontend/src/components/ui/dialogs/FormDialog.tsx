@@ -1,12 +1,8 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material'
 import type { DialogProps } from '@mui/material'
-import type { ReactNode, SubmitEvent } from 'react'
+import { useId, type ReactNode, type SubmitEvent } from 'react'
 import { ActionButton } from '../actions/ActionButton'
+import { Flex } from '../layout/Flex'
+import { GenericModal } from '../modals/GenericModal'
 
 interface FormDialogProps {
   open: boolean
@@ -20,6 +16,23 @@ interface FormDialogProps {
   children: ReactNode
 }
 
+const FORM_DIALOG_MAX_WIDTH: Record<
+  Exclude<NonNullable<DialogProps['maxWidth']>, false>,
+  number
+> = {
+  xs: 444,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536,
+}
+
+function getFormDialogMaxWidth(maxWidth: DialogProps['maxWidth']) {
+  return maxWidth === false
+    ? 'none'
+    : FORM_DIALOG_MAX_WIDTH[maxWidth ?? 'xs']
+}
+
 export function FormDialog({
   open,
   title,
@@ -31,6 +44,8 @@ export function FormDialog({
   onSubmit,
   children,
 }: FormDialogProps) {
+  const formId = useId()
+
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
     event.stopPropagation()
@@ -42,16 +57,31 @@ export function FormDialog({
   }
 
   return (
-    <Dialog
+    <GenericModal
       open={open}
       onClose={handleClose}
-      fullWidth
-      maxWidth={maxWidth}
-    >
-      <form onSubmit={handleSubmit}>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>{children}</DialogContent>
-        <DialogActions>
+      title={title}
+      closeLabel={cancelLabel}
+      panelSx={{ maxWidth: getFormDialogMaxWidth(maxWidth) }}
+      content={
+        <Flex
+          id={formId}
+          component="form"
+          onSubmit={handleSubmit}
+          direction="column"
+          align="stretch"
+          gap={1.5}
+        >
+          {children}
+        </Flex>
+      }
+      footer={
+        <Flex
+          direction={{ xs: 'column-reverse', sm: 'row' }}
+          align="stretch"
+          justify="flex-end"
+          gap={1.5}
+        >
           <ActionButton
             type="button"
             kind="secondary"
@@ -59,9 +89,14 @@ export function FormDialog({
             onClick={handleClose}
             disabled={loading}
           />
-          <ActionButton type="submit" text={submitLabel} disabled={loading} />
-        </DialogActions>
-      </form>
-    </Dialog>
+          <ActionButton
+            type="submit"
+            form={formId}
+            text={submitLabel}
+            disabled={loading}
+          />
+        </Flex>
+      }
+    />
   )
 }

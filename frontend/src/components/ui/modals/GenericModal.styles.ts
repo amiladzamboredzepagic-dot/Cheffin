@@ -7,10 +7,11 @@ export const ModalPanel = styled(Flex)(({ theme }) => ({
   left: '50%',
   width: 'calc(100% - 32px)',
   maxWidth: 576,
-  height: 'min(743px, calc(100dvh - 32px))',
-  overflowY: 'auto',
+  height: 'auto',
+  maxHeight: 'calc(100dvh - 32px)',
+  overflow: 'hidden',
   boxSizing: 'border-box',
-  padding: theme.spacing(8, 5, 4),
+  padding: theme.spacing(7, 5, 4),
   borderRadius: theme.spacing(2.5),
   color: theme.palette.text.primary,
   backgroundColor: theme.palette.background.default,
@@ -19,15 +20,23 @@ export const ModalPanel = styled(Flex)(({ theme }) => ({
   transform: 'translate(-50%, -50%)',
   [theme.breakpoints.down('sm')]: {
     width: 'calc(100% - 24px)',
-    height: 'min(743px, calc(100dvh - 24px))',
-    padding: theme.spacing(7, 2.5, 2.5),
+    maxHeight: 'calc(100dvh - 24px)',
+    padding: theme.spacing(6, 2.5, 2.5),
     borderRadius: theme.spacing(2),
   },
 }))
 
 export const ModalHeader = styled(Flex)(({ theme }) => ({
   width: '100%',
+  flexShrink: 0,
   gap: theme.spacing(1.5),
+}))
+
+export const ModalFooter = styled('div')(({ theme }) => ({
+  flexShrink: 0,
+  width: '100%',
+  paddingTop: theme.spacing(2),
+  borderTop: `1px solid ${theme.palette.divider}`,
 }))
 
 export const ModalEyebrow = styled('p')(({ theme }) => ({
@@ -69,14 +78,12 @@ export const ModalCloseButton = styled(IconButton)(({ theme }) => ({
 export const ModalContent = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'stretch',
-  flex: 1,
+  flex: '1 1 auto',
   width: '100%',
   minHeight: 0,
-  '& > *': {
-    width: '100%',
-    flex: 1,
-  },
-  [theme.breakpoints.down('sm')]: {
-    overflowY: 'auto',
-  },
+  overflowY: 'auto',
+  overscrollBehavior: 'contain',
+  scrollbarGutter: 'stable',
+  paddingInlineEnd: theme.spacing(1.25),
+  '& > *': { width: '100%', minHeight: 0 },
 }))

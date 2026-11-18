@@ -36,48 +36,39 @@ export function DeleteMyRecipeDialog({
         title: recipe?.title ?? '',
       })}
       closeLabel={t('common.close')}
-      panelSx={{
-        height: 'auto',
-        maxHeight: 'calc(100dvh - 24px)',
-      }}
       content={
-        <Flex
-          direction="column"
-          align="stretch"
-          justify="space-between"
-          gap={3}
-        >
-          {error && (
-            <StatusAlert severity="error">
+        error && (
+          <StatusAlert severity="error">
             {t('library.deleteRecipeFailed')}
-            </StatusAlert>
-          )}
-          <Flex
-            direction={{ xs: 'column-reverse', sm: 'row' }}
-            align="stretch"
-            justify="flex-end"
-            gap={1.5}
-          >
-            <ActionButton
-              type="button"
-              kind="secondary"
-              onClick={handleClose}
-              disabled={loading}
-              text={t('recipeCreate.cancelCollection')}
-            />
-            <ActionButton
-              onClick={onConfirm}
-              disabled={loading || recipe === null}
-              backgroundColor={theme.palette.error.main}
-              textColor={theme.palette.error.contrastText}
-              text={
-                loading
-                  ? t('library.deletingRecipe')
-                  : t('library.deleteRecipeAction')
-              }
-              sx={{ width: { xs: '100%', sm: 'auto' } }}
-            />
-          </Flex>
+          </StatusAlert>
+        )
+      }
+      footer={
+        <Flex
+          direction={{ xs: 'column-reverse', sm: 'row' }}
+          align="stretch"
+          justify="flex-end"
+          gap={1.5}
+        >
+          <ActionButton
+            type="button"
+            kind="secondary"
+            onClick={handleClose}
+            disabled={loading}
+            text={t('recipeCreate.cancelCollection')}
+          />
+          <ActionButton
+            onClick={onConfirm}
+            disabled={loading || recipe === null}
+            backgroundColor={theme.palette.error.main}
+            textColor={theme.palette.error.contrastText}
+            text={
+              loading
+                ? t('library.deletingRecipe')
+                : t('library.deleteRecipeAction')
+            }
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
+          />
         </Flex>
       }
     />

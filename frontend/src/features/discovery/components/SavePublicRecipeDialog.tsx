@@ -1,6 +1,4 @@
-import {
-  Alert,
-} from '@mui/material'
+import { Alert } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionButton } from '../../../components/ui/actions/ActionButton'
@@ -57,56 +55,47 @@ export function SavePublicRecipeDialog({
         })}
         closeLabel={t('common.close')}
         content={
-          <Flex
-            direction="column"
-            align="stretch"
-            justify="space-between"
-            gap={3}
-          >
-            <Flex direction="column" align="stretch" gap={2}>
-          {collectionsError && (
-            <Alert severity="warning" sx={{ mb: 2 }}>
-              {t('recipeCreate.collectionsLoadFailed')}
-            </Alert>
-          )}
-          <CustomSelectMenu
-            label={t('discovery.saveRecipeCollection')}
-            options={options}
-            value={collectionId}
-            onChange={setCollectionId}
-            placeholder={t('recipeCreate.findCollection')}
-            disabled={collectionsLoading || loading}
-            showCreateOption={!collectionsError}
-            onCreateClick={() => setCreateCollectionOpen(true)}
-          />
-          {errorMessage && (
-            <Alert severity="error">
-              {errorMessage}
-            </Alert>
-          )}
-            </Flex>
-            <Flex direction="column" align="stretch" gap={1.5}>
-              <ActionButton
-                type="button"
-                kind="secondary"
-                onClick={onClose}
-                disabled={loading}
-                text={t('recipeCreate.cancelCollection')}
-              />
-              <ActionButton
-                onClick={() =>
-                  void onSave(
-                    collectionId === NO_COLLECTION ? null : collectionId,
-                  )
-                }
-                disabled={loading || collectionsLoading}
-                text={
-                  loading
-                    ? t('discovery.savingRecipe')
-                    : t('discovery.saveRecipeAction')
-                }
-              />
-            </Flex>
+          <Flex direction="column" align="stretch" gap={2}>
+            {collectionsError && (
+              <Alert severity="warning">
+                {t('recipeCreate.collectionsLoadFailed')}
+              </Alert>
+            )}
+            <CustomSelectMenu
+              label={t('discovery.saveRecipeCollection')}
+              options={options}
+              value={collectionId}
+              onChange={setCollectionId}
+              placeholder={t('recipeCreate.findCollection')}
+              disabled={collectionsLoading || loading}
+              showCreateOption={!collectionsError}
+              onCreateClick={() => setCreateCollectionOpen(true)}
+            />
+            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+          </Flex>
+        }
+        footer={
+          <Flex direction="column" align="stretch" gap={1.5}>
+            <ActionButton
+              type="button"
+              kind="secondary"
+              onClick={onClose}
+              disabled={loading}
+              text={t('recipeCreate.cancelCollection')}
+            />
+            <ActionButton
+              onClick={() =>
+                void onSave(
+                  collectionId === NO_COLLECTION ? null : collectionId,
+                )
+              }
+              disabled={loading || collectionsLoading}
+              text={
+                loading
+                  ? t('discovery.savingRecipe')
+                  : t('discovery.saveRecipeAction')
+              }
+            />
           </Flex>
         }
       />

@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import { SubmitButton } from '../../components/ui/actions/SubmitButton'
 import { GenericModal } from '../../components/ui/modals/GenericModal'
+import { useAuth } from '../../context/useAuth'
 import { AUTH_MODE, type AuthMode } from './loginForm.utils'
 import { LoginForm } from './LoginForm'
 
@@ -19,6 +21,7 @@ export function AuthModal({
   onSubmit,
 }: AuthModalProps) {
   const { t } = useTranslation()
+  const { loginLoading, registerLoading } = useAuth()
   const isLogin = authMode === AUTH_MODE.LOGIN
 
   return (
@@ -37,6 +40,14 @@ export function AuthModal({
           onAuthModeChange={onAuthModeChange}
           onSubmit={onSubmit}
         />
+      }
+      footer={
+        <SubmitButton
+          form="login-form"
+          loading={loginLoading || registerLoading}
+        >
+          {isLogin ? t('auth.login') : t('auth.createAccount')}
+        </SubmitButton>
       }
     />
   )

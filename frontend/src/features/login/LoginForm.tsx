@@ -8,7 +8,6 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import { Flex } from '../../components/ui/layout/Flex'
 import { FormTextField } from '../../components/ui/forms/FormTextField'
 import { SegmentedToggle } from '../../components/ui/forms/SegmentedToggle'
-import { SubmitButton } from '../../components/ui/actions/SubmitButton'
 import { StatusAlert } from '../../components/ui/feedback/StatusAlert'
 import { useAuth } from '../../context/useAuth'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +25,7 @@ export function LoginForm({
   onSubmit,
 }: LoginFormProps) {
   const { t } = useTranslation()
-  const { login, register, loginLoading, registerLoading } = useAuth()
+  const { login, register } = useAuth()
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -171,11 +170,6 @@ export function LoginForm({
           }
         />
       </Flex>
-      <SubmitButton loading={loginLoading || registerLoading}>
-        {authMode === AUTH_MODE.LOGIN
-          ? t('auth.login')
-          : t('auth.createAccount')}
-      </SubmitButton>
     </Flex>
   )
 }
