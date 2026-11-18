@@ -1,10 +1,17 @@
+from datetime import datetime, timezone
+from typing import Any
+
 import strawberry
-from app.graphql.auth import require_role
 from app.db.database import get_database
 from app.core.roles import ROLE_ADMIN
+from app.graphql.auth import require_auth, require_role
 from app.recipes.schema import Mutation as RecipeMutation
 from app.recipes.schema import Query as RecipeQuery
-
+from app.recipes.youtube_import import (
+    RecipeImportError,
+    extract_youtube_recipe,
+)
+from graphql import GraphQLError
 
 @strawberry.type
 class AdminUserStats:
@@ -16,6 +23,18 @@ class AdminUserStats:
     published_recipe_count: int
     draft_recipe_count: int
     collection_count: int
+@strawberry.type
+class YoutubeRecipeDraft:
+    title: str
+    description: str
+    source_url: str
+    image_url: str
+    ingredients: list[str]
+    instructions: list[str]
+    prep_time_minutes: int | None
+    servings: int | None
+    calories: int | None
+    tags: list[str]
 
 
 @strawberry.type
@@ -136,7 +155,31 @@ class Query(RecipeQuery):
 
 @strawberry.type
 class Mutation(RecipeMutation):
-    pass
+    @strawberry.mutation
+    async def extract_youtube_recipe(
+        self, info: strawberry.Info, url: str
+    ) -> YoutubeRecipeDraft:
+        require_auth(info)
+        try:
+            video_id, draft = await extract_youtube_recipe(url)
+        except RecipeImportError as error:
+            raise GraphQLError(
+                str(error),
+                extensions={"code": "RECIPE_IMPORT_FAILED"},
+            ) from error
+
+        return YoutubeRecipeDraft(
+            title=draft.title,
+            description=draft.description,
+            source_url=f"https://www.youtube.com/watch?v={video_id}",
+            image_url=f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg",
+            ingredients=draft.ingredients,
+            instructions=draft.instructions,
+            prep_time_minutes=draft.prep_time_minutes,
+            servings=draft.servings,
+            calories=draft.calories,
+            tags=draft.tags,
+        )
 
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)

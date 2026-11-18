@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+strawberry-graphql[fastapi]
+motor
+pydantic-settings
+python-dotenv
+PyJWT
+pwdlib[argon2]
+openai
+youtube-transcript-api
+yt-dlp
+faster-whisper
+av>=11,<19

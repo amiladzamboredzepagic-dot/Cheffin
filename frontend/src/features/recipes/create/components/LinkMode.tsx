@@ -17,10 +17,14 @@ interface LinkModeProps {
   tags: string[]
   selectedCollectionId: string
   onCollectionChange: (collectionId: string) => void
+  isImporting: boolean
+  isSaving: boolean
+  canSave: boolean
   onRecipeUrlChange: (value: string) => void
   onRemoveTag: (tag: string) => void
   onAddTag: (tag: string) => boolean
-  onShowUnavailable: () => void
+  onImport: (url: string) => void
+  onSave: () => void
   onRequestPencilMode: () => void
 }
 
@@ -29,6 +33,7 @@ interface ActionButtonConfig {
   label: string
   type: 'submit' | 'button'
   onClick?: () => void
+  disabled?: boolean
   backgroundColor?: string
   textColor?: string
   border?: string
@@ -40,6 +45,7 @@ function getActionButton(config: ActionButtonConfig) {
     <ActionButton
       type={config.type}
       onClick={config.onClick}
+      disabled={config.disabled}
       text={
         <>
           {config.icon}
@@ -62,10 +68,14 @@ export function LinkMode({
   tags,
   selectedCollectionId,
   onCollectionChange,
+  isImporting,
+  isSaving,
+  canSave,
   onRecipeUrlChange,
   onRemoveTag,
   onAddTag,
-  onShowUnavailable,
+  onImport,
+  onSave,
   onRequestPencilMode,
 }: LinkModeProps) {
   const theme = useTheme()
@@ -73,19 +83,23 @@ export function LinkMode({
 
   const importButtonConfig: ActionButtonConfig = {
     icon: <ArrowDownToLine size={18} aria-hidden="true" />,
-    label: t('recipeCreate.importAction'),
+    label: isImporting
+      ? t('recipeCreate.importing')
+      : t('recipeCreate.importAction'),
     type: 'submit',
     backgroundColor: theme.palette.background.input,
     textColor: theme.palette.primary.main,
     border: `1px solid ${theme.palette.divider}`,
     hoverShadow: false,
+    disabled: isImporting,
   }
 
   const saveButtonConfig: ActionButtonConfig = {
     icon: <BookmarkPlus size={18} aria-hidden="true" />,
-    label: t('recipeCreate.saveAction'),
+    label: isSaving ? t('recipeCreate.saving') : t('recipeCreate.saveAction'),
     type: 'button',
-    onClick: onShowUnavailable,
+    onClick: onSave,
+    disabled: !canSave || isSaving,
   }
 
   return (
@@ -95,7 +109,7 @@ export function LinkMode({
       align="stretch"
       onSubmit={(event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
-        onShowUnavailable()
+        onImport(recipeUrl)
       }}
     >
       <FormTextField
@@ -105,6 +119,7 @@ export function LinkMode({
         onChange={(event) => onRecipeUrlChange(event.target.value)}
         startAdornment={<Link />}
         type="url"
+        required
       />
       {getActionButton(importButtonConfig)}
       <ImportGuidance>{t('recipeCreate.importGuidance')}</ImportGuidance>

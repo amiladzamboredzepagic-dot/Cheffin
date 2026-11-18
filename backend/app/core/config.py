@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     mongo_uri: str = Field(default="mongodb://localhost:27017")
     database_name: str = Field(default="cheffin")
     jwt_secret: str | None = None
+    recipe_llm_base_url: str = "http://localhost:11434/v1"
+    recipe_llm_model: str = "qwen2.5:7b"
+    local_transcription_model: str = "base"
 
     model_config = SettingsConfigDict(
         env_file=ENV_PATH,

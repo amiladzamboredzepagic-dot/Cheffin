@@ -1,6 +1,7 @@
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { FeedbackSnackbar } from '../../../components/ui/feedback/FeedbackSnackbar'
 import { InteractiveLink } from '../../../components/ui/links/InteractiveLink'
 import { SectionIntroduction } from '../../../components/ui/layout/SectionIntroduction'
@@ -14,6 +15,7 @@ import {
   type EntryMode,
 } from './components/recipeEntryMode'
 import { RecipePreviewCard } from './components/RecipePreviewCard'
+import type { RecipeDraft } from '../recipes.graphql'
 
 const PAGE_INTRO_KEYS: Record<
   EntryMode,
@@ -41,7 +43,14 @@ export function RecipeCreatePage({
   onEntryModeChange,
 }: RecipeCreatePageProps) {
   const { t } = useTranslation()
-  const [feedbackOpen, setFeedbackOpen] = useState(false)
+  const navigate = useNavigate()
+  const [feedback, setFeedback] = useState<{
+    message: string
+    severity: 'error' | 'info' | 'success'
+  } | null>(null)
+  const [draft, setDraft] = useState<RecipeDraft | null>(null)
+  const [tags, setTags] = useState<string[]>([])
+  const [selectedCollectionId, setSelectedCollectionId] = useState('')
   const isManualEntry = entryMode === ENTRY_MODE.MANUAL
   const introKeys = PAGE_INTRO_KEYS[entryMode]
 
@@ -73,21 +82,34 @@ export function RecipeCreatePage({
       >
         <RecipeEntrySection
           entryMode={entryMode}
+          draft={draft}
+          tags={tags}
+          selectedCollectionId={selectedCollectionId}
+          onDraftChange={setDraft}
+          onTagsChange={setTags}
+          onCollectionChange={setSelectedCollectionId}
           onEntryModeChange={onEntryModeChange}
-          onShowUnavailable={() => setFeedbackOpen(true)}
+          onRecipeSaved={() => navigate('/library/my-recipes')}
+          onFeedback={(message, severity) =>
+            setFeedback({ message, severity })
+          }
         />
         {!isManualEntry && (
           <RecipePreviewCard
+            key={draft?.sourceUrl ?? 'empty-recipe-preview'}
+            draft={draft}
+            tags={tags}
+            onDraftChange={setDraft}
             onRequestManual={() => onEntryModeChange(ENTRY_MODE.MANUAL)}
           />
         )}
       </RecipeWorkspace>
 
       <FeedbackSnackbar
-        open={feedbackOpen}
-        severity="info"
-        message={t('recipeCreate.unavailable')}
-        onClose={() => setFeedbackOpen(false)}
+        open={feedback !== null}
+        severity={feedback?.severity ?? 'info'}
+        message={feedback?.message ?? ''}
+        onClose={() => setFeedback(null)}
       />
     </Page>
   )
