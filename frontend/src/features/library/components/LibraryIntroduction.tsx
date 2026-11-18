@@ -27,6 +27,7 @@ export function LibraryIntroduction({
           kind="secondary"
           sx={{
             px: '19px',
+            flexShrink: 0,
             whiteSpace: 'nowrap',
           }}
         />
