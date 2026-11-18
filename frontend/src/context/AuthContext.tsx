@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { apolloClient, setAccessTokenGetter } from '../apolloClient'
 import { API_ENDPOINTS } from '../constants/apiEndpoints'
 import { USER_ROLES } from '../constants/roles'
+import { Loading } from '../components/ui/feedback/Loading'
+import { useTranslation } from 'react-i18next'
 import {
   AuthContext,
   AuthRequestError,
@@ -33,6 +35,7 @@ async function readAuthResponse(response: Response): Promise<AuthResponse> {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [firstName, setFirstName] = useState<string | null>(null)
@@ -194,7 +197,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         requireAuthentication,
       }}
     >
-      {!loading && children}
+      {loading ? (
+        <Loading label={t('common.loading')} sx={{ minHeight: '100vh' }} />
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   )
 }

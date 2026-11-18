@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { RecipeCard } from '../../../components/RecipeCard'
 import { SectionIntroduction } from '../../../components/ui/layout/SectionIntroduction'
 import { Description } from '../../../components/ui/typography/Description'
+import { Loading } from '../../../components/ui/feedback/Loading'
 import { getRecipeAttributeTags } from '../../discovery/recipeTags'
 import type { MyRecipe } from '../../library/hooks/useMyRecipesQuery'
 import { RecipeGrid } from '../../library/LibraryPage.styles'
@@ -28,7 +29,7 @@ export function ProfileRecipesPanel({
         variant="compact"
       />
       {loading ? (
-        <Description>{t('library.loadingRecipes')}</Description>
+        <Loading label={t('library.loadingRecipes')} sx={{ mt: 2 }} />
       ) : error ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           {t('library.recipesError')}

@@ -2,6 +2,7 @@ import { Alert } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { SectionIntroduction } from '../../../components/ui/layout/SectionIntroduction'
 import { Description } from '../../../components/ui/typography/Description'
+import { Loading } from '../../../components/ui/feedback/Loading'
 import { LibraryCollectionGrid } from '../../library/components/LibraryCollectionGrid'
 import type { CollectionRecipeImage } from '../../library/hooks/useCollectionRecipeImagesQuery'
 import type { RecipeCollection } from '../../recipes/create/hooks/useMyCollectionsQuery'
@@ -33,7 +34,7 @@ export function ProfileCollectionsPanel({
         variant="compact"
       />
       {loading ? (
-        <Description>{t('library.loadingCollections')}</Description>
+        <Loading label={t('library.loadingCollections')} sx={{ mt: 2 }} />
       ) : error ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           {t('library.collectionsError')}

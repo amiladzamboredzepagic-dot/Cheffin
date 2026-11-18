@@ -3,14 +3,12 @@ import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Description } from '../../../components/ui/typography/Description'
+import { Loading } from '../../../components/ui/feedback/Loading'
 import { InteractiveLink } from '../../../components/ui/links/InteractiveLink'
 import { SectionIntroduction } from '../../../components/ui/layout/SectionIntroduction'
 import { LIBRARY_ROUTES } from '../../library/LibraryRoutes'
 import { useMyRecipesQuery } from '../../library/hooks/useMyRecipesQuery'
-import {
-  CreateRecipePage as Page,
-} from '../create/RecipeCreatePage.styles'
+import { CreateRecipePage as Page } from '../create/RecipeCreatePage.styles'
 import { WriteYourOwnRecipe } from '../create/components/WriteYourOwnRecipe'
 import type { MyRecipe } from '../../library/hooks/useMyRecipesQuery'
 
@@ -69,7 +67,7 @@ export function RecipeEditPage() {
       : LIBRARY_ROUTES.MY_RECIPES
 
   if (loading) {
-    return <Description>{t('library.loadingRecipes')}</Description>
+    return <Loading label={t('library.loadingRecipes')} />
   }
   if (error || !recipes) {
     return <Alert severity="error">{t('library.recipesError')}</Alert>

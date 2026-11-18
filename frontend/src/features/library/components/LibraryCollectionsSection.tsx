@@ -1,6 +1,7 @@
 import { Alert, Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Description } from '../../../components/ui/typography/Description'
+import { Loading } from '../../../components/ui/feedback/Loading'
 import { matchesSearch } from '../../../utils/search'
 import type { RecipeCollection } from '../../recipes/create/hooks/useMyCollectionsQuery'
 import { useCollectionRecipeImagesQuery } from '../hooks/useCollectionRecipeImagesQuery'
@@ -36,7 +37,7 @@ export function LibraryCollectionsSection({
         {t('library.yourCollections')}
       </SectionTitle>
       {loading ? (
-        <Description>{t('library.loadingCollections')}</Description>
+        <Loading label={t('library.loadingCollections')} sx={{ mt: 2 }} />
       ) : hasError ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           {t('library.collectionsError')}

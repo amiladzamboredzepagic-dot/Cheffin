@@ -8,7 +8,7 @@ import { DiscoveryFiltersSidebar } from './components/DiscoveryFiltersSidebar'
 import { DiscoveryIntroduction } from './components/DiscoveryIntroduction'
 import { DiscoveryResults } from './components/DiscoveryResults'
 import { DiscoverySearch } from './components/DiscoverySearch'
-import { Description } from '../../components/ui/typography/Description'
+import { Loading } from '../../components/ui/feedback/Loading'
 import { usePublicRecipes } from './usePublicRecipes'
 import { useRecipeMetadataQuery } from '../recipes/hooks/useRecipeMetadataQuery'
 import {
@@ -71,10 +71,13 @@ export function DiscoveryPage() {
         meal={meal}
         onMealChange={setMeal}
       />
-      {loading && <Description>{t('discovery.loadingPublished')}</Description>}
+      {loading && <Loading label={t('discovery.loadingPublished')} />}
       {error && <Alert severity="error">{t('discovery.publishedError')}</Alert>}
       {metadataLoading && (
-        <Description>{t('discovery.loadingDietaryPreferences')}</Description>
+        <Loading
+          label={t('discovery.loadingDietaryPreferences')}
+          sx={{ minHeight: 0, py: 1.5 }}
+        />
       )}
       {metadataError && (
         <Alert severity="error">
@@ -91,9 +94,7 @@ export function DiscoveryPage() {
           filters={filters}
           onFiltersChange={setFilters}
         />
-        <DiscoveryResults
-          recipes={recipes}
-        />
+        <DiscoveryResults recipes={recipes} />
       </Workspace>
     </PageContainer>
   )

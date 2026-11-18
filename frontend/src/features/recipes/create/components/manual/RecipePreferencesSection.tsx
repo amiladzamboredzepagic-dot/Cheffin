@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert } from '@mui/material'
-import { Description } from '../../../../../components/ui/typography/Description'
+import { Loading } from '../../../../../components/ui/feedback/Loading'
 import type { RecipeDifficulty } from '../../../recipeMetadata'
 import { useRecipePreferences } from '../../hooks/useRecipePreferences'
 import { CuisineField } from './CuisineField'
@@ -66,7 +66,10 @@ function RecipePreferencesSectionView({
       </ManualSectionTitle>
 
       {metadataLoading && (
-        <Description>{t('recipeCreate.loadingDietaryPreferences')}</Description>
+        <Loading
+          label={t('recipeCreate.loadingDietaryPreferences')}
+          sx={{ minHeight: 0, py: 1.5 }}
+        />
       )}
       {metadataError && (
         <Alert severity="error">

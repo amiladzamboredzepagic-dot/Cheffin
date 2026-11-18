@@ -1,6 +1,7 @@
 import { Alert, Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Description } from '../../../components/ui/typography/Description'
+import { Loading } from '../../../components/ui/feedback/Loading'
 import type { SavedPublicRecipe } from '../../recipes/hooks/useMySavedRecipesQuery'
 import type { MyRecipe } from '../hooks/useMyRecipesQuery'
 import { RecipeGrid } from '../LibraryPage.styles'
@@ -73,9 +74,10 @@ export function MyRecipesResults({
       )}
       {recipes.length === 0 && visibleSavedRecipes.length === 0 ? (
         savedLoading && collectionId ? (
-          <Box sx={{ mt: 2 }}>
-            <Description>{t('library.loadingSavedRecipes')}</Description>
-          </Box>
+          <Loading
+            label={t('library.loadingSavedRecipes')}
+            sx={{ mt: 2, minHeight: 0, py: 1.5 }}
+          />
         ) : savedError && collectionId ? null : (
           <Box sx={{ mt: 2 }}>
             <Description>
