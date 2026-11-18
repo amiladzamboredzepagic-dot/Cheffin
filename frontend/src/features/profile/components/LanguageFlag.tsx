@@ -9,16 +9,8 @@ export function LanguageFlag({ language }: LanguageFlagProps) {
     en: (
       <>
         <path fill="#012169" d="M0 0h36v24H0z" />
-        <path
-          stroke="#fff"
-          strokeWidth="5"
-          d="m0 0 36 24M36 0 0 24"
-        />
-        <path
-          stroke="#c8102e"
-          strokeWidth="2"
-          d="m0 0 36 24M36 0 0 24"
-        />
+        <path stroke="#fff" strokeWidth="5" d="m0 0 36 24M36 0 0 24" />
+        <path stroke="#c8102e" strokeWidth="2" d="m0 0 36 24M36 0 0 24" />
         <path stroke="#fff" strokeWidth="8" d="M18 0v24M0 12h36" />
         <path stroke="#c8102e" strokeWidth="4" d="M18 0v24M0 12h36" />
       </>

@@ -39,9 +39,8 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { firstName, lastName } = useAuth()
-  const [savedProfile, setSavedProfile] = useState<SavedProfile>(
-    readSavedProfile,
-  )
+  const [savedProfile, setSavedProfile] =
+    useState<SavedProfile>(readSavedProfile)
   const [editOpen, setEditOpen] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
   const [activeTab, setActiveTab] = useState<ProfileTab>('recipes')
@@ -55,18 +54,15 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
     loading: collectionsLoading,
     error: collectionsError,
   } = useMyCollectionsQuery()
-  const {
-    recipes: collectionRecipes,
-    error: collectionRecipesError,
-  } = useCollectionRecipeImagesQuery(
-    activeTab !== 'collections' ||
-      collectionsLoading ||
-      collections.length === 0,
-  )
+  const { recipes: collectionRecipes, error: collectionRecipesError } =
+    useCollectionRecipeImagesQuery(
+      activeTab !== 'collections' ||
+        collectionsLoading ||
+        collections.length === 0,
+    )
 
   const displayName =
-    [firstName, lastName].filter(Boolean).join(' ') ||
-    t('profile.defaultName')
+    [firstName, lastName].filter(Boolean).join(' ') || t('profile.defaultName')
   const publishedRecipes = (allRecipes ?? []).filter(
     (recipe) => !recipe.isPrivate,
   )
@@ -95,6 +91,7 @@ export function ProfilePage({ isOwnProfile = true }: ProfilePageProps) {
         />
         <ProfileContent
           activeTab={activeTab}
+          isOwnProfile={isOwnProfile}
           onTabChange={setActiveTab}
           publishedRecipes={publishedRecipes}
           recipesLoading={recipesLoading}

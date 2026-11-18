@@ -4,12 +4,14 @@ import { ProfileTabPanel } from '../ProfilePage.styles'
 import type { ProfileTab } from '../profile.types'
 import { ProfileCollectionsPanel } from './ProfileCollectionsPanel'
 import { ProfileRecipesPanel } from './ProfileRecipesPanel'
+import { ProfileSettingsPanel } from './ProfileSettingsPanel'
 import type { MyRecipe } from '../../library/hooks/useMyRecipesQuery'
 import type { CollectionRecipeImage } from '../../library/hooks/useCollectionRecipeImagesQuery'
 import type { RecipeCollection } from '../../recipes/create/hooks/useMyCollectionsQuery'
 
 interface ProfileContentProps {
   activeTab: ProfileTab
+  isOwnProfile: boolean
   onTabChange: (tab: ProfileTab) => void
   publishedRecipes: MyRecipe[]
   recipesLoading: boolean
@@ -24,6 +26,7 @@ interface ProfileContentProps {
 
 export function ProfileContent({
   activeTab,
+  isOwnProfile,
   onTabChange,
   publishedRecipes,
   recipesLoading,
@@ -45,6 +48,14 @@ export function ProfileContent({
       value: 'collections' as const,
       label: `${t('profile.collections')} ${collections.length}`,
     },
+    ...(isOwnProfile
+      ? [
+          {
+            value: 'settings' as const,
+            label: t('profile.settingsTitle'),
+          },
+        ]
+      : []),
   ]
 
   return (
@@ -68,7 +79,7 @@ export function ProfileContent({
             loading={recipesLoading}
             error={recipesError}
           />
-        ) : (
+        ) : activeTab === 'collections' ? (
           <ProfileCollectionsPanel
             collections={collections}
             loading={collectionsLoading}
@@ -77,6 +88,8 @@ export function ProfileContent({
             recipesError={collectionRecipesError}
             onCollectionSelect={onCollectionSelect}
           />
+        ) : (
+          <ProfileSettingsPanel />
         )}
       </section>
     </ProfileTabPanel>
