@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BookmarkCheck, Bookmark, ImageOff, Play } from 'lucide-react'
+import { BookmarkCheck, Bookmark, ChefHat, Play } from 'lucide-react'
 import {
   CardRoot,
   CardOpenButton,
@@ -97,7 +97,7 @@ export function RecipeCard({
           <Photograph src={imageUrl} alt={imageAlt} loading="lazy" />
         ) : (
           <PhotoPlaceholder aria-hidden="true">
-            <ImageOff size={32} />
+            <ChefHat size={36} strokeWidth={1.7} aria-hidden="true" />
           </PhotoPlaceholder>
         )}
         {showSaveButton && (

@@ -53,7 +53,7 @@ export const PhotoPlaceholder = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: theme.palette.background.secondary,
+  backgroundColor: theme.palette.background.mealSlot,
   color: theme.palette.primary.light,
 }))
 
