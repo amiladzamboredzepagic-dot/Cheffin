@@ -33,7 +33,9 @@ export function LibraryCollectionCard({
         <CollectionMetadata>
           {t('library.collectionRecipeCount', { count: recipeCount })}
         </CollectionMetadata>
-        <CollectionAction>{t('library.openCollection')}</CollectionAction>
+        <CollectionAction className="collection-card-action">
+          {t('library.openCollection')}
+        </CollectionAction>
       </CollectionDetails>
     </CollectionCard>
   )
