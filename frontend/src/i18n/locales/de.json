@@ -357,7 +357,7 @@
     "importAction": "Rezept importieren",
     "importGuidance": "YouTube-Untertitel werden an OpenAI gesendet, um einen Rezeptentwurf zu erstellen. Prüfe die Details vor dem Speichern.",
     "finishDraftBeforeImport": "Vervollständige die Details des aktuellen Rezepts, bevor du ein weiteres Video importierst.",
-    "importing": "Rezeptdetails werden gesucht...",
+    "importing": "Die KI extrahiert Rezeptdaten...",
     "organizeTitle": "Rezept organisieren",
     "collectionLabel": "Zu Sammlung hinzufügen",
     "findCollection": "Sammlung finden...",

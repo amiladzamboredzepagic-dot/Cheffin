@@ -360,7 +360,7 @@
     "importAction": "Uvezi recept",
     "importGuidance": "YouTube titlovi se šalju OpenAI-ju radi izrade nacrta recepta. Pregledajte detalje prije čuvanja.",
     "finishDraftBeforeImport": "Dovršite detalje trenutnog recepta prije uvoza drugog videa.",
-    "importing": "Tražimo detalje recepta...",
+    "importing": "AI izdvaja podatke...",
     "organizeTitle": "Organizujte recept",
     "collectionLabel": "Dodajte u kolekciju",
     "findCollection": "Pronađite kolekciju...",

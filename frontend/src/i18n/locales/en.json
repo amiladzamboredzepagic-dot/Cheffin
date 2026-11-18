@@ -357,7 +357,7 @@
     "importAction": "Import recipe",
     "importGuidance": "YouTube captions are sent to OpenAI to draft a recipe. Review the details before saving.",
     "finishDraftBeforeImport": "Finish the current recipe details before importing another video.",
-    "importing": "Finding recipe details...",
+    "importing": "AI is extracting data...",
     "organizeTitle": "Organize your recipe",
     "collectionLabel": "Add to collection",
     "findCollection": "Find a collection...",
