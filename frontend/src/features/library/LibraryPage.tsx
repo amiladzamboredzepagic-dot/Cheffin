@@ -17,7 +17,7 @@ import { LibraryContent } from './components/LibraryContent'
 import { LibraryIntroduction } from './components/LibraryIntroduction'
 import { LibrarySidebar } from './components/LibrarySidebar'
 import { LibraryTabs } from './components/LibraryTabs'
-import type { LibraryTab } from './components/libraryTab'
+import { LIBRARY_TAB, type LibraryTab } from './components/libraryTab'
 
 export function LibraryPage() {
   const navigate = useNavigate()
@@ -30,7 +30,7 @@ export function LibraryPage() {
   const collectionMatch =
     baseCollectionMatch ?? draftsCollectionMatch ?? publishedCollectionMatch
   const collectionId = collectionMatch?.params.collectionId
-  const { data, loading, error } = useQuery(MY_COLLECTIONS, {
+  const { data, loading, error, refetch } = useQuery(MY_COLLECTIONS, {
     fetchPolicy: 'network-only',
   })
   const collections = data?.myCollections ?? []
@@ -45,6 +45,16 @@ export function LibraryPage() {
   const isBaseRoute = isLibraryBasePath(pathname)
 
   const handleTabChange = (nextTab: LibraryTab) => {
+    if (
+      nextTab === LIBRARY_TAB.COLLECTIONS &&
+      activeTab !== LIBRARY_TAB.COLLECTIONS &&
+      !loading
+    ) {
+      void refetch().catch((error: unknown) => {
+        console.error('Failed to load collections:', error)
+      })
+    }
+
     navigate(LIBRARY_TAB_ROUTES[nextTab])
   }
 
