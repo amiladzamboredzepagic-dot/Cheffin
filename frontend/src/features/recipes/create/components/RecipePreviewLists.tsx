@@ -10,7 +10,7 @@ import {
 } from '../RecipeCreatePage.styles'
 
 interface RecipePreviewListsProps {
-  draft: RecipeDraft
+  draft: RecipeDraft | null
 }
 
 export function RecipePreviewLists({ draft }: RecipePreviewListsProps) {
@@ -22,42 +22,57 @@ export function RecipePreviewLists({ draft }: RecipePreviewListsProps) {
         <PreviewListHeading variant="h3">
           {t('recipeCreate.ingredients')}
         </PreviewListHeading>
-        <Box component="ul" sx={{ mt: 0, mb: 0, pl: 2.5 }}>
-          {draft.ingredients.map((ingredient, index) => (
-            <PreviewIngredientRow key={`${index}-${ingredient}`}>
-              {ingredient}
-            </PreviewIngredientRow>
-          ))}
-        </Box>
+        {draft?.ingredients.length ? (
+          <Box component="ul" sx={{ mt: 0, mb: 0, pl: 2.5 }}>
+            {draft.ingredients.map((ingredient, index) => (
+              <PreviewIngredientRow key={`${index}-${ingredient}`}>
+                {ingredient}
+              </PreviewIngredientRow>
+            ))}
+          </Box>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            {t('recipeCreate.previewEmptyIngredients')}
+          </Typography>
+        )}
       </PreviewListPanel>
       <PreviewListPanel>
         <PreviewListHeading variant="h3">
           {t('recipeCreate.instructions')}
         </PreviewListHeading>
-        <Box component="ol" sx={{ mt: 0, mb: 0, pl: 0, listStyle: 'none' }}>
-          {draft.instructions.map((instruction, index) => (
-            <PreviewStepRow key={`${index}-${instruction}`}>
-              <Typography
-                variant="caption"
-                sx={{
-                  display: 'grid',
-                  placeItems: 'center',
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  color: 'primary.light',
-                  backgroundColor: 'background.accent',
-                  fontWeight: 'medium',
-                }}
-              >
-                {index + 1}
-              </Typography>
-              <Typography variant="body2" sx={{ lineHeight: 1.55, pt: 0.25 }}>
-                {instruction}
-              </Typography>
-            </PreviewStepRow>
-          ))}
-        </Box>
+        {draft?.instructions.length ? (
+          <Box component="ol" sx={{ mt: 0, mb: 0, pl: 0, listStyle: 'none' }}>
+            {draft.instructions.map((instruction, index) => (
+              <PreviewStepRow key={`${index}-${instruction}`}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: 'grid',
+                    placeItems: 'center',
+                    width: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    color: 'primary.light',
+                    backgroundColor: 'background.accent',
+                    fontWeight: 'medium',
+                  }}
+                >
+                  {index + 1}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ lineHeight: 1.55, pt: 0.25 }}
+                >
+                  {instruction}
+                </Typography>
+              </PreviewStepRow>
+            ))}
+          </Box>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            {t('recipeCreate.previewEmptyInstructions')}
+          </Typography>
+        )}
       </PreviewListPanel>
     </Flex>
   )

@@ -115,6 +115,21 @@ export const PreviewImage = styled('img')(({ theme }) => ({
   },
 }))
 
+export const PreviewImagePlaceholder = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  height: 310,
+  borderRadius: 12,
+  backgroundColor: theme.palette.background.mealSlot,
+  color: theme.palette.primary.light,
+  [theme.breakpoints.down('sm')]: {
+    height: 'auto',
+    aspectRatio: '656 / 310',
+  },
+}))
+
 export const PreviewRecipeTitle = styled('h2')(({ theme }) => ({
   margin: 0,
   color: theme.palette.text.label,

@@ -55,7 +55,7 @@ export function RecipePreviewCard({
       ]
         .filter(Boolean)
         .join(' · ')
-    : t('recipeCreate.previewMetadata')
+    : ''
   const editorMetadata = {
     dietaryPreferences,
     customDietaryPreferences,
@@ -90,8 +90,8 @@ export function RecipePreviewCard({
             </ReviewAction>
           </PreviewStatus>
           <RecipePreviewSummary draft={draft} metadata={metadata} />
-          {draft &&
-            (isEditing ? (
+          {draft ? (
+            isEditing ? (
               <RecipePreviewEditor
                 draft={draft}
                 metadata={editorMetadata}
@@ -99,7 +99,10 @@ export function RecipePreviewCard({
               />
             ) : (
               <RecipePreviewLists draft={draft} />
-            ))}
+            )
+          ) : (
+            <RecipePreviewLists draft={null} />
+          )}
           <PreviewReview
             direction={{ xs: 'column', sm: 'row' }}
             justify="space-between"
