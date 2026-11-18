@@ -101,6 +101,7 @@ export function RecipeEntrySection({
         dietaryPreferences: [],
         cuisine: null,
         difficulty: null,
+        imageUrl: draft.imageUrl || null,
         photoBase64: null,
         photoContentType: null,
         collectionId: selectedCollectionId || null,

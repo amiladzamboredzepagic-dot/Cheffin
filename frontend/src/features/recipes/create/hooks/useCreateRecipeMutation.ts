@@ -24,6 +24,7 @@ export interface CreateRecipeInput {
   dietaryPreferences: string[]
   cuisine: string | null
   difficulty: RecipeDifficulty | null
+  imageUrl: string | null
   photoBase64: string | null
   photoContentType: string | null
   collectionId: string | null

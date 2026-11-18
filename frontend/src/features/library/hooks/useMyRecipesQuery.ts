@@ -17,6 +17,7 @@ export interface MyRecipe {
   dietaryPreferences: string[]
   cuisine: string | null
   difficulty: RecipeDifficulty | null
+  imageUrl: string | null
   photoContentType: string | null
   photoBase64: string | null
   isPrivate: boolean
@@ -37,6 +38,7 @@ const MY_RECIPES = gql`
       dietaryPreferences
       cuisine
       difficulty
+      imageUrl
       photoContentType
       photoBase64
       isPrivate

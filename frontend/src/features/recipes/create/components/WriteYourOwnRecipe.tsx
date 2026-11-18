@@ -45,6 +45,7 @@ export interface RecipeToEdit {
   dietaryPreferences: string[]
   cuisine: string | null
   difficulty: RecipeDifficulty | null
+  imageUrl: string | null
   photoContentType: string | null
   photoBase64: string | null
 }
@@ -163,6 +164,7 @@ export function WriteYourOwnRecipe({
         dietaryPreferences,
         cuisine,
         difficulty,
+        imageUrl: initialRecipe?.imageUrl ?? null,
         photoBase64: photo ? await encodePhoto(photo) : null,
         photoContentType: photo?.type ?? null,
         collectionId: selectedCollectionId || null,
@@ -220,7 +222,7 @@ export function WriteYourOwnRecipe({
               existingPhotoUrl={
                 initialRecipe?.photoBase64 && initialRecipe.photoContentType
                   ? `data:${initialRecipe.photoContentType};base64,${initialRecipe.photoBase64}`
-                  : null
+                  : initialRecipe?.imageUrl ?? null
               }
               onPhotoChange={setPhoto}
             />

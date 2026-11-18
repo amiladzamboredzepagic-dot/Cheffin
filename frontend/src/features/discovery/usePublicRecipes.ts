@@ -23,6 +23,7 @@ interface PublicRecipe {
   dietaryPreferences: string[]
   cuisine: string | null
   difficulty: RecipeDifficulty | null
+  imageUrl: string | null
   photoContentType: string | null
   photoBase64: string | null
 }
@@ -41,6 +42,7 @@ const PUBLIC_RECIPES = gql`
       dietaryPreferences
       cuisine
       difficulty
+      imageUrl
       photoContentType
       photoBase64
     }
@@ -64,7 +66,7 @@ export function usePublicRecipes() {
       imageUrl:
         recipe.photoBase64 && recipe.photoContentType
           ? `data:${recipe.photoContentType};base64,${recipe.photoBase64}`
-          : '',
+          : recipe.imageUrl ?? '',
       meal:
         recipe.mealType === RECIPE_MEAL_TYPE.SNACK
           ? 'snacks'

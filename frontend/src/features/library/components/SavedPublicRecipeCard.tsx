@@ -22,7 +22,7 @@ export function SavedPublicRecipeCard({
       imageUrl={
         recipe.photoBase64 && recipe.photoContentType
           ? `data:${recipe.photoContentType};base64,${recipe.photoBase64}`
-          : ''
+          : recipe.imageUrl ?? ''
       }
       imageAlt={recipe.title}
       metadata={t('library.recipeMetadata', {

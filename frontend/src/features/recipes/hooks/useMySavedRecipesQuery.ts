@@ -17,6 +17,7 @@ export interface SavedPublicRecipe {
   dietaryPreferences: string[]
   cuisine: string | null
   difficulty: RecipeDifficulty | null
+  imageUrl: string | null
   photoContentType: string | null
   photoBase64: string | null
   collectionId: string | null
@@ -40,6 +41,7 @@ export const MY_SAVED_RECIPES = gql`
       dietaryPreferences
       cuisine
       difficulty
+      imageUrl
       photoContentType
       photoBase64
       collectionId

@@ -25,8 +25,7 @@ export function LibraryCollectionGrid({
         )
         const recipe = collectionRecipes.find(
           (item) =>
-            item.photoBase64 &&
-            item.photoContentType,
+            (item.photoBase64 && item.photoContentType) || item.imageUrl,
         )
 
         return (
@@ -35,9 +34,9 @@ export function LibraryCollectionGrid({
             name={collection.name}
             recipeCount={collectionRecipes.length}
             imageUrl={
-              recipe
+              recipe?.photoBase64 && recipe.photoContentType
                 ? `data:${recipe.photoContentType};base64,${recipe.photoBase64}`
-                : DEFAULT_COLLECTION_IMAGE_URL
+                : recipe?.imageUrl ?? DEFAULT_COLLECTION_IMAGE_URL
             }
             imageAlt={recipe?.title ?? ''}
             onClick={() => onCollectionSelect(collection)}
