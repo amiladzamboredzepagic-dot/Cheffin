@@ -44,19 +44,7 @@ export function DeleteMyRecipeDialog({
         )
       }
       footer={
-        <Flex
-          direction={{ xs: 'column-reverse', sm: 'row' }}
-          align="stretch"
-          justify="flex-end"
-          gap={1.5}
-        >
-          <ActionButton
-            type="button"
-            kind="secondary"
-            onClick={handleClose}
-            disabled={loading}
-            text={t('recipeCreate.cancelCollection')}
-          />
+        <Flex direction="column" align="stretch" gap={1.5}>
           <ActionButton
             onClick={onConfirm}
             disabled={loading || recipe === null}
@@ -67,7 +55,15 @@ export function DeleteMyRecipeDialog({
                 ? t('library.deletingRecipe')
                 : t('library.deleteRecipeAction')
             }
-            sx={{ width: { xs: '100%', sm: 'auto' } }}
+            sx={{ width: '100%' }}
+          />
+          <ActionButton
+            type="button"
+            kind="secondary"
+            onClick={handleClose}
+            disabled={loading}
+            text={t('recipeCreate.cancelCollection')}
+            sx={{ width: '100%' }}
           />
         </Flex>
       }

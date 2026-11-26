@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { IconButton } from '@mui/material'
-import { AccountCircle } from '@mui/icons-material'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
+import {
+  CircleUserRound,
+  Eye,
+  EyeOff,
+  LockKeyhole,
+  Mail,
+} from 'lucide-react'
 import { Flex } from '../../components/ui/layout/Flex'
 import { FormTextField } from '../../components/ui/forms/FormTextField'
 import { SegmentedToggle } from '../../components/ui/forms/SegmentedToggle'
@@ -99,7 +101,7 @@ export function LoginForm({
             placeholder={t('auth.firstNamePlaceholder')}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            startAdornment={<AccountCircle />}
+            startAdornment={<CircleUserRound aria-hidden="true" />}
             autoComplete="given-name"
             sx={{ flex: 1, minWidth: 0 }}
           />
@@ -112,7 +114,7 @@ export function LoginForm({
             placeholder={t('auth.lastNamePlaceholder')}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            startAdornment={<AccountCircle />}
+            startAdornment={<CircleUserRound aria-hidden="true" />}
             autoComplete="family-name"
             sx={{ flex: 1, minWidth: 0 }}
           />
@@ -131,7 +133,7 @@ export function LoginForm({
             setEmail(e.target.value)
             setSuccess(null)
           }}
-          startAdornment={<EmailOutlinedIcon />}
+          startAdornment={<Mail aria-hidden="true" />}
         />
         <FormTextField
           id="password"
@@ -151,7 +153,7 @@ export function LoginForm({
             setPassword(e.target.value)
             setSuccess(null)
           }}
-          startAdornment={<LockOutlinedIcon />}
+          startAdornment={<LockKeyhole aria-hidden="true" />}
           endAdornment={
             <IconButton
               aria-label={
@@ -162,9 +164,9 @@ export function LoginForm({
               disableRipple
             >
               {showPassword ? (
-                <VisibilityOffOutlinedIcon />
+                <EyeOff aria-hidden="true" />
               ) : (
-                <VisibilityOutlinedIcon />
+                <Eye aria-hidden="true" />
               )}
             </IconButton>
           }

@@ -1,4 +1,4 @@
-import { AccountCircle, AdminPanelSettings, Logout } from '@mui/icons-material'
+import { CircleUserRound, LogOut, ShieldUser } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { AppMenu, AppMenuItem } from '../../../components/ui/menus/AppMenu'
 
@@ -30,17 +30,17 @@ export function NavbarAccountMenu({
       minWidth={240}
     >
       <AppMenuItem onClick={onProfile}>
-        <AccountCircle fontSize="small" sx={{ mr: 1 }} />
+        <CircleUserRound size={20} aria-hidden="true" style={{ marginRight: 8 }} />
         {t('profile.myProfile')}
       </AppMenuItem>
       {isAdmin && (
         <AppMenuItem onClick={onAdmin}>
-          <AdminPanelSettings fontSize="small" sx={{ mr: 1 }} />
+          <ShieldUser size={20} aria-hidden="true" style={{ marginRight: 8 }} />
           {t('admin.menuLabel')}
         </AppMenuItem>
       )}
       <AppMenuItem onClick={onLogout}>
-        <Logout fontSize="small" sx={{ mr: 1 }} />
+        <LogOut size={20} aria-hidden="true" style={{ marginRight: 8 }} />
         {t('auth.logout')}
       </AppMenuItem>
     </AppMenu>

@@ -1,4 +1,4 @@
-import AddIcon from '@mui/icons-material/Add'
+import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { SectionIntroduction } from '../../components/ui/layout/SectionIntroduction'
 import { Flex } from '../../components/ui/layout/Flex'
@@ -124,7 +124,7 @@ export function WeeklyPlan() {
                           justify="center"
                           gap={0.5}
                         >
-                          <AddIcon aria-hidden="true" sx={{ fontSize: 8 }} />
+                          <Plus aria-hidden="true" size={8} />
                           {t('weeklyPlan.addMeal')}
                         </AddMeal>
                       )}

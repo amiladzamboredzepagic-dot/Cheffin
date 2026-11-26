@@ -15,7 +15,6 @@
     "@apollo/client": "^4.3.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.5.0",
     "@mui/material": "^9.5.0",
     "graphql": "^16.15.0",
     "i18next": "^26.7.2",

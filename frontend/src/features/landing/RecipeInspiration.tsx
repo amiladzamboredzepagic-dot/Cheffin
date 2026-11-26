@@ -1,4 +1,4 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { ArrowRight } from 'lucide-react'
 import { Box, styled } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { RecipeCard } from '../../components/RecipeCard'
@@ -56,7 +56,7 @@ export function RecipeInspiration() {
         <InteractiveLink
           text={t('recipeInspiration.exploreAll')}
           href="/explore"
-          icon={<ArrowForwardIcon fontSize="inherit" />}
+          icon={<ArrowRight size="1em" aria-hidden="true" />}
         />
       </SectionHeader>
 

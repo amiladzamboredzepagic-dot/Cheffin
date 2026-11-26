@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BookmarkCheck, Bookmark, ChefHat, Play } from 'lucide-react'
+import { Bookmark, ImageOff, Play, Star } from 'lucide-react'
 import {
   CardRoot,
   CardOpenButton,
@@ -96,8 +96,8 @@ export function RecipeCard({
         {imageUrl ? (
           <Photograph src={imageUrl} alt={imageAlt} loading="lazy" />
         ) : (
-          <PhotoPlaceholder aria-hidden="true">
-            <ChefHat size={36} strokeWidth={1.7} aria-hidden="true" />
+          <PhotoPlaceholder>
+            <ImageOff size={36} strokeWidth={1.7} aria-hidden="true" />
           </PhotoPlaceholder>
         )}
         {showSaveButton && (
@@ -114,11 +114,12 @@ export function RecipeCard({
             }}
             size="small"
           >
-            {isSaved ? (
-              <BookmarkCheck size={18} strokeWidth={1.7} aria-hidden="true" />
-            ) : (
-              <Bookmark size={18} strokeWidth={1.7} aria-hidden="true" />
-            )}
+            <Bookmark
+              size={18}
+              strokeWidth={1.7}
+              fill={isSaved ? 'currentColor' : 'none'}
+              aria-hidden="true"
+            />
           </SaveButton>
         )}
         {videoDuration && (
@@ -145,7 +146,11 @@ export function RecipeCard({
         {context && <RecipeContext>{context}</RecipeContext>}
         <RecipeDetails>
           <RecipeMetadata>{metadata}</RecipeMetadata>
-          {rating !== undefined && <RecipeRating>★ {rating}</RecipeRating>}
+          {rating !== undefined && (
+            <RecipeRating>
+              <Star size={12} fill="currentColor" aria-hidden="true" /> {rating}
+            </RecipeRating>
+          )}
         </RecipeDetails>
       </RecipeInformation>
     </CardRoot>

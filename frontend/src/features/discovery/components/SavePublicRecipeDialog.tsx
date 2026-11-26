@@ -77,13 +77,6 @@ export function SavePublicRecipeDialog({
         footer={
           <Flex direction="column" align="stretch" gap={1.5}>
             <ActionButton
-              type="button"
-              kind="secondary"
-              onClick={onClose}
-              disabled={loading}
-              text={t('recipeCreate.cancelCollection')}
-            />
-            <ActionButton
               onClick={() =>
                 void onSave(
                   collectionId === NO_COLLECTION ? null : collectionId,
@@ -95,6 +88,15 @@ export function SavePublicRecipeDialog({
                   ? t('discovery.savingRecipe')
                   : t('discovery.saveRecipeAction')
               }
+              sx={{ width: '100%' }}
+            />
+            <ActionButton
+              type="button"
+              kind="secondary"
+              onClick={onClose}
+              disabled={loading}
+              text={t('recipeCreate.cancelCollection')}
+              sx={{ width: '100%' }}
             />
           </Flex>
         }

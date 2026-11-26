@@ -1,4 +1,4 @@
-import { AccountCircle } from '@mui/icons-material'
+import { CircleUserRound } from 'lucide-react'
 import { Avatar as MuiAvatar, useTheme } from '@mui/material'
 
 interface UserAvatarProps {
@@ -33,7 +33,7 @@ export function UserAvatar({
         fontSize: size >= 64 ? '1.75rem' : undefined,
       }}
     >
-      {initials || <AccountCircle />}
+      {initials || <CircleUserRound />}
     </MuiAvatar>
   )
 }

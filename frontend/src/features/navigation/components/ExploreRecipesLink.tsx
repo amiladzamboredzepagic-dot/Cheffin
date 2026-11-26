@@ -1,4 +1,4 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { ArrowRight } from 'lucide-react'
 import { InteractiveLink } from '../../../components/ui/links/InteractiveLink'
 import { useTranslation } from 'react-i18next'
 
@@ -10,7 +10,7 @@ export function ExploreRecipeLink() {
     <InteractiveLink
       text={t('navigation.exploreRecipes')}
       href="/explore"
-      icon={<ArrowForwardIcon fontSize="inherit" />}
+      icon={<ArrowRight size="1em" aria-hidden="true" />}
     />
   )
 }

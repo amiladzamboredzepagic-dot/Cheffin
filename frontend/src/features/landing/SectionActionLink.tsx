@@ -1,4 +1,4 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { InteractiveLink } from '../../components/ui/links/InteractiveLink'
 
@@ -19,7 +19,7 @@ export function SectionActionLink({
     <InteractiveLink
       text={t(text)}
       href={href}
-      icon={<ArrowForwardIcon fontSize="inherit" aria-hidden="true" />}
+      icon={<ArrowRight size="1em" aria-hidden="true" />}
       sx={(theme) => ({
         gap: theme.spacing(0.75),
         marginTop: marginTop === 'auto' ? marginTop : theme.spacing(marginTop),
