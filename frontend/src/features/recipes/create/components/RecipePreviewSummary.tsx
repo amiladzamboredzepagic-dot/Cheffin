@@ -40,7 +40,7 @@ export function RecipePreviewSummary({
         <PreviewMetadata>
           {draft?.description || t('recipeCreate.shortDescriptionLabel')}
         </PreviewMetadata>
-        {draft && (
+        {draft?.sourceUrl.trim() && (
           <Flex direction="row" align="center" gap={0.875}>
             <PreviewMetadata>
               <a href={draft.sourceUrl} target="_blank" rel="noreferrer">

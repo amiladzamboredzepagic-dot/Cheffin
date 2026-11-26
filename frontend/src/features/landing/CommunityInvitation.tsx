@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { SectionActionLink } from './SectionActionLink'
 import {
   CommunityCopy,
   CommunityDescription,
@@ -29,11 +28,6 @@ export function CommunityInvitation() {
           <CommunityDescription>
             {t('communityInvitation.description')}
           </CommunityDescription>
-          <SectionActionLink
-            text="communityInvitation.action"
-            href="/community"
-            marginTop="auto"
-          />
         </CommunityCopy>
 
         <CommunityProfile direction="column" align="center" gap={0}>

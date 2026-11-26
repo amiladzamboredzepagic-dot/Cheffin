@@ -153,15 +153,17 @@ export function MyLibraryPage() {
                       </Typography>
                     ))}
                   </Box>
-                  <Typography
-                    component="a"
-                    href={recipe.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    variant="caption"
-                  >
-                    {t('recipeCreate.videoSource')}
-                  </Typography>
+                  {recipe.sourceUrl.trim() !== '' && (
+                    <Typography
+                      component="a"
+                      href={recipe.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      variant="caption"
+                    >
+                      {t('recipeCreate.videoSource')}
+                    </Typography>
+                  )}
                 </RecipeDetails>
               </Flex>
             )

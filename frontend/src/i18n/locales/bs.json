@@ -193,10 +193,7 @@
     "headingSecond": "Friška inspiracija.",
     "description": "Otkrijte recepte koje ćete voljeti, sačuvajte omiljene i isplanirajte sedmicu uz dobar osjećaj. Vaš svakodnevni kuhinjski saputnik, sve na jednom mjestu.",
     "note": "Mjesto za vaše recepte.",
-    "imageAlt": "Šarena zdjela sa žitaricama, svježim povrćem, avokadom i leblebijama",
-    "recipeLabel": "Danas na meniju",
-    "recipeTitle": "Kvinoja zdjela sa zelenim prelivom",
-    "recipeTime": "{{minutes}} min"
+    "imageAlt": "Pečeno sezonsko povrće sa svježim začinskim biljem i narom"
   },
   "benefits": {
     "sectionLabel": "Svakodnevne prednosti",

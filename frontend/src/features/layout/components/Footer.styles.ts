@@ -1,6 +1,5 @@
 import { styled, Typography } from '@mui/material'
 import { Flex } from '../../../components/ui/layout/Flex'
-import { TextLinkBase } from '../../../components/ui/links/TextLink.styles'
 
 export const FooterContainer = styled(Flex)(({ theme }) => ({
   width: '100%',
@@ -34,12 +33,4 @@ export const BrandMotto = styled(Typography)(({ theme }) => ({
     whiteSpace: 'normal',
     textAlign: 'center',
   },
-}))
-
-export const FooterLink = styled(TextLinkBase)(({ theme }) => ({
-  fontStyle: 'normal',
-  fontWeight: 400,
-  fontSize: '11px',
-  lineHeight: '13px',
-  color: theme.palette.text.secondary,
 }))
