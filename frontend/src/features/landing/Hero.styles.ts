@@ -1,6 +1,27 @@
+import { keyframes } from '@emotion/react'
 import { Box, Button, Typography, styled } from '@mui/material'
 import { Flex } from '../../components/ui/layout/Flex'
 import { Description as BaseDescription } from '../../components/ui/typography/Description'
+
+const heroImageReveal = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`
+
+const heroImageDrift = keyframes`
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(-0.35%, 0.4%, 0);
+  }
+`
 
 export const HeroSection = styled('section')(({ theme }) => ({
   boxSizing: 'border-box',
@@ -142,10 +163,25 @@ export const FeaturedImage = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
   borderRadius: 20,
   backgroundColor: theme.palette.background.secondary,
-  backgroundImage:
-    'url("https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1600&q=88")',
-  backgroundPosition: 'center',
-  backgroundSize: 'cover',
+  animation: `${heroImageReveal} 900ms cubic-bezier(0.2, 0.65, 0.3, 1) both`,
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    inset: '-6% 0',
+    backgroundImage: 'url("/images/landing-hero.jpg")',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    translate: '0 var(--hero-parallax-y, 0px)',
+    animation: `${heroImageDrift} 26s ease-in-out 900ms infinite alternate`,
+    pointerEvents: 'none',
+  },
+  '@media (prefers-reduced-motion: reduce)': {
+    animation: 'none',
+    '&::before': {
+      animation: 'none',
+      translate: '0 0',
+    },
+  },
   [theme.breakpoints.down('md')]: {
     minHeight: 430,
     maxHeight: 532,
@@ -155,57 +191,5 @@ export const FeaturedImage = styled(Box)(({ theme }) => ({
     height: 'auto',
     aspectRatio: '1.22 / 1',
     borderRadius: 16,
-  },
-}))
-
-export const RecipeCaption = styled(Flex)(({ theme }) => ({
-  position: 'absolute',
-  right: 24,
-  bottom: 23,
-  left: 24,
-  boxSizing: 'border-box',
-  minHeight: 75,
-  gap: theme.spacing(2),
-  padding: '12px 18px',
-  borderRadius: 12,
-  backgroundColor: theme.palette.background.input,
-  [theme.breakpoints.down('sm')]: {
-    right: 12,
-    bottom: 12,
-    left: 12,
-    minHeight: 62,
-    padding: theme.spacing(1, 1.5),
-  },
-}))
-
-export const CaptionLabel = styled(Typography)(({ theme }) => ({
-  color: theme.palette.highlight,
-  fontSize: 9,
-  fontWeight: 600,
-  lineHeight: 1.6,
-  [theme.breakpoints.down('sm')]: {
-    fontSize: 8,
-  },
-}))
-
-export const RecipeTitle = styled(Typography)(({ theme }) => ({
-  marginTop: 2,
-  color: theme.palette.text.label,
-  fontFamily: '"Lora", Georgia, serif',
-  fontSize: 21,
-  fontWeight: 400,
-  lineHeight: 1.18,
-  [theme.breakpoints.down('sm')]: {
-    fontSize: 16,
-  },
-}))
-
-export const RecipeTime = styled(Typography)(({ theme }) => ({
-  flexShrink: 0,
-  color: theme.palette.primary.light,
-  fontSize: 12,
-  lineHeight: 1.6,
-  [theme.breakpoints.down('sm')]: {
-    fontSize: 10,
   },
 }))

@@ -1,9 +1,8 @@
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Flex } from '../../components/ui/layout/Flex'
 import { CreateAccountButton } from './CreateAccountButton'
 import {
-  CaptionLabel,
   Description,
   ExploreButton,
   Eyebrow,
@@ -14,9 +13,6 @@ import {
   HeroLayout,
   HeroSection,
   Note,
-  RecipeCaption,
-  RecipeTime,
-  RecipeTitle,
 } from './Hero.styles'
 
 interface HeroProps {
@@ -26,6 +22,43 @@ interface HeroProps {
 export function Hero({ onCreateAccount }: HeroProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const featuredImageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const featuredImage = featuredImageRef.current
+    if (
+      !featuredImage ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return
+    }
+
+    let animationFrame: number | null = null
+    const updateParallax = () => {
+      animationFrame = null
+      const { top, height } = featuredImage.getBoundingClientRect()
+      const progress =
+        (window.innerHeight - top) / (window.innerHeight + height)
+      const offset = (progress - 0.5) * 36
+
+      featuredImage.style.setProperty('--hero-parallax-y', `${offset}px`)
+    }
+    const handleScroll = () => {
+      if (animationFrame === null) {
+        animationFrame = window.requestAnimationFrame(updateParallax)
+      }
+    }
+
+    updateParallax()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame)
+      }
+    }
+  }, [])
 
   return (
     <HeroSection aria-labelledby="welcome-heading">
@@ -60,15 +93,11 @@ export function Hero({ onCreateAccount }: HeroProps) {
           <Note>{t('hero.note')}</Note>
         </HeroCopy>
 
-        <FeaturedImage role="img" aria-label={t('hero.imageAlt')}>
-          <RecipeCaption direction="row" align="center" justify="space-between">
-            <Flex direction="column" align="flex-start" gap={0}>
-              <CaptionLabel>{t('hero.recipeLabel')}</CaptionLabel>
-              <RecipeTitle>{t('hero.recipeTitle')}</RecipeTitle>
-            </Flex>
-            <RecipeTime>{t('hero.recipeTime', { minutes: 25 })}</RecipeTime>
-          </RecipeCaption>
-        </FeaturedImage>
+        <FeaturedImage
+          ref={featuredImageRef}
+          role="img"
+          aria-label={t('hero.imageAlt')}
+        />
       </HeroLayout>
     </HeroSection>
   )
