@@ -455,6 +455,9 @@
     "choosePhoto": "Choose a profile photo",
     "photoTooLarge": "Choose an image smaller than 10 MB.",
     "photoInvalidType": "Choose a JPG or PNG image.",
+    "cropApply": "Save",
+    "cropZoom": "Zoom",
+    "cropFailed": "Could not crop the photo. Try a different image.",
     "chooseFile": "Choose file",
     "useCamera": "Use camera"
   },

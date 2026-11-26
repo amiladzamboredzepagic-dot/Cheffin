@@ -174,6 +174,14 @@ export const ManualPhotoPreview = styled('img')({
   objectFit: 'cover',
 })
 
+export const ManualPhotoCropper = styled(Box)({
+  position: 'relative',
+  width: '100%',
+  height: 220,
+  overflow: 'hidden',
+  borderRadius: 8,
+})
+
 export const ManualPhotoActions = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
@@ -182,6 +190,8 @@ export const ManualPhotoActions = styled(Box)(({ theme }) => ({
 
 export const ManualPhotoAction = styled(Flex)(({ theme }) => ({
   boxSizing: 'border-box',
+  width: '100%',
+  minWidth: 0,
   minHeight: 38,
   padding: theme.spacing(0.75),
   border: `1px solid ${theme.palette.divider}`,
@@ -191,6 +201,8 @@ export const ManualPhotoAction = styled(Flex)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
   fontSize: theme.typography.pxToRem(11),
   fontWeight: theme.typography.fontWeightMedium,
+  justifyContent: 'center',
+  textAlign: 'center',
   cursor: 'pointer',
   '&:focus-visible': {
     outline: `2px solid ${theme.palette.primary.light}`,

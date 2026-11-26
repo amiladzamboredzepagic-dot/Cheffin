@@ -135,29 +135,33 @@ export function ProfileEditDialog({
               chooseFile: t('profile.chooseFile'),
               useCamera: t('profile.useCamera'),
             }}
+            cropCopy={{
+              apply: t('profile.cropApply'),
+              cancel: t('common.cancel'),
+              zoom: t('profile.cropZoom'),
+              failed: t('profile.cropFailed'),
+            }}
+            inputBackground
           />
           {error && <Alert severity="error">{error}</Alert>}
         </Flex>
       }
       footer={
-        <Flex
-          direction={{ xs: 'column-reverse', sm: 'row' }}
-          align="stretch"
-          justify="flex-end"
-          gap={1}
-        >
+        <Flex direction="column" align="stretch" gap={1.5}>
+          <ActionButton
+            type="submit"
+            form="profile-edit-form"
+            text={t('profile.saveProfile')}
+            disabled={saving}
+            sx={{ width: '100%' }}
+          />
           <ActionButton
             type="button"
             kind="secondary"
             text={t('common.cancel')}
             onClick={onClose}
             disabled={saving}
-          />
-          <ActionButton
-            type="submit"
-            form="profile-edit-form"
-            text={t('profile.saveProfile')}
-            disabled={saving}
+            sx={{ width: '100%' }}
           />
         </Flex>
       }

@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpFromLine, Camera } from 'lucide-react'
+import { PhotoCropper, type PhotoCropCopy } from './PhotoCropper'
 import {
   ManualHiddenFileInput,
   ManualNoteTitle,
@@ -39,6 +40,8 @@ interface PhotoSectionProps {
   existingPhotoUrl?: string | null
   onPhotoChange: (photo: File) => void
   copy?: Partial<PhotoSectionCopy>
+  cropCopy?: PhotoCropCopy
+  inputBackground?: boolean
 }
 
 function PhotoSectionView({
@@ -46,6 +49,8 @@ function PhotoSectionView({
   existingPhotoUrl,
   onPhotoChange,
   copy,
+  cropCopy,
+  inputBackground = false,
 }: PhotoSectionProps) {
   const { t } = useTranslation()
   const photoCopy: PhotoSectionCopy = {
@@ -63,6 +68,10 @@ function PhotoSectionView({
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [cropSource, setCropSource] = useState<{
+    file: File
+    url: string
+  } | null>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
@@ -75,6 +84,15 @@ function PhotoSectionView({
       }
     },
     [previewUrl],
+  )
+
+  useEffect(
+    () => () => {
+      if (cropSource) {
+        URL.revokeObjectURL(cropSource.url)
+      }
+    },
+    [cropSource],
   )
 
   const acceptPhoto = (
@@ -102,17 +120,37 @@ function PhotoSectionView({
     }
 
     setError('')
-    onPhotoChange(selectedPhoto)
-    setPreviewUrl(URL.createObjectURL(selectedPhoto))
+    if (cropCopy) {
+      setCropSource({
+        file: selectedPhoto,
+        url: URL.createObjectURL(selectedPhoto),
+      })
+    } else {
+      onPhotoChange(selectedPhoto)
+      setPreviewUrl(URL.createObjectURL(selectedPhoto))
+    }
+    if (input) {
+      input.value = ''
+    }
   }
 
   const handlePhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
     acceptPhoto(event.target.files?.[0], event.target)
   }
 
-  const handlePhotoDrop = (event: DragEvent<HTMLLabelElement>) => {
+  const handlePhotoDrop = (event: DragEvent<HTMLElement>) => {
     event.preventDefault()
+    if (cropSource) {
+      return
+    }
     acceptPhoto(event.dataTransfer.files[0])
+  }
+
+  const handleCroppedPhoto = (croppedPhoto: File) => {
+    onPhotoChange(croppedPhoto)
+    setPreviewUrl(URL.createObjectURL(croppedPhoto))
+    setCropSource(null)
+    setError('')
   }
 
   return (
@@ -122,14 +160,18 @@ function PhotoSectionView({
       <ManualSectionHint>{photoCopy.hint}</ManualSectionHint>
 
       <ManualPhotoDrop
-        component="label"
+        component={cropSource ? 'div' : 'label'}
         direction="column"
         align="center"
         justify="center"
         gap={1}
-        onDragOver={(event: DragEvent<HTMLLabelElement>) =>
-          event.preventDefault()
-        }
+        sx={(theme) => ({
+          cursor: cropSource ? 'default' : 'pointer',
+          ...(inputBackground && {
+            backgroundColor: theme.palette.background.input,
+          }),
+        })}
+        onDragOver={(event: DragEvent<HTMLElement>) => event.preventDefault()}
         onDrop={handlePhotoDrop}
       >
         <ManualHiddenFileInput
@@ -139,7 +181,17 @@ function PhotoSectionView({
           aria-label={photoCopy.choosePhoto}
           onChange={handlePhotoChange}
         />
-        {photoPreviewUrl ? (
+        {cropSource && cropCopy ? (
+          <PhotoCropper
+            sourcePhoto={cropSource.file}
+            imageUrl={cropSource.url}
+            copy={cropCopy}
+            tooLargeMessage={photoCopy.tooLarge}
+            maxSizeBytes={MAX_PHOTO_SIZE_BYTES}
+            onCancel={() => setCropSource(null)}
+            onSave={handleCroppedPhoto}
+          />
+        ) : photoPreviewUrl ? (
           <ManualPhotoPreview
             src={photoPreviewUrl}
             alt={photo?.name ?? photoCopy.title}
@@ -148,9 +200,7 @@ function PhotoSectionView({
           <>
             <ArrowUpFromLine size={25} aria-hidden="true" />
             <ManualNoteTitle>{photoCopy.drop}</ManualNoteTitle>
-            <ManualSectionHint>
-              {photoCopy.formats}
-            </ManualSectionHint>
+            <ManualSectionHint>{photoCopy.formats}</ManualSectionHint>
           </>
         )}
       </ManualPhotoDrop>

@@ -458,6 +458,9 @@
     "choosePhoto": "Odaberi profilnu fotografiju",
     "photoTooLarge": "Odaberi sliku manju od 10 MB.",
     "photoInvalidType": "Odaberi JPG ili PNG sliku.",
+    "cropApply": "Sačuvaj",
+    "cropZoom": "Uvećanje",
+    "cropFailed": "Nije moguće izrezati fotografiju. Pokušaj s drugom slikom.",
     "chooseFile": "Odaberi datoteku",
     "useCamera": "Koristi kameru"
   },
